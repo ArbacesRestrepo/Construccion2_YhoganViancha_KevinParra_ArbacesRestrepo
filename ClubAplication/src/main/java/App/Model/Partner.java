@@ -1,10 +1,11 @@
 package App.Model;
 
-import java.util.Date;
-
 /**
  * @author Arbaces Restrepo, Jhogan Viancha
  */
+
+
+import java.util.Date;
 
 public class Partner {
     private long id;

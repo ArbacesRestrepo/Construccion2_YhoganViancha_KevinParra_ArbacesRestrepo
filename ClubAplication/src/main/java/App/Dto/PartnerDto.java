@@ -1,11 +1,12 @@
 package App.Dto;
 
-import App.Dto.Interfaces.PartnerDtoInterface;
-import java.sql.Date;
-
 /**
  * @author Arbaces Restrepo, Jhogan Viancha
  */
+
+
+import App.Dto.Interfaces.PartnerDtoInterface;
+import java.sql.Date;
 
 public class PartnerDto implements PartnerDtoInterface{
     private long id;

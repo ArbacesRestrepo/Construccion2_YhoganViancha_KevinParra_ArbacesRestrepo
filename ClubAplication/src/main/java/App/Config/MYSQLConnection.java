@@ -1,12 +1,13 @@
 package App.Config;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 /**
  * @author Arbaces Restrepo, Jhogan Viancha
  */
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class MYSQLConnection {
     private static final String URL = "jdbc:mysql://localhost:3306/club";

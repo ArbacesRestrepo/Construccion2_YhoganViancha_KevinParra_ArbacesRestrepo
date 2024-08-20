@@ -1,10 +1,11 @@
 package App.Dao.Interfaces;
 
-import App.Dto.PartnerDto;
-
 /**
  * @author Arbaces Restrepo, Jhogan Viancha
  */
+
+
+import App.Dto.PartnerDto;
 
 public interface PartnerDao {
     public boolean existsByUserId(PartnerDto partnerDto) throws Exception;

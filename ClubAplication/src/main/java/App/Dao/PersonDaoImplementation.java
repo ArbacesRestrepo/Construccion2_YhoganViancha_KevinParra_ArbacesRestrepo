@@ -1,5 +1,10 @@
 package App.Dao;
 
+/**
+ * @author Arbaces Restrepo, Jhogan Viancha
+ */
+
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -8,10 +13,6 @@ import App.Dao.Interfaces.PersonDao;
 import App.Dto.PersonDto;
 import App.Helper.Helper;
 import App.Model.Person;
-
-/**
- * @author Arbaces Restrepo, Jhogan Viancha
- */
 
 public class PersonDaoImplementation implements PersonDao {
 

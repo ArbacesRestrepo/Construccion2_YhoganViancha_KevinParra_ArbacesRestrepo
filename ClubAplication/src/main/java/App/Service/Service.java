@@ -1,5 +1,10 @@
 package App.Service;
 
+/**
+ * @author Arbaces Restrepo, Jhogan Viancha
+ */
+
+
 import java.sql.SQLException;
 
 import App.Service.Intefaces.LoginService;
@@ -8,10 +13,6 @@ import App.Dao.UserDaoImplementation;
 import App.Dao.Interfaces.UserDao;
 import App.Dto.PersonDto;
 import App.Dto.UserDto;
-
-/**
- * @author Arbaces Restrepo, Jhogan Viancha
- */
 
 public class Service implements LoginService{
     private UserDao userDao;

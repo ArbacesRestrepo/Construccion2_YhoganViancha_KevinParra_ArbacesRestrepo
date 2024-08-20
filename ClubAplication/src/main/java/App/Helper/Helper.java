@@ -1,13 +1,14 @@
 package App.Helper;
 
+/**
+ * @author Arbaces Restrepo, Jhogan Viancha
+ */
+
+
 import App.Dto.UserDto;
 import App.Dto.PersonDto;
 import App.Model.Person;
 import App.Model.User;
-
-/**
- * @author Arbaces Restrepo, Jhogan Viancha
- */
 
 public abstract class Helper {
     
