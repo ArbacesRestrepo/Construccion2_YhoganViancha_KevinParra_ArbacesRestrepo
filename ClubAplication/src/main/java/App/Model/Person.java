@@ -8,7 +8,7 @@ public class Person {
     private long personId;
     private long document;
     private String personName;
-    private long phoneNumber;
+    private long cellPhone;
 
     public Person() {
     }
@@ -37,11 +37,11 @@ public class Person {
         this.personName = personName;
     }
 
-    public long getPhoneNumber() {
-        return phoneNumber;
+    public long getCellPhone() {
+        return cellPhone;
     }
 
-    public void setPhoneNumber(long phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setCellPhone(long cellPhone) {
+        this.cellPhone = cellPhone;
     }
 }

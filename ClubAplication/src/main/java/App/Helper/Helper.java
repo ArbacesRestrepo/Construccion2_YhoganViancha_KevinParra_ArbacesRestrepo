@@ -37,7 +37,7 @@ public abstract class Helper {
         personDto.setId( person.getPersonId() );
         personDto.setDocument( person.getDocument() );
         personDto.setName( person.getPersonName() );
-        personDto.setCellPhone( person.getPhoneNumber() );
+        personDto.setCellPhone( person.getCellPhone());
         return personDto;
     }
 
@@ -46,7 +46,7 @@ public abstract class Helper {
         person.setPersonId(personDto.getId());
         person.setDocument(personDto.getDocument());
         person.setPersonName(personDto.getName());
-        person.setPhoneNumber(personDto.getCellPhone());
+        person.setCellPhone(personDto.getCellPhone());
         return person;
     }
 

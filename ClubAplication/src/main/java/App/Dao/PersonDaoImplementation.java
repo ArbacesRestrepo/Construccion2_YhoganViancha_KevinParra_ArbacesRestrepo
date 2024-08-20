@@ -35,7 +35,7 @@ public class PersonDaoImplementation implements PersonDao {
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setString(1, person.getPersonName());
         preparedStatement.setLong(2,person.getDocument());
-        preparedStatement.setLong(2,person.getPhoneNumber());
+        preparedStatement.setLong(2,person.getCellPhone());
         preparedStatement.execute();
         preparedStatement.close();
     }
@@ -61,7 +61,7 @@ public class PersonDaoImplementation implements PersonDao {
             person.setPersonId(resulSet.getLong("ID"));
             person.setPersonName(resulSet.getString("NAME"));
             person.setDocument(resulSet.getLong("DOCUMENT"));
-            person.setPhoneNumber(resulSet.getLong("CELLPHONE"));
+            person.setCellPhone(resulSet.getLong("CELLPHONE"));
             resulSet.close();
             preparedStatement.close();
             return Helper.parse(person);
@@ -69,5 +69,16 @@ public class PersonDaoImplementation implements PersonDao {
         resulSet.close();
         preparedStatement.close();
         return null;
+    }
+
+    @Override
+    public void updatePerson(PersonDto personDto) throws Exception {
+        Person person = Helper.parse(personDto);
+        String query = "UPDATE PERSON SET CELLPHONE = ? WHERE DOCUMENT = ?";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setLong(1, personDto.getCellPhone());
+        preparedStatement.setLong(2, personDto.getDocument());
+        preparedStatement.execute();
+        preparedStatement.close();
     }
 }
