@@ -17,28 +17,102 @@ public class UserDto implements UserDtoInterface {
 
     private UserValidator userValidator;
     
-    public UserDto() {}
+    public UserDto() {
+        this.userValidator = new UserValidator();
+    }
 
     @Override
-    public void getUserDto() throws Exception {
-        personId.getPersonDto();
-
+    public void getUserNameDto() throws Exception {
         System.out.println("Ingrese el nombre de usuario");
         String userNameDto = Utils.getReader().nextLine();
-        userValidator.validUserName( userNameDto );
+        this.userValidator.validUserName( userNameDto );
         this.userName = userNameDto;
 
         System.out.println("Ingrese el password de usuario");
         String userPasswordDto = Utils.getReader().nextLine();
-        userValidator.validPassword( userPasswordDto );
+        this.userValidator.validPassword( userPasswordDto );
         this.password = userPasswordDto;
-
-        System.out.println("Ingrese el nombre de roll del usuario");
-        String userRoleDto = Utils.getReader().nextLine();
-        userValidator.validRole( userRoleDto );
+        
+        String userRoleDto = "";
+        boolean continueRead = true;
+        while ( continueRead ){
+            System.out.println("Ingrese el role del usuario \n 1. ADMINISTRADOR \n 2. SOCIO \n 3. INVITADO \n 4. CANCELAR \n");
+            userRoleDto = Utils.getReader().nextLine();
+            switch ( userRoleDto ){
+                case "1": {
+                    userRoleDto = "ADMINISTRADOR";
+                    continueRead = false;
+                    break;
+                }
+                case "2": {
+                    userRoleDto = "SOCIO";
+                    continueRead = false;
+                    break;
+                }
+                case "3": {
+                    userRoleDto = "INVITADO";
+                    continueRead = false;
+                    break;
+                }
+                case "4": {
+                    userRoleDto = "";
+                    continueRead = false;
+                    break;
+                }
+                default: {
+                    System.out.println("Ingrese una opcion valida");
+                }
+            }            
+        }
+        this.userValidator.validRole( userRoleDto );
         this.role = userRoleDto;
     }
 
+    @Override
+    public void getUserTypeDto() throws Exception {
+        String userRoleDto = "";
+        boolean continueRead = true;
+        while ( continueRead ){
+            System.out.println("Ingrese el role del usuario \n 1. ADMINISTRADOR \n 2. SOCIO \n 3. INVITADO \n 4. CANCELAR \n");
+            userRoleDto = Utils.getReader().nextLine();
+            switch ( userRoleDto ){
+                case "1": {
+                    userRoleDto = "ADMINISTRADOR";
+                    continueRead = false;
+                    break;
+                }
+                case "2": {
+                    userRoleDto = "SOCIO";
+                    continueRead = false;
+                    break;
+                }
+                case "3": {
+                    userRoleDto = "INVITADO";
+                    continueRead = false;
+                    break;
+                }
+                case "4": {
+                    userRoleDto = "";
+                    continueRead = false;
+                    break;
+                }
+                default: {
+                    System.out.println("Ingrese una opcion valida");
+                }
+            }            
+        }
+        this.userValidator.validRole( userRoleDto );
+        this.role = userRoleDto;
+    }
+
+    @Override
+    public void getUserPasswordDto() throws Exception {
+        System.out.println("Ingrese el password de usuario");
+        String userPasswordDto = Utils.getReader().nextLine();
+        this.userValidator.validPassword( userPasswordDto );
+        this.password = userPasswordDto;        
+    }
+    
     public long getId() {
         return id;
     }

@@ -9,10 +9,11 @@ import java.util.Date;
 
 public class Invoice {
     private long id;
-    private Partner partner;
-    private Date generateDate;
-    private double value;
-    private boolean cancelada;
+    private Person personId;
+    private Partner partnerId;
+    private Date creationDate;
+    private double amount;
+    private String status;
 
     public Invoice() {
     }
@@ -25,37 +26,46 @@ public class Invoice {
         this.id = id;
     }
 
-    public Partner getPartner() {
-        return partner;
+    public Person getPersonId() {
+        return personId;
     }
 
-    public void setPartner(Partner partner) {
-        this.partner = partner;
+    public void setPersonId(Person personId) {
+        this.personId = personId;
     }
 
-    public Date getGenerateDate() {
-        return generateDate;
+    public Partner getPartnerId() {
+        return partnerId;
     }
 
-    public void setGenerateDate(Date generateDate) {
-        this.generateDate = generateDate;
+    public void setPartnerId(Partner partnerId) {
+        this.partnerId = partnerId;
     }
 
-    public double getValue() {
-        return value;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setValue(double value) {
-        this.value = value;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
-    public boolean isCancelada() {
-        return cancelada;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setCancelada(boolean cancelada) {
-        this.cancelada = cancelada;
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
     
     
+
 }

@@ -4,11 +4,15 @@ package App.Controllers;
  * @author Arbaces Restrepo, Jhogan Viancha
  */
 
-import App.Service.Service;
+import App.Service.LoginService;
 
 
 public class AdminController implements ControllerInterface{
-    private static final String MENU = "ingrese la opcion que desea \n 1. para CREAR Socio \n 2. para CREAR Vendedor \n 3. para cerrar sesion \n";
+    private static final String MENU = "Ingrese la opcion que desea \n 1. PERSONAS \n 2. USUARIOS \n 3. SOCIOS \n 9. para cerrar sesion \n";
+    
+    public ControllerInterface adminPersonController = new AdminPersonController();
+    public ControllerInterface adminUserController = new AdminUserController();
+    public ControllerInterface adminPartnerController = new AdminPartnerController();
 
     @Override
     public void session() throws Exception {
@@ -20,7 +24,7 @@ public class AdminController implements ControllerInterface{
     
     private boolean menu() {
         try {
-            System.out.println("bienvenido " + Service.user.getUserName());
+            System.out.println("bienvenido " + LoginService.user.getUserName());
             System.out.print(MENU);
             String option = Utils.getReader().nextLine();
             return options(option);
@@ -34,13 +38,19 @@ public class AdminController implements ControllerInterface{
     private boolean options(String option) throws Exception{
         switch (option) {
             case "1": {
+                this.adminPersonController.session();
                 return true;
             }
             case "2": {
+                this.adminUserController.session();
                 return true;
             }
             case "3": {
-                System.out.println("se ha cerrado sesion");
+                this.adminPartnerController.session();
+                return true;
+            }
+            case "9": {
+                System.out.println("Se ha cerrado sesion");
                 return false;
             }
             default: {

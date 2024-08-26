@@ -9,12 +9,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import App.Config.MYSQLConnection;
-import App.Dao.Interfaces.PersonDao;
 import App.Dto.PersonDto;
 import App.Helper.Helper;
 import App.Model.Person;
+import App.Dao.Interfaces.PersonDaoInterface;
 
-public class PersonDaoImplementation implements PersonDao {
+public class PersonDao implements PersonDaoInterface {
 
     @Override
     public boolean existsByDocument(PersonDto personDto) throws Exception {
@@ -35,7 +35,7 @@ public class PersonDaoImplementation implements PersonDao {
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setString(1, person.getPersonName());
         preparedStatement.setLong(2,person.getDocument());
-        preparedStatement.setLong(2,person.getCellPhone());
+        preparedStatement.setLong(3,person.getCellPhone());
         preparedStatement.execute();
         preparedStatement.close();
     }
@@ -73,7 +73,6 @@ public class PersonDaoImplementation implements PersonDao {
 
     @Override
     public void updatePerson(PersonDto personDto) throws Exception {
-        Person person = Helper.parse(personDto);
         String query = "UPDATE PERSON SET CELLPHONE = ? WHERE DOCUMENT = ?";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setLong(1, personDto.getCellPhone());

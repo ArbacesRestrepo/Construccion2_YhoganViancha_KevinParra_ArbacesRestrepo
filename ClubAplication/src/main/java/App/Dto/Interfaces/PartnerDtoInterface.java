@@ -6,5 +6,6 @@ package App.Dto.Interfaces;
 
 public interface PartnerDtoInterface {
     public void getPartnerDto() throws Exception;
+    public void getPartnerIdDto() throws Exception;
     
 }

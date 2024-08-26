@@ -5,14 +5,14 @@ package App.Model;
  */
 
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Partner {
     private long id;
-    private Person person;
-    private long funds;
-    private int suscription;
-    private Date affiliationDate;
+    private long userId;
+    private double amount;
+    private String type;
+    private Date creationDate;
 
     public Partner() {
     }
@@ -25,37 +25,40 @@ public class Partner {
         this.id = id;
     }
 
-    public Person getPerson() {
-        return person;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    public long getFunds() {
-        return funds;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setFounds(long funds) {
-        this.funds = funds;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
-    public int getSuscription() {
-        return suscription;
+    public String getType() {
+        return type;
     }
 
-    public void setSuscription(int suscription) {
-        this.suscription = suscription;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public Date getAffiliationDate() {
-        return affiliationDate;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setAffiliationDate(Date affiliationDate) {
-        this.affiliationDate = affiliationDate;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
+    
+    
+
     
     
 }

@@ -17,24 +17,31 @@ public class PersonDto implements PersonDtoInterface{
     private PersonValidator personValidator;
 
     public PersonDto() {
+        this.personValidator = new PersonValidator();
     }
     
     @Override
-    public void getPersonDto() throws Exception {
-        System.out.println("Ingrese el nombre");
+    public void getPersonNameDto() throws Exception {
+        System.out.println("Ingrese el nombre de la persona");
         String personNameDto = Utils.getReader().nextLine();
-        personValidator.validName( personNameDto );
+        this.personValidator.validName( personNameDto );
         this.name = personNameDto;
-        
-        System.out.println("Ingrese el documento de identidad");
-        String personDocumentDto = Utils.getReader().nextLine();
-        this.document = personValidator.validDocument( personDocumentDto );
-        
+    }
+
+    @Override
+    public void getPersonCellNumberDto() throws Exception {
         System.out.println("Ingrese el número de celular");
         String personCellNumberDto = Utils.getReader().nextLine();
         this.cellPhone = personValidator.validCellPhone( personCellNumberDto );
     }
 
+    @Override
+    public void getPersonDocumentDto() throws Exception {
+        System.out.println("Ingrese el documento de identidad");
+        String personDocumentDto = Utils.getReader().nextLine();
+        this.document = personValidator.validDocument( personDocumentDto );
+    }
+    
     public long getId() {
         return id;
     }
@@ -66,4 +73,5 @@ public class PersonDto implements PersonDtoInterface{
     public void setCellPhone(long cellPhone) {
         this.cellPhone = cellPhone;
     }
+
 }

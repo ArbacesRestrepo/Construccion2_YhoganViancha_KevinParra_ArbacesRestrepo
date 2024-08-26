@@ -5,6 +5,7 @@ package App.Dto.Interfaces;
  */
 
 public interface UserDtoInterface {
-    public void getUserDto() throws Exception;
-    
+    public void getUserNameDto() throws Exception;
+    public void getUserPasswordDto() throws Exception;
+    public void getUserTypeDto() throws Exception;    
 }
