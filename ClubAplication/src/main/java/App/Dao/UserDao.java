@@ -8,12 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import App.Config.MYSQLConnection;
+import App.Dao.Interfaces.UserDaoInteface;
+
 import App.Dto.PersonDto;
+import App.Model.User;
 import App.Dto.UserDto;
 import App.Helper.Helper;
-import App.Model.Person;
-import App.Model.User;
-import App.Dao.Interfaces.UserDaoInteface;
 
 public class UserDao implements UserDaoInteface {
 
@@ -25,13 +25,11 @@ public class UserDao implements UserDaoInteface {
         ResultSet resulSet = preparedStatement.executeQuery();
         if (resulSet.next()) {
             User user = new User();
-            user.setUserId(resulSet.getLong("ID"));
-            user.setUserName(resulSet.getString("USERNAME"));
-            user.setPassword(resulSet.getString("PASSWORD"));
-            user.setRole(resulSet.getString("ROLE"));
-            Person person = new Person();
-            person.setDocument(resulSet.getLong("PERSONNID"));
-            user.setPerson(person);
+            user.setId( resulSet.getLong("ID") );
+            user.setUserName( resulSet.getString("USERNAME") );
+            user.setPassword( resulSet.getString("PASSWORD") );
+            user.setRole( resulSet.getString("ROLE") );
+            user.setPersonId( resulSet.getLong("PERSONNID") );
             resulSet.close();
             preparedStatement.close();
             return Helper.parse(user);
@@ -49,13 +47,11 @@ public class UserDao implements UserDaoInteface {
         ResultSet resulSet = preparedStatement.executeQuery();
         if (resulSet.next()) {
             User user = new User();
-            user.setUserId(resulSet.getLong("ID"));
-            user.setUserName(resulSet.getString("USERNAME"));
-            user.setPassword(resulSet.getString("PASSWORD"));
-            user.setRole(resulSet.getString("ROLE"));
-            Person person = new Person();
-            person.setDocument(resulSet.getLong("PERSONNID"));
-            user.setPerson(person);
+            user.setId( resulSet.getLong("ID") );
+            user.setUserName( resulSet.getString("USERNAME") );
+            user.setPassword( resulSet.getString("PASSWORD") );
+            user.setRole( resulSet.getString("ROLE") );
+            user.setPersonId( resulSet.getLong("PERSONNID") );
             resulSet.close();
             preparedStatement.close();
             return Helper.parse(user);
@@ -85,7 +81,7 @@ public class UserDao implements UserDaoInteface {
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setString( 1, user.getUserName() );
         preparedStatement.setString( 2, user.getPassword() );
-        preparedStatement.setLong( 3, user.getPerson().getPersonId() );
+        preparedStatement.setLong( 3, user.getPersonId() );
         preparedStatement.setString( 4, user.getRole() );
         
         preparedStatement.execute();
@@ -99,7 +95,7 @@ public class UserDao implements UserDaoInteface {
 
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setString( 1, user.getPassword() );
-        preparedStatement.setLong( 2, user.getUserId() );
+        preparedStatement.setLong( 2, user.getId() );
 
         preparedStatement.execute();
         preparedStatement.close();
@@ -111,7 +107,7 @@ public class UserDao implements UserDaoInteface {
         String query = "DELETE FROM USER WHERE ID = ?";
 
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-        preparedStatement.setLong( 1, user.getUserId() );
+        preparedStatement.setLong( 1, user.getId() );
 
         preparedStatement.execute();
         preparedStatement.close();

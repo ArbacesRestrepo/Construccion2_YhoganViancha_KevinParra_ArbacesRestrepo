@@ -8,7 +8,7 @@ import App.Service.LoginService;
 
 
 public class AdminController implements ControllerInterface{
-    private static final String MENU = "Ingrese la opcion que desea \n 1. PERSONAS \n 2. USUARIOS \n 3. SOCIOS \n 9. para cerrar sesion \n";
+    private static final String MENU = "Ingrese la opcion que desea \n 1. PERSONAS \n 2. USUARIOS \n 3. SOCIOS \n 4. INVITADOS \n 9. para cerrar sesion \n";
     
     public ControllerInterface adminPersonController = new AdminPersonController();
     public ControllerInterface adminUserController = new AdminUserController();

@@ -5,29 +5,26 @@ package App.Model;
  */
 
 public class User {
-    private long userId;
+    private long id;
+    private long personId;
     private String userName;
     private String password;
     private String role;
-    private Person person;
-
-    public User() {
-    }
     
-    public long getUserId() {
-        return userId;
+    public long getId() {
+        return id;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public long getPersonId() {
+        return personId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setPersonId( long personId) {
+        this.personId = personId;
     }
 
     public String getPassword() {
@@ -38,6 +35,14 @@ public class User {
         this.password = password;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public String getRole() {
         return role;
     }
@@ -45,15 +50,6 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-    
     
 
 }

@@ -13,6 +13,7 @@ import App.Dto.PersonDto;
 import App.Helper.Helper;
 import App.Model.Person;
 import App.Dao.Interfaces.PersonDaoInterface;
+import App.Dto.UserDto;
 
 public class PersonDao implements PersonDaoInterface {
 
@@ -20,7 +21,7 @@ public class PersonDao implements PersonDaoInterface {
     public boolean existsByDocument(PersonDto personDto) throws Exception {
         String query = "SELECT 1 FROM PERSON WHERE DOCUMENT = ?";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-        preparedStatement.setLong(1, personDto.getDocument());
+        preparedStatement.setLong( 1, personDto.getDocument());
         ResultSet resulSet = preparedStatement.executeQuery();
         boolean exists = resulSet.next();
         resulSet.close();
@@ -33,9 +34,9 @@ public class PersonDao implements PersonDaoInterface {
         Person person = Helper.parse(personDto);
         String query = "INSERT INTO PERSON(NAME, DOCUMENT, CELLPHONE) VALUES (?,?,?) ";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-        preparedStatement.setString(1, person.getPersonName());
-        preparedStatement.setLong(2,person.getDocument());
-        preparedStatement.setLong(3,person.getCellPhone());
+        preparedStatement.setString( 1, person.getName() );
+        preparedStatement.setLong( 2, person.getDocument() );
+        preparedStatement.setLong( 3, person.getCellPhone() );
         preparedStatement.execute();
         preparedStatement.close();
     }
@@ -58,8 +59,29 @@ public class PersonDao implements PersonDaoInterface {
         ResultSet resulSet = preparedStatement.executeQuery();
         if (resulSet.next()) {
             Person person = new Person();
-            person.setPersonId(resulSet.getLong("ID"));
-            person.setPersonName(resulSet.getString("NAME"));
+            person.setId( resulSet.getLong("ID"));
+            person.setName( resulSet.getString("NAME"));
+            person.setDocument(resulSet.getLong("DOCUMENT"));
+            person.setCellPhone(resulSet.getLong("CELLPHONE"));
+            resulSet.close();
+            preparedStatement.close();
+            return Helper.parse(person);
+        }
+        resulSet.close();
+        preparedStatement.close();
+        return null;
+    }
+
+    @Override
+    public PersonDto findById( UserDto userDto ) throws Exception {
+        String query = "SELECT ID, NAME, DOCUMENT, CELLPHONE FROM PERSON WHERE ID = ?";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setLong(1, userDto.getPersonId() );
+        ResultSet resulSet = preparedStatement.executeQuery();
+        if (resulSet.next()) {
+            Person person = new Person();
+            person.setId( resulSet.getLong("ID"));
+            person.setName( resulSet.getString("NAME"));
             person.setDocument(resulSet.getLong("DOCUMENT"));
             person.setCellPhone(resulSet.getLong("CELLPHONE"));
             resulSet.close();

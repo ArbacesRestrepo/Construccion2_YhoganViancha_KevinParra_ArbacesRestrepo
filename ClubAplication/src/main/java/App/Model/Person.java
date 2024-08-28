@@ -5,20 +5,25 @@ package App.Model;
  */
 
 public class Person {
-    private long personId;
+    private long id;
     private long document;
-    private String personName;
+    private String name;
     private long cellPhone;
 
-    public Person() {
+    public long getId() {
+        return id;
     }
 
-    public long getPersonId() {
-        return personId;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public void setPersonId(long personId) {
-        this.personId = personId;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public long getDocument() {
@@ -29,14 +34,6 @@ public class Person {
         this.document = document;
     }
 
-    public String getPersonName() {
-        return personName;
-    }
-
-    public void setPersonName(String personName) {
-        this.personName = personName;
-    }
-
     public long getCellPhone() {
         return cellPhone;
     }
@@ -44,4 +41,5 @@ public class Person {
     public void setCellPhone(long cellPhone) {
         this.cellPhone = cellPhone;
     }
+
 }

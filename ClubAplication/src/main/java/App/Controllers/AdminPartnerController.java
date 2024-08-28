@@ -10,9 +10,8 @@ import App.Service.LoginService;
 public class AdminPartnerController implements ControllerInterface {
     private static final String MENU = "Ingrese la opcion que desea \n 1. Crear socio \n 2. Borrar socio \n 9. Volver a menú principal  \n";
     
-    private PartnerService partnerService = new PartnerService();
-    
-    
+    private final PartnerService partnerService = new PartnerService();
+
     @Override
     public void session() throws Exception {
         boolean session = true;

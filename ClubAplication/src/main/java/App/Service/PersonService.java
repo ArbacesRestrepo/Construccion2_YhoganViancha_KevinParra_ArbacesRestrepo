@@ -20,6 +20,7 @@ public class PersonService implements PersonServiceInterface {
         personDto.getPersonDocumentDto();
         
         if ( this.personDao.existsByDocument( personDto ) ) {
+            System.out.println("Ya existe: " + personDto.getName() );
             personDto = this.personDao.findByDocument( personDto );
             return personDto;
         }

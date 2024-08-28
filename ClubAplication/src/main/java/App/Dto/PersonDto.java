@@ -10,15 +10,11 @@ import App.Dto.Interfaces.PersonDtoInterface;
 
 public class PersonDto implements PersonDtoInterface{
     private long id;
-    private String name;
     private long document;
+    private String name;
     private long cellPhone;
 
-    private PersonValidator personValidator;
-
-    public PersonDto() {
-        this.personValidator = new PersonValidator();
-    }
+    private final PersonValidator personValidator = new PersonValidator();
     
     @Override
     public void getPersonNameDto() throws Exception {

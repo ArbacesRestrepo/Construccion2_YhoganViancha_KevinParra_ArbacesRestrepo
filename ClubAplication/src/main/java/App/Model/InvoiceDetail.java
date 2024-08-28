@@ -6,13 +6,10 @@ package App.Model;
 
 public class InvoiceDetail {
     private long id;
-    private Invoice invoice;
+    private long invoiceId;
     private int itemNumber;
-    private String concept;
+    private String description;
     private double itemValue;
-
-    public InvoiceDetail() {
-    }
 
     public long getId() {
         return id;
@@ -22,12 +19,12 @@ public class InvoiceDetail {
         this.id = id;
     }
 
-    public Invoice getInvoice() {
-        return invoice;
+    public long getInvoiceId() {
+        return invoiceId;
     }
 
-    public void setInvoice(Invoice invoice) {
-        this.invoice = invoice;
+    public void setInvoiceId(long invoiceId) {
+        this.invoiceId = invoiceId;
     }
 
     public int getItemNumber() {
@@ -38,12 +35,12 @@ public class InvoiceDetail {
         this.itemNumber = itemNumber;
     }
 
-    public String getConcept() {
-        return concept;
+    public String getDescription() {
+        return description;
     }
 
-    public void setConcept(String concept) {
-        this.concept = concept;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public double getItemValue() {
@@ -53,6 +50,6 @@ public class InvoiceDetail {
     public void setItemValue(double itemValue) {
         this.itemValue = itemValue;
     }
-    
-    
+
+
 }

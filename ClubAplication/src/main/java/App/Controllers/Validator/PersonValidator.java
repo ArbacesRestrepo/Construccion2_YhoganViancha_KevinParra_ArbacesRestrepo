@@ -20,6 +20,6 @@ public class PersonValidator extends CommonsValidator {
     }
 
     public long validCellPhone(String cellPhone) throws Exception{
-        return super.isValidLong("la edad de la persona ", cellPhone);
+        return super.isValidLong("el numero de celular ", cellPhone);
     }
 }

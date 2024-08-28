@@ -5,20 +5,16 @@ package App.Service;
  */
 
 
-import App.Dao.UserDao;
-import App.Dto.UserDto;
-import App.Dao.Interfaces.UserDaoInteface;
 import App.Service.Intefaces.LoginServiceInterface;
 
+import App.Dao.UserDao;
+import App.Dto.UserDto;
+
 public class LoginService implements LoginServiceInterface{
-    private UserDaoInteface userDao;
+    private final UserDao userDao = new UserDao();
     
     public static UserDto user;
 
-    public LoginService() {
-        this.userDao = new UserDao();
-    }
-    
     @Override
     public void login(UserDto userDto) throws Exception {
         UserDto validateDto = this.userDao.findByUserName(userDto);

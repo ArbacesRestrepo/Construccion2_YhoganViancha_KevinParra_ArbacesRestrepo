@@ -1,22 +1,18 @@
-package App.Model;
+package App.Dto;
 
 /**
  * @author Arbaces Restrepo, Jhogan Viancha
  */
 
-
 import java.sql.Date;
 
-public class Invoice {
+public class InvoiceDto {
     private long id;
     private long personId;
     private long partnerId;
     private Date creationDate;
     private double amount;
     private String status;
-
-    public Invoice() {
-    }
 
     public long getId() {
         return id;
@@ -67,5 +63,4 @@ public class Invoice {
     }
     
     
-
 }
