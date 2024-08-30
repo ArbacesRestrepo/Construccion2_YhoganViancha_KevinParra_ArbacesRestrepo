@@ -15,6 +15,7 @@ import App.Dto.InvoiceDetailDto;
 import App.Model.InvoiceDetail;
 
 import App.Helper.Helper;
+import java.util.ArrayList;
 
 public class InvoiceDetailDao implements InvoiceDetailDaoInterface {
 
@@ -42,7 +43,7 @@ public class InvoiceDetailDao implements InvoiceDetailDaoInterface {
     }
 
     @Override
-    public InvoiceDetailDto listInvoiceDetails(InvoiceDetailDto invoiceDetailDto) throws Exception {
+    public InvoiceDetailDto lastInvoiceDetails( InvoiceDetailDto invoiceDetailDto ) throws Exception {
         String query = "SELECT ID, INVOICEID, ITEM, DESCRIPTION, AMOUNT FROM INVOICEDETAIL WHERE INVOICEID = ? AND ITEM > ? ";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setLong( 1, invoiceDetailDto.getInvoiceId() );
@@ -87,4 +88,47 @@ public class InvoiceDetailDao implements InvoiceDetailDaoInterface {
         return 0;
     }
 
+    @Override
+    public int countInvoiceDetails( InvoiceDto invoiceDto ) throws Exception {
+        String query = "SELECT COUNT( ID ) AS COUNT FROM INVOICEDETAIL WHERE INVOICEID = ? ";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setLong( 1, invoiceDto.getId() );
+        ResultSet resulSet = preparedStatement.executeQuery();
+
+        if (resulSet.next()) {
+            int count = resulSet.getInt( "COUNT" );
+
+            resulSet.close();
+            preparedStatement.close();
+            return count + 1;
+        }
+                
+        resulSet.close();
+        preparedStatement.close();        
+        return 1;
+    }
+
+    @Override
+    public ArrayList<InvoiceDetailDto> listInvoiceDetails( InvoiceDto invoiceDto ) throws Exception {
+        ArrayList<InvoiceDetailDto> listInvoiceDetails = new ArrayList<InvoiceDetailDto>();
+        String query = "SELECT ID, INVOICEID, ITEM, DESCRIPTION, AMOUNT FROM INVOICEDETAIL WHERE INVOICEID = ? ";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setLong( 1, invoiceDto.getId() );
+        ResultSet resulSet = preparedStatement.executeQuery();
+        while ( resulSet.next() ) {
+            InvoiceDetail invoiceDetail = new InvoiceDetail();
+            invoiceDetail.setId( resulSet.getLong( "ID" ) );
+            invoiceDetail.setInvoiceId( resulSet.getLong( "INVOICEID" ) );
+            invoiceDetail.setItemNumber( resulSet.getInt( "ITEM" ) );
+            invoiceDetail.setDescription( resulSet.getString( "DESCRIPTION" ) );
+            invoiceDetail.setItemValue( resulSet.getDouble( "AMOUNT" ) );
+            
+            listInvoiceDetails.add( Helper.parse( invoiceDetail ) );
+        }
+        resulSet.close();
+        preparedStatement.close();
+        
+        return listInvoiceDetails;
+    }
+    
 }

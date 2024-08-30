@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 
 import App.Config.MYSQLConnection;
 import App.Dao.Interfaces.UserDaoInteface;
+import App.Dto.GuestDto;
+import App.Dto.PartnerDto;
 
 import App.Dto.PersonDto;
 import App.Model.User;
@@ -18,10 +20,10 @@ import App.Helper.Helper;
 public class UserDao implements UserDaoInteface {
 
     @Override
-    public UserDto findByUserName(UserDto userDto) throws Exception {
+    public UserDto findByUserName( UserDto userDto ) throws Exception {
         String query = "SELECT ID, USERNAME, PASSWORD, ROLE, PERSONNID FROM USER WHERE USERNAME = ?";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-        preparedStatement.setString(1, userDto.getUserName());
+        preparedStatement.setString( 1, userDto.getUserName() );
         ResultSet resulSet = preparedStatement.executeQuery();
         if (resulSet.next()) {
             User user = new User();
@@ -40,10 +42,54 @@ public class UserDao implements UserDaoInteface {
     }
 
     @Override
-    public UserDto findByPersonId(PersonDto personDto) throws Exception {
+    public UserDto findByPersonId( PersonDto personDto ) throws Exception {
         String query = "SELECT ID, USERNAME, PASSWORD, ROLE, PERSONNID FROM USER WHERE PERSONNID = ?";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setString(1, String.valueOf( personDto.getId() ) );
+        ResultSet resulSet = preparedStatement.executeQuery();
+        if (resulSet.next()) {
+            User user = new User();
+            user.setId( resulSet.getLong("ID") );
+            user.setUserName( resulSet.getString("USERNAME") );
+            user.setPassword( resulSet.getString("PASSWORD") );
+            user.setRole( resulSet.getString("ROLE") );
+            user.setPersonId( resulSet.getLong("PERSONNID") );
+            resulSet.close();
+            preparedStatement.close();
+            return Helper.parse(user);
+        }
+        resulSet.close();
+        preparedStatement.close();
+        return null;
+    }
+
+    @Override
+    public UserDto findByUserId( PartnerDto partnerDto ) throws Exception {
+        String query = "SELECT ID, USERNAME, PASSWORD, ROLE, PERSONNID FROM USER WHERE ID = ?";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setString(1, String.valueOf( partnerDto.getUserId() ) );
+        ResultSet resulSet = preparedStatement.executeQuery();
+        if (resulSet.next()) {
+            User user = new User();
+            user.setId( resulSet.getLong("ID") );
+            user.setUserName( resulSet.getString("USERNAME") );
+            user.setPassword( resulSet.getString("PASSWORD") );
+            user.setRole( resulSet.getString("ROLE") );
+            user.setPersonId( resulSet.getLong("PERSONNID") );
+            resulSet.close();
+            preparedStatement.close();
+            return Helper.parse(user);
+        }
+        resulSet.close();
+        preparedStatement.close();
+        return null;
+    }
+
+    @Override
+    public UserDto findByGuestUserId( GuestDto guestDto ) throws Exception {
+        String query = "SELECT ID, USERNAME, PASSWORD, ROLE, PERSONNID FROM USER WHERE ID = ?";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setString(1, String.valueOf( guestDto.getUserId() ) );
         ResultSet resulSet = preparedStatement.executeQuery();
         if (resulSet.next()) {
             User user = new User();

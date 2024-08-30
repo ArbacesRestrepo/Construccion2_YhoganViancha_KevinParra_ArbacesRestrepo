@@ -8,12 +8,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import App.Config.MYSQLConnection;
-import App.Dto.PartnerDto;
 import App.Dto.UserDto;
+import App.Dto.PartnerDto;
+import App.Dto.GuestDto;
 import App.Helper.Helper;
 import App.Model.Partner;
 import java.time.LocalDateTime;
 import App.Dao.Interfaces.PartnerDaoInterface;
+import App.Dto.InvoiceDto;
 
 public class PartnerDao implements PartnerDaoInterface{
 
@@ -79,6 +81,54 @@ public class PartnerDao implements PartnerDaoInterface{
         String query = "SELECT ID, USERID, TYPE, AMOUNT, CREATIONDATE FROM PARTNER WHERE USERID = ?";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setString(1, String.valueOf( userDto.getId() ) );
+        ResultSet resulSet = preparedStatement.executeQuery();
+        if (resulSet.next()) {
+            Partner partner = new Partner();
+            partner.setId( resulSet.getLong("ID") );
+            partner.setUserId( resulSet.getLong("USERID") );
+            partner.setType( resulSet.getString( "TYPE") );
+            partner.setAmount( resulSet.getDouble( "AMOUNT") );
+            partner.setCreationDate( resulSet.getDate( "CREATIONDATE") );
+
+            resulSet.close();
+            preparedStatement.close();
+            return Helper.parse(partner);
+        }
+                
+        resulSet.close();
+        preparedStatement.close();        
+        return null;
+    }
+
+    @Override
+    public PartnerDto findByGuestPartnerId( GuestDto guestDto ) throws Exception {        
+        String query = "SELECT ID, USERID, TYPE, AMOUNT, CREATIONDATE FROM PARTNER WHERE USERID = ?";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setString(1, String.valueOf( guestDto.getPartnerId() ) );
+        ResultSet resulSet = preparedStatement.executeQuery();
+        if (resulSet.next()) {
+            Partner partner = new Partner();
+            partner.setId( resulSet.getLong("ID") );
+            partner.setUserId( resulSet.getLong("USERID") );
+            partner.setType( resulSet.getString( "TYPE") );
+            partner.setAmount( resulSet.getDouble( "AMOUNT") );
+            partner.setCreationDate( resulSet.getDate( "CREATIONDATE") );
+
+            resulSet.close();
+            preparedStatement.close();
+            return Helper.parse(partner);
+        }
+                
+        resulSet.close();
+        preparedStatement.close();        
+        return null;
+    }
+
+    @Override
+    public PartnerDto findByPartnerId( InvoiceDto invoiceDto ) throws Exception {        
+        String query = "SELECT ID, USERID, TYPE, AMOUNT, CREATIONDATE FROM PARTNER WHERE USERID = ?";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setString(1, String.valueOf( invoiceDto.getPartnerId() ) );
         ResultSet resulSet = preparedStatement.executeQuery();
         if (resulSet.next()) {
             Partner partner = new Partner();

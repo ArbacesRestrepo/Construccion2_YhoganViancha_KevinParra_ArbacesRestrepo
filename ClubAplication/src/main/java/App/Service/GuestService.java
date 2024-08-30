@@ -37,7 +37,7 @@ public class GuestService implements GuestServiceInterface {
             throw new Exception("No se encontró ningún usuario");            
         }
         
-        PersonDto personDto = this.personDao.findById( userDtoLocate );
+        PersonDto personDto = this.personDao.findByUserId( userDtoLocate );
         
         GuestDto guestDto = new GuestDto();
         guestDto.setUserId( userDtoLocate.getId() );
@@ -55,7 +55,7 @@ public class GuestService implements GuestServiceInterface {
             throw new Exception("No se encontró ningún usuario");            
         }
 
-        PersonDto personDto = this.personDao.findById( userDto );
+        PersonDto personDto = this.personDao.findByUserId( userDto );
         
         GuestDto guestDto = new GuestDto();
         guestDto.setUserId( userDto.getId() );
@@ -101,7 +101,7 @@ public class GuestService implements GuestServiceInterface {
 
     @Override
     public void changeGuestToPartner( UserDto userDto ) throws Exception {
-        PersonDto personDtoLocale = this.personDao.findById( userDto );
+        PersonDto personDtoLocale = this.personDao.findByUserId( userDto );
         
         if ( personDtoLocale == null ){
             throw new Exception("No existe la persona");
@@ -134,11 +134,11 @@ public class GuestService implements GuestServiceInterface {
         
         userDto.setRole( "SOCIO" );
         
-        InvoiceDto invoiceDto = this.invoiceDao.listInvoicesByPersonId( personDtoLocale );
+        InvoiceDto invoiceDto = this.invoiceDao.firstInvoiceByPersonId( personDtoLocale );
         while ( invoiceDto != null ){
             this.invoiceDetailDao.deleteInvoiceDetail( invoiceDto );
             this.invoiceDao.deleteInvoice( invoiceDto );
-            invoiceDto = this.invoiceDao.listInvoicesByPersonId( personDtoLocale );
+            invoiceDto = this.invoiceDao.firstInvoiceByPersonId( personDtoLocale );
         }
         this.guestDao.deleteGuest( guestDto );
         this.partnerDao.createPartner( partnerDto );

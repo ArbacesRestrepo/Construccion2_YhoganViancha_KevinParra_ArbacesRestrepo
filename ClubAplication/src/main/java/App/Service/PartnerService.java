@@ -88,7 +88,7 @@ public class PartnerService implements PartnerServiceInterface {
         
         this.partnerDao.updateAmountPartner( partnerDtoLocale );
         
-        InvoiceDto invoiceDto = this.invoiceDao.listActiveInvoices( partnerDtoDao );
+        InvoiceDto invoiceDto = this.invoiceDao.firstActiveInvoice( partnerDtoDao );
         while ( invoiceDto != null){
             partnerDtoDao = this.partnerDao.findByUserId( userDtoLocate );
             if ( partnerDtoDao.getAmount() >= invoiceDto.getAmount() ){
@@ -97,7 +97,7 @@ public class PartnerService implements PartnerServiceInterface {
                 partnerDtoDao.setAmount( partnerDtoDao.getAmount() - invoiceDto.getAmount() );
                 this.partnerDao.updateAmountPartner( partnerDtoDao );
 
-                invoiceDto = this.invoiceDao.listActiveInvoices( partnerDtoDao );
+                invoiceDto = this.invoiceDao.firstActiveInvoice( partnerDtoDao );
             }
             else {
                 invoiceDto = null;
@@ -130,11 +130,11 @@ public class PartnerService implements PartnerServiceInterface {
             throw new Exception( "No existe el socio");                            
         }
         
-        InvoiceDto invoiceDto = this.invoiceDao.listInvoicesByPertnerId( partnerDto );
+        InvoiceDto invoiceDto = this.invoiceDao.firstInvoiceByPartnerId( partnerDto );
         while ( invoiceDto != null ){
             this.invoiceDetailDao.deleteInvoiceDetail( invoiceDto );
             this.invoiceDao.deleteInvoice( invoiceDto );
-            invoiceDto = this.invoiceDao.listInvoicesByPertnerId( partnerDto );
+            invoiceDto = this.invoiceDao.firstInvoiceByPartnerId( partnerDto );
         }
 
         this.partnerDao.deletePartner( partnerDto );
@@ -142,7 +142,7 @@ public class PartnerService implements PartnerServiceInterface {
 
     @Override
     public void deletePartner( UserDto userDto ) throws Exception {
-        PersonDto personDtoLocale = this.personDao.findById( userDto );
+        PersonDto personDtoLocale = this.personDao.findByUserId( userDto );
         if ( personDtoLocale == null ){
             throw new Exception("No existe la persona");
         }
@@ -158,11 +158,11 @@ public class PartnerService implements PartnerServiceInterface {
             throw new Exception("No existe el socio");                            
         }
         
-        InvoiceDto invoiceDto = this.invoiceDao.listInvoicesByPertnerId( partnerDto );
+        InvoiceDto invoiceDto = this.invoiceDao.firstInvoiceByPartnerId( partnerDto );
         while ( invoiceDto != null ){
             this.invoiceDetailDao.deleteInvoiceDetail( invoiceDto );
             this.invoiceDao.deleteInvoice( invoiceDto );
-            invoiceDto = this.invoiceDao.listInvoicesByPertnerId( partnerDto );
+            invoiceDto = this.invoiceDao.firstInvoiceByPartnerId( partnerDto );
         }
         
         this.partnerDao.deletePartner( partnerDto );

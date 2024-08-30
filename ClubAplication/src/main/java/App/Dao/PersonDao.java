@@ -13,6 +13,7 @@ import App.Dto.PersonDto;
 import App.Helper.Helper;
 import App.Model.Person;
 import App.Dao.Interfaces.PersonDaoInterface;
+import App.Dto.InvoiceDto;
 import App.Dto.UserDto;
 
 public class PersonDao implements PersonDaoInterface {
@@ -73,10 +74,31 @@ public class PersonDao implements PersonDaoInterface {
     }
 
     @Override
-    public PersonDto findById( UserDto userDto ) throws Exception {
+    public PersonDto findByUserId( UserDto userDto ) throws Exception {
         String query = "SELECT ID, NAME, DOCUMENT, CELLPHONE FROM PERSON WHERE ID = ?";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setLong(1, userDto.getPersonId() );
+        ResultSet resulSet = preparedStatement.executeQuery();
+        if (resulSet.next()) {
+            Person person = new Person();
+            person.setId( resulSet.getLong("ID"));
+            person.setName( resulSet.getString("NAME"));
+            person.setDocument(resulSet.getLong("DOCUMENT"));
+            person.setCellPhone(resulSet.getLong("CELLPHONE"));
+            resulSet.close();
+            preparedStatement.close();
+            return Helper.parse(person);
+        }
+        resulSet.close();
+        preparedStatement.close();
+        return null;
+    }
+
+    @Override
+    public PersonDto findByPersonId( InvoiceDto invoiceDto ) throws Exception {
+        String query = "SELECT ID, NAME, DOCUMENT, CELLPHONE FROM PERSON WHERE ID = ?";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setLong(1, invoiceDto.getPersonId() );
         ResultSet resulSet = preparedStatement.executeQuery();
         if (resulSet.next()) {
             Person person = new Person();

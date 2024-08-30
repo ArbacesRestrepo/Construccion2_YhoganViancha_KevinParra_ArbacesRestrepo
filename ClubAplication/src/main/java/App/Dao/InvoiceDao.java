@@ -16,6 +16,7 @@ import App.Dto.PersonDto;
 import App.Helper.Helper;
 import App.Model.Invoice;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class InvoiceDao implements InvoiceDaoInterface {
 
@@ -39,7 +40,7 @@ public class InvoiceDao implements InvoiceDaoInterface {
     }
     
     @Override
-    public InvoiceDto listActiveInvoices( PartnerDto partnerDto ) throws Exception {
+    public InvoiceDto firstActiveInvoice( PartnerDto partnerDto ) throws Exception {
         String query = "SELECT ID, PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS FROM INVOICE WHERE PARTNERID = ? AND STATUS = ? ORDER BY CREATIONDATE DESC";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setLong( 1, partnerDto.getId() );
@@ -66,7 +67,7 @@ public class InvoiceDao implements InvoiceDaoInterface {
     }
 
     @Override
-    public InvoiceDto listInvoicesByPertnerId( PartnerDto partnerDto ) throws Exception {
+    public InvoiceDto firstInvoiceByPartnerId( PartnerDto partnerDto ) throws Exception {
         String query = "SELECT ID, PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS FROM INVOICE WHERE PARTNERID = ? ORDER BY CREATIONDATE DESC";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setLong( 1, partnerDto.getId() );
@@ -92,7 +93,7 @@ public class InvoiceDao implements InvoiceDaoInterface {
     }
     
     @Override
-    public InvoiceDto listInvoicesByPersonId( PersonDto personDto ) throws Exception {
+    public InvoiceDto firstInvoiceByPersonId( PersonDto personDto ) throws Exception {
         String query = "SELECT ID, PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS FROM INVOICE WHERE PERSONID = ? ORDER BY CREATIONDATE DESC";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setLong( 1, personDto.getId() );
@@ -122,6 +123,23 @@ public class InvoiceDao implements InvoiceDaoInterface {
         String query = "SELECT MAX( ID ) AS ID FROM INVOICE WHERE PARTNERID = ? ";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setLong( 1, partnerDto.getId() );
+        ResultSet resulSet = preparedStatement.executeQuery();
+
+        if (resulSet.next()) {
+            long lastInvoice = resulSet.getLong( "ID" );
+            return lastInvoice;
+        }
+                
+        resulSet.close();
+        preparedStatement.close();        
+        return 0;
+    }
+
+    @Override
+    public long lastInvoiceByPersonId( PersonDto personDto ) throws Exception {
+        String query = "SELECT MAX( ID ) AS ID FROM INVOICE WHERE PERSONID = ? ";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setLong( 1, personDto.getId() );
         ResultSet resulSet = preparedStatement.executeQuery();
 
         if (resulSet.next()) {
@@ -177,5 +195,31 @@ public class InvoiceDao implements InvoiceDaoInterface {
 
         preparedStatement.execute();
         preparedStatement.close();                
+    }
+    
+    @Override
+    public ArrayList<InvoiceDto> listClubInvoices( ) throws Exception{
+        ArrayList<InvoiceDto> listInvoices = new ArrayList<InvoiceDto>();
+
+        String query = "SELECT ID, PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS FROM INVOICE ORDER BY CREATIONDATE DESC";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        ResultSet resulSet = preparedStatement.executeQuery();
+
+        while (resulSet.next()) {
+            Invoice invoice = new Invoice();
+            invoice.setId( resulSet.getLong( "ID" ) );
+            invoice.setPersonId( resulSet.getLong( "PERSONID" ) );
+            invoice.setPartnerId( resulSet.getLong( "PARTNERID" ) );
+            invoice.setCreationDate( resulSet.getDate( "CREATIONDATE" ) );
+            invoice.setAmount( resulSet.getDouble( "AMOUNT" ) );
+            invoice.setStatus( resulSet.getString( "STATUS" ) );
+
+            listInvoices.add( Helper.parse(invoice) );
+        }
+        resulSet.close();
+        preparedStatement.close();
+        
+        
+        return listInvoices;
     }
 }
