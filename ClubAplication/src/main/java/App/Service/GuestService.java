@@ -12,11 +12,13 @@ import App.Dao.UserDao;
 import App.Dao.PartnerDao;
 import App.Dao.GuestDao;
 import App.Dao.InvoiceDao;
+import App.Dao.InvoiceDetailDao;
 
 import App.Dto.PersonDto;
-import App.Dto.PartnerDto;
 import App.Dto.UserDto;
 import App.Dto.GuestDto;
+import App.Dto.InvoiceDto;
+import App.Dto.PartnerDto;
 
 public class GuestService implements GuestServiceInterface {
     private final UserService userService = new UserService();
@@ -25,6 +27,7 @@ public class GuestService implements GuestServiceInterface {
     private final PartnerDao partnerDao = new PartnerDao();
     private final GuestDao guestDao = new GuestDao();
     private final InvoiceDao invoiceDao = new InvoiceDao();
+    private final InvoiceDetailDao invoiceDetailDao = new InvoiceDetailDao();
 
     @Override
     public void createGuest( ) throws Exception {
@@ -79,7 +82,7 @@ public class GuestService implements GuestServiceInterface {
         
         double amountActiveInvoices = this.invoiceDao.amountActiveInvoices( personDtoLocale );
         if ( amountActiveInvoices > 0 ){
-            throw new Exception("La persona tiene facturas pendientes de pago");
+            throw new Exception( personDtoLocale.getName() + " tiene facturas pendientes de pago");
         }
         
         UserDto userDtoLocate = this.userDao.findByPersonId( personDtoLocale );
@@ -87,12 +90,58 @@ public class GuestService implements GuestServiceInterface {
             throw new Exception("No se encontró ningún usuario con el número de identificación ingresado");            
         }
 
-        PartnerDto partnerDto = partnerDao.findByUserId( userDtoLocate );
+        GuestDto guestDto = this.guestDao.findByUserId( userDtoLocate );
         
-        if ( partnerDto == null ){
-            throw new Exception("No existe el socio");                            
+        if ( guestDto == null ){
+            throw new Exception("No existe el invitado");                            
         }
         
-        this.partnerDao.deletePartner( partnerDto );
+        this.guestDao.deleteGuest( guestDto );
     }    
+
+    @Override
+    public void changeGuestToPartner( UserDto userDto ) throws Exception {
+        PersonDto personDtoLocale = this.personDao.findById( userDto );
+        
+        if ( personDtoLocale == null ){
+            throw new Exception("No existe la persona");
+        }
+        
+        double amountActiveInvoices = this.invoiceDao.amountActiveInvoices( personDtoLocale );
+        if ( amountActiveInvoices > 0 ){
+            throw new Exception( personDtoLocale.getName() + " tiene facturas pendientes de pago");
+        }
+
+        GuestDto guestDto = this.guestDao.findByUserId( userDto );
+        if ( guestDto == null ){
+            throw new Exception( personDtoLocale.getName() + " no es un invitado");            
+        }
+
+        PartnerDto partnerDto = this.partnerDao.findByUserId( userDto );
+        if ( partnerDto != null ){
+            throw new Exception( personDtoLocale.getName() + " ya es SOCIO del club");
+        }
+        
+        partnerDto.setUserId( userDto.getId() );
+        partnerDto.getPartnerTypeDto();
+        if ( partnerDto.getType().equals( "VIP" ) ){
+            long numberVIP = this.partnerDao.numberPertnersVIP();
+            if ( numberVIP >= 5 ){
+                throw new Exception("Cupo de socios VIP copado");                
+            }
+        }
+        partnerDto.getPartnerAmountDto();
+        
+        userDto.setRole( "SOCIO" );
+        
+        InvoiceDto invoiceDto = this.invoiceDao.listInvoicesByPersonId( personDtoLocale );
+        while ( invoiceDto != null ){
+            this.invoiceDetailDao.deleteInvoiceDetail( invoiceDto );
+            this.invoiceDao.deleteInvoice( invoiceDto );
+            invoiceDto = this.invoiceDao.listInvoicesByPersonId( personDtoLocale );
+        }
+        this.guestDao.deleteGuest( guestDto );
+        this.partnerDao.createPartner( partnerDto );
+        this.userDao.updateRoleUser( userDto );
+    }
 }

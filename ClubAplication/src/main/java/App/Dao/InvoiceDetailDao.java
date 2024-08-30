@@ -43,7 +43,7 @@ public class InvoiceDetailDao implements InvoiceDetailDaoInterface {
 
     @Override
     public InvoiceDetailDto listInvoiceDetails(InvoiceDetailDto invoiceDetailDto) throws Exception {
-        String query = "SELECT 1 ID, INVOICEID, ITEM, DESCRIPTION, AMOUNT FROM INVOICEDETAIL WHERE INVOICEID = ? AND ITEM > ? ";
+        String query = "SELECT ID, INVOICEID, ITEM, DESCRIPTION, AMOUNT FROM INVOICEDETAIL WHERE INVOICEID = ? AND ITEM > ? ";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setLong( 1, invoiceDetailDto.getInvoiceId() );
         preparedStatement.setInt( 2, invoiceDetailDto.getItemNumber() );

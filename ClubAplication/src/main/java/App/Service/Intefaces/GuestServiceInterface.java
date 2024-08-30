@@ -11,4 +11,5 @@ public interface GuestServiceInterface {
     public void createGuest( UserDto userDto ) throws Exception;
     public void updateGuest( ) throws Exception;
     public void deleteGuest( ) throws Exception;    
+    public void changeGuestToPartner( UserDto userDto ) throws Exception;    
 }

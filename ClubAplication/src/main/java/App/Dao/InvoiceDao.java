@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class InvoiceDao implements InvoiceDaoInterface {
 
     @Override
-    public double amountActiveInvoices( PersonDto personDto) throws Exception {
+    public double amountActiveInvoices( PersonDto personDto ) throws Exception {
         String query = "SELECT SUM( AMOUNT ) AS AMOUNT FROM INVOICE WHERE PERSONID = ? AND STATUS = ?";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setLong( 1, personDto.getId() );
@@ -40,7 +40,7 @@ public class InvoiceDao implements InvoiceDaoInterface {
     
     @Override
     public InvoiceDto listActiveInvoices( PartnerDto partnerDto ) throws Exception {
-        String query = "SELECT 1 ID, PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS FROM INVOICE WHERE PARTNERID = ? AND STATUS = ? ORDER BY CREATIONDATE DESC";
+        String query = "SELECT ID, PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS FROM INVOICE WHERE PARTNERID = ? AND STATUS = ? ORDER BY CREATIONDATE DESC";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setLong( 1, partnerDto.getId() );
         preparedStatement.setString( 2, "PENDIENTE" );
@@ -67,9 +67,35 @@ public class InvoiceDao implements InvoiceDaoInterface {
 
     @Override
     public InvoiceDto listInvoicesByPertnerId( PartnerDto partnerDto ) throws Exception {
-        String query = "SELECT 1 ID, PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS FROM INVOICE WHERE PARTNERID = ? ORDER BY CREATIONDATE DESC";
+        String query = "SELECT ID, PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS FROM INVOICE WHERE PARTNERID = ? ORDER BY CREATIONDATE DESC";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setLong( 1, partnerDto.getId() );
+        ResultSet resulSet = preparedStatement.executeQuery();
+
+        if (resulSet.next()) {
+            Invoice invoice = new Invoice();
+            invoice.setId( resulSet.getLong( "ID" ) );
+            invoice.setPersonId( resulSet.getLong( "PERSONID" ) );
+            invoice.setPartnerId( resulSet.getLong( "PARTNERID" ) );
+            invoice.setCreationDate( resulSet.getDate( "CREATIONDATE" ) );
+            invoice.setAmount( resulSet.getDouble( "AMOUNT" ) );
+            invoice.setStatus( resulSet.getString( "STATUS" ) );
+
+            resulSet.close();
+            preparedStatement.close();
+            return Helper.parse(invoice);
+        }
+                
+        resulSet.close();
+        preparedStatement.close();        
+        return null;
+    }
+    
+    @Override
+    public InvoiceDto listInvoicesByPersonId( PersonDto personDto ) throws Exception {
+        String query = "SELECT ID, PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS FROM INVOICE WHERE PERSONID = ? ORDER BY CREATIONDATE DESC";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setLong( 1, personDto.getId() );
         ResultSet resulSet = preparedStatement.executeQuery();
 
         if (resulSet.next()) {

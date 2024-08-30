@@ -102,6 +102,19 @@ public class UserDao implements UserDaoInteface {
     }
 
     @Override
+    public void updateRoleUser(UserDto userDto) throws Exception {
+        User user = Helper.parse(userDto);
+        String query = "UPDATE USER SET ROLE = ? WHERE ID = ? ";
+
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setString( 1, user.getRole() );
+        preparedStatement.setLong( 2, user.getId() );
+
+        preparedStatement.execute();
+        preparedStatement.close();
+    }
+
+    @Override
     public void deleteUser(UserDto userDto) throws Exception {
         User user = Helper.parse(userDto);
         String query = "DELETE FROM USER WHERE ID = ?";

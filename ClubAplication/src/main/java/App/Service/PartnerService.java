@@ -39,7 +39,7 @@ public class PartnerService implements PartnerServiceInterface {
             throw new Exception("No se encontró ningún usuario con el número de identificación ingresado");            
         }
         
-        PartnerDto partnerDto = partnerDao.findByUserId( userDtoLocate );
+        PartnerDto partnerDto = this.partnerDao.findByUserId( userDtoLocate );
         if ( partnerDto != null ){
             throw new Exception( personDtoLocale.getName() + " ya es SOCIO del club");
         }
@@ -73,7 +73,7 @@ public class PartnerService implements PartnerServiceInterface {
             throw new Exception("No se encontró ningún usuario para: " + personDtoLocale.getName() );            
         }
         
-        PartnerDto partnerDtoLocale = partnerDao.findByUserId( userDtoLocate );
+        PartnerDto partnerDtoLocale = this.partnerDao.findByUserId( userDtoLocate );
         if ( partnerDtoLocale == null ){
             throw new Exception( personDtoLocale.getName() +  " NO es SOCIO del club");
         }
@@ -82,7 +82,7 @@ public class PartnerService implements PartnerServiceInterface {
         
         partnerDtoLocale.getPartnerAmountIncraseDto();
 
-        PartnerDto partnerDtoDao = partnerDao.findByUserId( userDtoLocate );
+        PartnerDto partnerDtoDao = this.partnerDao.findByUserId( userDtoLocate );
         
         partnerDtoLocale.setAmount( partnerDtoLocale.getAmount() + partnerDtoDao.getAmount() );
         
@@ -167,4 +167,10 @@ public class PartnerService implements PartnerServiceInterface {
         
         this.partnerDao.deletePartner( partnerDto );
     }    
+
+    @Override
+    public void updateTypePartner( PartnerDto partnerDto ) throws Exception {
+        partnerDto.setType( "VIP" );
+        this.partnerDao.updateTypePartner( partnerDto );
+    }
 }

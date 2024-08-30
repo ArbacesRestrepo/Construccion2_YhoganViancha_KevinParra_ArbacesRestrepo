@@ -108,6 +108,12 @@ public class UserService implements UserServiceInterface {
         
         this.userDao.updatePasswordUser( userDto );
     }
+    
+    @Override
+    public void changeRoleUser( UserDto userDto ) throws Exception {
+        
+    }
+    
 
     @Override
     public void deleteUser( ) throws Exception {

@@ -7,13 +7,12 @@ package App.Controllers;
 import App.Service.LoginService;
 
 
-public class AdminController implements ControllerInterface{
-    private static final String MENU = "Ingrese la opcion que desea \n 1. PERSONAS \n 2. USUARIOS \n 3. SOCIOS \n 4. INVITADOS \n 9. Para cerrar sesion \n";
+public class PartnerController implements ControllerInterface{
+    private static final String MENU = "Ingrese la opcion que desea \n 1. Solicitar consumo \n 2. Ver historial de consumos \n 3. Crear Initado \n 4. Cambio a VIP \n 9. Para cerrar sesion \n";
     
     public ControllerInterface adminPersonController = new AdminPersonController();
     public ControllerInterface adminUserController = new AdminUserController();
     public ControllerInterface adminPartnerController = new AdminPartnerController();
-    public ControllerInterface adminGuestController = new AdminGuestController();
 
     @Override
     public void session() throws Exception {
@@ -48,10 +47,6 @@ public class AdminController implements ControllerInterface{
             }
             case "3": {
                 this.adminPartnerController.session();
-                return true;
-            }
-            case "4": {
-                this.adminGuestController.session();
                 return true;
             }
             case "9": {

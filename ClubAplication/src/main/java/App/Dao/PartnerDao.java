@@ -54,6 +54,17 @@ public class PartnerDao implements PartnerDaoInterface{
     }
 
     @Override
+    public void updateTypePartner(PartnerDto partnerDto) throws Exception {
+        String query = "UPDATE PARTNER SET TYPE = ? WHERE ID = ? ";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setString( 1, partnerDto.getType() );
+        preparedStatement.setLong( 2, partnerDto.getId());
+
+        preparedStatement.execute();
+        preparedStatement.close();
+    }
+
+    @Override
     public void deletePartner(PartnerDto partnerDto) throws Exception {
         String query = "DELETE FROM PARTNER WHERE ID = ? ";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);

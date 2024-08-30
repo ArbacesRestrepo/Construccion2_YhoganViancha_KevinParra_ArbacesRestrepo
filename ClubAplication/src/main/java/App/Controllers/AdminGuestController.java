@@ -4,16 +4,13 @@ package App.Controllers;
  * @author Arbaces Restrepo, Jhogan Viancha
  */
 
+import App.Service.GuestService;
 import App.Service.LoginService;
 
-
-public class AdminController implements ControllerInterface{
-    private static final String MENU = "Ingrese la opcion que desea \n 1. PERSONAS \n 2. USUARIOS \n 3. SOCIOS \n 4. INVITADOS \n 9. Para cerrar sesion \n";
+public class AdminGuestController implements ControllerInterface {
+    private static final String MENU = "Ingrese la opcion que desea \n 1. Crear invitado \n 2. Borrar invitado \n 9. Volver a menú principal  \n";
     
-    public ControllerInterface adminPersonController = new AdminPersonController();
-    public ControllerInterface adminUserController = new AdminUserController();
-    public ControllerInterface adminPartnerController = new AdminPartnerController();
-    public ControllerInterface adminGuestController = new AdminGuestController();
+    private final GuestService guestService = new GuestService();
 
     @Override
     public void session() throws Exception {
@@ -22,7 +19,7 @@ public class AdminController implements ControllerInterface{
             session = menu();
         }
     }
-    
+
     private boolean menu() {
         try {
             System.out.println("bienvenido " + LoginService.user.getUserName());
@@ -39,19 +36,11 @@ public class AdminController implements ControllerInterface{
     private boolean options(String option) throws Exception{
         switch (option) {
             case "1": {
-                this.adminPersonController.session();
+                this.guestService.createGuest();
                 return true;
             }
             case "2": {
-                this.adminUserController.session();
-                return true;
-            }
-            case "3": {
-                this.adminPartnerController.session();
-                return true;
-            }
-            case "4": {
-                this.adminGuestController.session();
+                this.guestService.deleteGuest();
                 return true;
             }
             case "9": {
@@ -64,5 +53,4 @@ public class AdminController implements ControllerInterface{
             }
         }
     }
-
 }

@@ -17,5 +17,6 @@ public interface InvoiceDaoInterface {
     public double amountActiveInvoices( PersonDto personDto ) throws Exception ;
     public InvoiceDto listActiveInvoices( PartnerDto partnerDto ) throws Exception ;
     public InvoiceDto listInvoicesByPertnerId( PartnerDto partnerDto ) throws Exception ;
+    public InvoiceDto listInvoicesByPersonId( PersonDto personDto ) throws Exception ;
     public long lastInvoiceByPartnerId( PartnerDto partnerDto ) throws Exception ;
 }
