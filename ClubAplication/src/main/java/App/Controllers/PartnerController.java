@@ -4,16 +4,27 @@ package App.Controllers;
  * @author Arbaces Restrepo, Jhogan Viancha
  */
 
+import App.Dao.PartnerDao;
+import App.Dto.PartnerDto;
+
 import App.Service.LoginService;
+import App.Service.UserService;
+import App.Service.PartnerService;
+import App.Service.GuestService;
+import App.Service.InvoiceService;
 
 
 public class PartnerController implements ControllerInterface{
-    private static final String MENU = "Ingrese la opcion que desea \n 1. Solicitar consumo \n 2. Ver historial de consumos \n 3. Crear Initado \n 4. Cambio a VIP \n 9. Para cerrar sesion \n";
-    
-    public ControllerInterface adminPersonController = new AdminPersonController();
-    public ControllerInterface adminUserController = new AdminUserController();
-    public ControllerInterface adminPartnerController = new AdminPartnerController();
+    private static final String MENU = "Ingrese la opcion que desea \n 1. Solicitar consumo \n 2. Ver historial de consumos \n 3. Crear Invitado \n 4. Cambio a VIP \n 5. Cambias el PASSWORD \n 9. Para cerrar sesion \n";
 
+    private final PartnerDao partnerDao = new PartnerDao();
+    
+    private final UserService userService = new UserService();
+    private final PartnerService partnerService = new PartnerService();
+    private final InvoiceService invoiceService = new InvoiceService();
+    private final GuestService guestService = new GuestService();
+    
+    
     @Override
     public void session() throws Exception {
         boolean session = true;
@@ -38,15 +49,26 @@ public class PartnerController implements ControllerInterface{
     private boolean options(String option) throws Exception{
         switch (option) {
             case "1": {
-                this.adminPersonController.session();
+                PartnerDto partnerDto = this.partnerDao.findByUserId( LoginService.user );
+                this.invoiceService.createPartnerInvoice( partnerDto );
                 return true;
             }
             case "2": {
-                this.adminUserController.session();
+                PartnerDto partnerDto = this.partnerDao.findByUserId( LoginService.user );
+                this.invoiceService.historyPartnerInvoice( partnerDto );
                 return true;
             }
             case "3": {
-                this.adminPartnerController.session();
+                this.guestService.createGuest( LoginService.user );
+                return true;
+            }
+            case "4": {
+                PartnerDto partnerDto = this.partnerDao.findByUserId( LoginService.user );
+                this.partnerService.updateTypePartner( partnerDto );
+                return true;
+            }
+            case "5": {
+                this.userService.changePasswordUser( LoginService.user );
                 return true;
             }
             case "9": {

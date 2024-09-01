@@ -16,6 +16,7 @@ import App.Model.Partner;
 import java.time.LocalDateTime;
 import App.Dao.Interfaces.PartnerDaoInterface;
 import App.Dto.InvoiceDto;
+import java.util.ArrayList;
 
 public class PartnerDao implements PartnerDaoInterface{
 
@@ -125,7 +126,7 @@ public class PartnerDao implements PartnerDaoInterface{
     }
 
     @Override
-    public PartnerDto findByPartnerId( InvoiceDto invoiceDto ) throws Exception {        
+    public PartnerDto findByPartnerId( InvoiceDto invoiceDto ) throws Exception {
         String query = "SELECT ID, USERID, TYPE, AMOUNT, CREATIONDATE FROM PARTNER WHERE USERID = ?";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setString(1, String.valueOf( invoiceDto.getPartnerId() ) );
@@ -149,7 +150,7 @@ public class PartnerDao implements PartnerDaoInterface{
     }
 
     @Override
-    public long numberPertnersVIP(  ) throws Exception {
+    public long numberPartnersVIP(  ) throws Exception {
         String query = "SELECT COUNT( ID ) AS NUMBERVIP FROM PARTNER WHERE TYPE = ?";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setString(1, "VIP" );
@@ -165,4 +166,48 @@ public class PartnerDao implements PartnerDaoInterface{
         preparedStatement.close();        
         return 0;
     }
+
+    @Override
+    public long numberPartnersRequestVIP(  ) throws Exception {
+        String query = "SELECT COUNT( ID ) AS NUMBERREQUEST FROM PARTNER WHERE TYPE = ?";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setString(1, "PIDE CAMBIO A VIP" );
+        ResultSet resulSet = preparedStatement.executeQuery();
+        if (resulSet.next()) {
+            long numberVIPDao = resulSet.getLong("NUMBERREQUEST") ;
+            resulSet.close();
+            preparedStatement.close();
+            return numberVIPDao;
+        }
+                
+        resulSet.close();
+        preparedStatement.close();        
+        return 0;
+    }
+    
+    @Override
+    public ArrayList<PartnerDto> listPartnerRequestVIP( ) throws Exception{
+        ArrayList<PartnerDto> listPartners = new ArrayList<PartnerDto>();
+        
+        String query = "SELECT ID, USERID, TYPE, AMOUNT, CREATIONDATE FROM PARTNER WHERE TYPE = ? ORDER BY AMOUNT DESC, CREATIONDATE DESC";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setString(1, String.valueOf( "PIDE CAMBIO A VIP" ) );
+        ResultSet resulSet = preparedStatement.executeQuery();
+
+        while (resulSet.next()) {
+            Partner partner = new Partner();
+            partner.setId( resulSet.getLong("ID") );
+            partner.setUserId( resulSet.getLong("USERID") );
+            partner.setType( resulSet.getString( "TYPE") );
+            partner.setAmount( resulSet.getDouble( "AMOUNT") );
+            partner.setCreationDate( resulSet.getDate( "CREATIONDATE") );
+            
+            listPartners.add( Helper.parse( partner ) );
+        }
+        resulSet.close();
+        preparedStatement.close();
+        
+        return listPartners;
+    }
+    
 }

@@ -125,7 +125,7 @@ public class GuestService implements GuestServiceInterface {
         partnerDto.setUserId( userDto.getId() );
         partnerDto.getPartnerTypeDto();
         if ( partnerDto.getType().equals( "VIP" ) ){
-            long numberVIP = this.partnerDao.numberPertnersVIP();
+            long numberVIP = this.partnerDao.numberPartnersVIP();
             if ( numberVIP >= 5 ){
                 throw new Exception("Cupo de socios VIP copado");                
             }

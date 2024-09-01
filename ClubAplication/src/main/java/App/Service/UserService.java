@@ -110,6 +110,13 @@ public class UserService implements UserServiceInterface {
     }
     
     @Override
+    public void changePasswordUser( UserDto userDto ) throws Exception {
+        userDto.getUserPasswordDto();
+        
+        this.userDao.updatePasswordUser( userDto );
+    }
+    
+    @Override
     public void changeRoleUser( UserDto userDto ) throws Exception {
         
     }

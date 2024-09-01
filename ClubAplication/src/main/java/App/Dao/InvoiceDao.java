@@ -40,6 +40,24 @@ public class InvoiceDao implements InvoiceDaoInterface {
     }
     
     @Override
+    public double amountInvoicesByPartner( PartnerDto partnerDto ) throws Exception {
+        String query = "SELECT SUM( AMOUNT ) AS AMOUNT FROM INVOICE WHERE PARTNERID = ? ";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setLong( 1, partnerDto.getId() );
+        ResultSet resulSet = preparedStatement.executeQuery();
+        if (resulSet.next()) {
+            double amointActiveInvoicesDao = resulSet.getDouble( "AMOUNT");
+            resulSet.close();
+            preparedStatement.close();
+            return amointActiveInvoicesDao;
+        }
+                
+        resulSet.close();
+        preparedStatement.close();        
+        return 0;
+    }
+    
+    @Override
     public InvoiceDto firstActiveInvoice( PartnerDto partnerDto ) throws Exception {
         String query = "SELECT ID, PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS FROM INVOICE WHERE PARTNERID = ? AND STATUS = ? ORDER BY CREATIONDATE DESC";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);

@@ -8,12 +8,13 @@ import App.Service.LoginService;
 
 
 public class AdminController implements ControllerInterface{
-    private static final String MENU = "Ingrese la opcion que desea \n 1. PERSONAS \n 2. USUARIOS \n 3. SOCIOS \n 4. INVITADOS \n 9. Para cerrar sesion \n";
+    private static final String MENU = "Ingrese la opcion que desea \n 1. PERSONAS \n 2. USUARIOS \n 3. SOCIOS \n 4. INVITADOS \n 5. PROCESOS \n 9. Para cerrar sesion \n";
     
     public ControllerInterface adminPersonController = new AdminPersonController();
     public ControllerInterface adminUserController = new AdminUserController();
     public ControllerInterface adminPartnerController = new AdminPartnerController();
     public ControllerInterface adminGuestController = new AdminGuestController();
+    public ControllerInterface adminProcessesController = new AdminProcessesController();
 
     @Override
     public void session() throws Exception {
@@ -52,6 +53,10 @@ public class AdminController implements ControllerInterface{
             }
             case "4": {
                 this.adminGuestController.session();
+                return true;
+            }
+            case "5": {
+                this.adminProcessesController.session();
                 return true;
             }
             case "9": {

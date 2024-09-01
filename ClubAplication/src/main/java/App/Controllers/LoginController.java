@@ -20,9 +20,11 @@ public class LoginController implements ControllerInterface {
         this.serviceLogin = new LoginService();
         this.userValidator = new UserValidator();
         ControllerInterface adminController = new AdminController();
+        ControllerInterface partnerController = new PartnerController();
 
         this.roles = new HashMap<String, ControllerInterface>();
         roles.put("ADMINISTRADOR", adminController);
+        roles.put("SOCIO", partnerController);
     }
     
     @Override

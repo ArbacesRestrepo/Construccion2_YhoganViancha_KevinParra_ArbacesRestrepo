@@ -4,13 +4,15 @@ package App.Controllers;
  * @author Arbaces Restrepo, Jhogan Viancha
  */
 
-import App.Service.UserService;
+import App.Service.InvoiceService;
 import App.Service.LoginService;
+import App.Service.PartnerService;
 
-public class AdminUserController implements ControllerInterface {
-    private static final String MENU = "Ingrese la opcion que desea \n 1. CREAR usuario \n 2. Cambiar password a usuario \n 3. BORRAR un usuario \n 9. Volver a menú principal \n";
+public class AdminProcessesController implements ControllerInterface {
+    private static final String MENU = "Ingrese la opcion que desea \n 1. Historial de facturación \n 2. Autorizar cambios a VIP \n 9. Volver a menú principal \n";
     
-    private final UserService userService = new UserService();
+    private final PartnerService partnerService = new PartnerService();
+    private final InvoiceService invoiceService = new InvoiceService();
     
     @Override
     public void session() throws Exception {
@@ -36,15 +38,11 @@ public class AdminUserController implements ControllerInterface {
     private boolean options(String option) throws Exception{
         switch (option) {
             case "1": {
-                this.userService.createUser();
+                this.invoiceService.historyInvoice();
                 return true;
             }
             case "2": {
-                this.userService.changePasswordUser();
-                return true;
-            }
-            case "3": {
-                this.userService.deleteUser();
+                this.partnerService.changePartnersToVIP();
                 return true;
             }
             case "9": {
