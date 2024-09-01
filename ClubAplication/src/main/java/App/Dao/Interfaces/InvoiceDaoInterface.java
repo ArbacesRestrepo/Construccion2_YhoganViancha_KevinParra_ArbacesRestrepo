@@ -4,6 +4,7 @@ package App.Dao.Interfaces;
  * @author Arbaces Restrepo, Jhogan Viancha
  */
 
+import App.Dto.GuestDto;
 import App.Dto.PersonDto;
 import App.Dto.PartnerDto;
 
@@ -23,5 +24,6 @@ public interface InvoiceDaoInterface {
     public long lastInvoiceByPartnerId( PartnerDto partnerDto ) throws Exception ;
     public long lastInvoiceByPersonId( PersonDto personDto ) throws Exception ;
     public ArrayList<InvoiceDto> listClubInvoices( ) throws Exception ;
-    
+    public ArrayList<InvoiceDto> listPartnerInvoices( PartnerDto partnerDto ) throws Exception ;
+    public ArrayList<InvoiceDto> listGuestInvoices( PersonDto personDto ) throws Exception ;
 }

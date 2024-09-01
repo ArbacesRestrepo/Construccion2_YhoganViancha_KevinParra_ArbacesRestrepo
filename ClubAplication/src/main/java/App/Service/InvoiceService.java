@@ -198,12 +198,31 @@ public class InvoiceService implements InvoiceServiceInterface {
 
     @Override
     public void historyPartnerInvoice( PartnerDto partnerDto ) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ArrayList<InvoiceDto> listInvoices = this.invoiceDao.listClubInvoices();
+        if ( listInvoices.isEmpty() ){
+            throw new Exception( "No hay historial de facturación" );
+        }
+        for ( int i=0; i < listInvoices.size(); i++){
+                InvoiceDto invoiceDto = listInvoices.get( i );
+                PersonDto personDto = this.personDao.findByPersonId( invoiceDto );
+                    System.out.println( "Responsable: " + personDto.getName()  + ", Fecha: " + invoiceDto.getCreationDate() + ", Monto: " + invoiceDto.getAmount() + ", Estado: " + invoiceDto.getStatus() );
+            
+        }
     }
 
     @Override
-    public void historyGuestInvoice( GuestDto guestDto ) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void historyGuestInvoice( PersonDto personDto ) throws Exception {
+        ArrayList<InvoiceDto> listInvoices = this.invoiceDao.listClubInvoices();
+        if ( listInvoices.isEmpty() ){
+            throw new Exception( "No hay historial de facturación" );
+        }
+        for ( int i=0; i < listInvoices.size(); i++){
+            
+            InvoiceDto invoiceDto = listInvoices.get( i );
+            PartnerDto partnerDto = this.partnerDao.findByPartnerId( invoiceDto );
+            UserDto userDto = this.userDao.findByUserId( partnerDto );
+            PersonDto personPartnerDto = this.personDao.findByUserId( userDto );
+            System.out.println( "Responsable: " + personDto.getName() + ", Socio; " + personPartnerDto.getName()  + ", Fecha: " + invoiceDto.getCreationDate() + ", Monto: " + invoiceDto.getAmount() + ", Estado: " + invoiceDto.getStatus() );
+        }
     }
-    
-}
+ }
