@@ -187,7 +187,7 @@ public class PartnerService implements PartnerServiceInterface {
 
     @Override
     public void updateTypePartner( PartnerDto partnerDto ) throws Exception {
-        partnerDto.setType( "VIP" );
+        partnerDto.setType( "PIDE CAMBIO A VIP" );
         this.partnerDao.updateTypePartner( partnerDto );
     }
 

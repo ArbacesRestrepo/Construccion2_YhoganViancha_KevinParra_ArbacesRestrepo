@@ -4,23 +4,24 @@ package App.Controllers;
  * @author Arbaces Restrepo, Jhogan Viancha
  */
 
-import App.Dao.PartnerDao;
-import App.Dto.PartnerDto;
+import App.Dao.GuestDao;
+import App.Dao.PersonDao;
+import App.Dto.GuestDto;
+import App.Dto.PersonDto;
 
 import App.Service.LoginService;
 import App.Service.UserService;
-import App.Service.PartnerService;
 import App.Service.GuestService;
 import App.Service.InvoiceService;
 
 
-public class PartnerController implements ControllerInterface{
-    private static final String MENU = "Ingrese la opcion que desea \n 1. Solicitar consumo \n 2. Ver historial de consumos \n 3. Crear Invitado \n 4. Cambio a VIP \n 5. Cambiar el PASSWORD \n 9. Para cerrar sesion \n";
+public class GuestController implements ControllerInterface{
+    private static final String MENU = "Ingrese la opcion que desea \n 1. Solicitar consumo \n 2. Ver historial de consumos \n 3. Cambio a SOCIO \n 4. Cambiar el PASSWORD \n 9. Para cerrar sesion \n";
 
-    private final PartnerDao partnerDao = new PartnerDao();
+    private final PersonDao personDao = new PersonDao();
+    private final GuestDao guestDao = new GuestDao();
     
     private final UserService userService = new UserService();
-    private final PartnerService partnerService = new PartnerService();
     private final InvoiceService invoiceService = new InvoiceService();
     private final GuestService guestService = new GuestService();
     
@@ -49,25 +50,20 @@ public class PartnerController implements ControllerInterface{
     private boolean options(String option) throws Exception{
         switch (option) {
             case "1": {
-                PartnerDto partnerDto = this.partnerDao.findByUserId( LoginService.user );
-                this.invoiceService.createPartnerInvoice( partnerDto );
+                GuestDto guestDto = this.guestDao.findByUserId( LoginService.user );
+                this.invoiceService.createGuestInvoice( guestDto );
                 return true;
             }
             case "2": {
-                PartnerDto partnerDto = this.partnerDao.findByUserId( LoginService.user );
-                this.invoiceService.historyPartnerInvoice( partnerDto );
+                PersonDto personDto = this.personDao.findByUserId( LoginService.user );
+                this.invoiceService.historyGuestInvoice( personDto );
                 return true;
             }
             case "3": {
-                this.guestService.createGuest( LoginService.user );
+                this.guestService.changeGuestToPartner( LoginService.user );
                 return true;
             }
             case "4": {
-                PartnerDto partnerDto = this.partnerDao.findByUserId( LoginService.user );
-                this.partnerService.updateTypePartner( partnerDto );
-                return true;
-            }
-            case "5": {
                 this.userService.changePasswordUser( LoginService.user );
                 return true;
             }

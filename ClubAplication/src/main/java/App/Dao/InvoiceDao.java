@@ -242,55 +242,57 @@ public class InvoiceDao implements InvoiceDaoInterface {
         return listInvoices;
     }
     
-        @Override
-        public ArrayList<InvoiceDto> listPartnerInvoices( PartnerDto partnerDto ) throws Exception{
-            ArrayList<InvoiceDto> listInvoices = new ArrayList<InvoiceDto>();
+    @Override
+    public ArrayList<InvoiceDto> listPartnerInvoices( PartnerDto partnerDto ) throws Exception{
+        ArrayList<InvoiceDto> listInvoices = new ArrayList<InvoiceDto>();
 
-            String query = "SELECT ID, PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS FROM INVOICE WHERE PARTNERID = ? ORDER BY CREATIONDATE DESC";
-            PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-            ResultSet resulSet = preparedStatement.executeQuery();
+        String query = "SELECT ID, PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS FROM INVOICE WHERE PARTNERID = ? ORDER BY CREATIONDATE DESC";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setLong( 1, partnerDto.getId() );
+        ResultSet resulSet = preparedStatement.executeQuery();
 
-             while (resulSet.next()) {
-                Invoice invoice = new Invoice();
-                invoice.setId( resulSet.getLong( "ID" ) );
-                invoice.setPersonId( resulSet.getLong( "PERSONID" ) );
-                invoice.setPartnerId( resulSet.getLong( "PARTNERID" ) );
-                invoice.setCreationDate( resulSet.getDate( "CREATIONDATE" ) );
-                invoice.setAmount( resulSet.getDouble( "AMOUNT" ) );
-                invoice.setStatus( resulSet.getString( "STATUS" ) );
+         while (resulSet.next()) {
+            Invoice invoice = new Invoice();
+            invoice.setId( resulSet.getLong( "ID" ) );
+            invoice.setPersonId( resulSet.getLong( "PERSONID" ) );
+            invoice.setPartnerId( resulSet.getLong( "PARTNERID" ) );
+            invoice.setCreationDate( resulSet.getDate( "CREATIONDATE" ) );
+            invoice.setAmount( resulSet.getDouble( "AMOUNT" ) );
+            invoice.setStatus( resulSet.getString( "STATUS" ) );
 
-                listInvoices.add( Helper.parse(invoice) );
-            }
-            resulSet.close();
-            preparedStatement.close();
-
-
-            return listInvoices;
+            listInvoices.add( Helper.parse(invoice) );
         }
+        resulSet.close();
+        preparedStatement.close();
+
+
+        return listInvoices;
+    }
     
-        @Override
-        public ArrayList<InvoiceDto> listGuestInvoices( PersonDto personDto ) throws Exception{
-               ArrayList<InvoiceDto> listInvoices = new ArrayList<InvoiceDto>();
+    @Override
+    public ArrayList<InvoiceDto> listGuestInvoices( PersonDto personDto ) throws Exception{
+        ArrayList<InvoiceDto> listInvoices = new ArrayList<InvoiceDto>();
 
-            String query = "SELECT ID, PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS FROM INVOICE WHERE PERSONID = ? ORDER BY CREATIONDATE DESC";
-            PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-            ResultSet resulSet = preparedStatement.executeQuery();
+        String query = "SELECT ID, PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS FROM INVOICE WHERE PERSONID = ? ORDER BY CREATIONDATE DESC";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        preparedStatement.setLong( 1, personDto.getId() );
+        ResultSet resulSet = preparedStatement.executeQuery();
 
-             while (resulSet.next()) {
-                Invoice invoice = new Invoice();
-                invoice.setId( resulSet.getLong( "ID" ) );
-                invoice.setPersonId( resulSet.getLong( "PERSONID" ) );
-                invoice.setPartnerId( resulSet.getLong( "PARTNERID" ) );
-                invoice.setCreationDate( resulSet.getDate( "CREATIONDATE" ) );
-                invoice.setAmount( resulSet.getDouble( "AMOUNT" ) );
-                invoice.setStatus( resulSet.getString( "STATUS" ) );
+         while (resulSet.next()) {
+            Invoice invoice = new Invoice();
+            invoice.setId( resulSet.getLong( "ID" ) );
+            invoice.setPersonId( resulSet.getLong( "PERSONID" ) );
+            invoice.setPartnerId( resulSet.getLong( "PARTNERID" ) );
+            invoice.setCreationDate( resulSet.getDate( "CREATIONDATE" ) );
+            invoice.setAmount( resulSet.getDouble( "AMOUNT" ) );
+            invoice.setStatus( resulSet.getString( "STATUS" ) );
 
-                listInvoices.add( Helper.parse(invoice) );
-            }
-            resulSet.close();
-            preparedStatement.close();
-
-
-            return listInvoices;
+            listInvoices.add( Helper.parse(invoice) );
         }
+        resulSet.close();
+        preparedStatement.close();
+
+
+        return listInvoices;
+    }
 }

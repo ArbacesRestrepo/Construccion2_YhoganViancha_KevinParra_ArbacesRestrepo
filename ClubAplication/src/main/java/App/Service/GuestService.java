@@ -36,12 +36,23 @@ public class GuestService implements GuestServiceInterface {
         if ( userDtoLocate == null ) {
             throw new Exception("No se encontró ningún usuario");            
         }
+
+        PersonDto personDto = new PersonDto();
+        personDto.getPersonDocumentDto( "Ingrese el documento del socio que invita" );
+        personDto = this.personDao.findByDocument(personDto);
+        if ( personDto == null ) {
+            throw new Exception("No se encontró ningúna persona con el numero de identificación");            
+        }
         
-        PersonDto personDto = this.personDao.findByUserId( userDtoLocate );
-        
+        UserDto userDtoInvite = this.userDao.findByPersonId( personDto );
+        PartnerDto partnerDto = this.partnerDao.findByUserId( userDtoInvite );
+        if ( partnerDto == null ) {
+            throw new Exception( personDto.getName() + " no es socio del club");            
+        }
+                
         GuestDto guestDto = new GuestDto();
         guestDto.setUserId( userDtoLocate.getId() );
-        guestDto.setPartnerId( personDto.getId() );
+        guestDto.setPartnerId( partnerDto.getId() );
         guestDto.setStatus( "ACTIVO" );
         
         this.guestDao.createGuest( guestDto );
@@ -49,17 +60,11 @@ public class GuestService implements GuestServiceInterface {
     
     @Override
     public void createGuest( UserDto userDto ) throws Exception {
-        UserDto userDtoLocate = this.userService.createUserGuest();
+        PartnerDto partnerDto = this.partnerDao.findByUserId( userDto );
 
-        if ( userDtoLocate == null ) {
-            throw new Exception("No se encontró ningún usuario");            
-        }
-
-        PersonDto personDto = this.personDao.findByUserId( userDto );
-        
         GuestDto guestDto = new GuestDto();
         guestDto.setUserId( userDto.getId() );
-        guestDto.setPartnerId( personDto.getId() );
+        guestDto.setPartnerId( partnerDto.getId() );
         guestDto.setStatus( "ACTIVO" );
         
         this.guestDao.createGuest( guestDto );
@@ -122,6 +127,7 @@ public class GuestService implements GuestServiceInterface {
             throw new Exception( personDtoLocale.getName() + " ya es SOCIO del club");
         }
         
+        partnerDto = new PartnerDto();
         partnerDto.setUserId( userDto.getId() );
         partnerDto.getPartnerTypeDto();
         if ( partnerDto.getType().equals( "VIP" ) ){

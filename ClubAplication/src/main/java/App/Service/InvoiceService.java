@@ -114,7 +114,7 @@ public class InvoiceService implements InvoiceServiceInterface {
         
         boolean continueRead = true;
         while ( continueRead ){
-            invoiceDetailDto.getDescription();
+            invoiceDetailDto.getInvoiceDetailDescriptionDto();
             invoiceDetailDto.getInvoiceDetailAmountDto();
             invoiceDetailDto.setItemNumber( this.invoiceDetailDao.countInvoiceDetails( invoiceDto ) );
             this.invoiceDetailDao.createInvoiceDetail( invoiceDetailDto );
@@ -132,7 +132,7 @@ public class InvoiceService implements InvoiceServiceInterface {
         this.invoiceDao.updateInvoiceAmount( invoiceDto );
         if ( partnerDto.getAmount() >= invoiceDto.getAmount() ){
             this.invoiceDao.cancelInvoice(invoiceDto);
-            invoiceDto.setAmount( partnerDto.getAmount() - invoiceDto.getAmount() );
+            partnerDto.setAmount( partnerDto.getAmount() - invoiceDto.getAmount() );
             this.partnerDao.updateAmountPartner(partnerDto);
         }
     }
@@ -154,7 +154,7 @@ public class InvoiceService implements InvoiceServiceInterface {
 
         boolean continueRead = true;
         while ( continueRead ){
-            invoiceDetailDto.getDescription();
+            invoiceDetailDto.getInvoiceDetailDescriptionDto();
             invoiceDetailDto.getInvoiceDetailAmountDto();
             invoiceDetailDto.setItemNumber( this.invoiceDetailDao.countInvoiceDetails( invoiceDto ) );
             this.invoiceDetailDao.createInvoiceDetail( invoiceDetailDto );
@@ -171,8 +171,8 @@ public class InvoiceService implements InvoiceServiceInterface {
         invoiceDto.setAmount( this.invoiceDetailDao.totalInvoiceDetails( invoiceDto ) );
         this.invoiceDao.updateInvoiceAmount( invoiceDto );
         if ( partnerDto.getAmount() >= invoiceDto.getAmount() ){
-            this.invoiceDao.cancelInvoice(invoiceDto);
-            invoiceDto.setAmount( partnerDto.getAmount() - invoiceDto.getAmount() );
+            this.invoiceDao.cancelInvoice( invoiceDto );
+            partnerDto.setAmount( partnerDto.getAmount() - invoiceDto.getAmount() );
             this.partnerDao.updateAmountPartner(partnerDto);
         }
     }
@@ -195,7 +195,7 @@ public class InvoiceService implements InvoiceServiceInterface {
 
     @Override
     public void historyPartnerInvoice( PartnerDto partnerDto ) throws Exception {
-        ArrayList<InvoiceDto> listInvoices = this.invoiceDao.listClubInvoices();
+        ArrayList<InvoiceDto> listInvoices = this.invoiceDao.listPartnerInvoices( partnerDto );
         if ( listInvoices.isEmpty() ){
             throw new Exception( "No hay historial de facturación" );
         }
@@ -209,7 +209,7 @@ public class InvoiceService implements InvoiceServiceInterface {
 
     @Override
     public void historyGuestInvoice( PersonDto personDto ) throws Exception {
-        ArrayList<InvoiceDto> listInvoices = this.invoiceDao.listClubInvoices();
+        ArrayList<InvoiceDto> listInvoices = this.invoiceDao.listGuestInvoices( personDto );
         if ( listInvoices.isEmpty() ){
             throw new Exception( "No hay historial de facturación" );
         }
@@ -222,9 +222,4 @@ public class InvoiceService implements InvoiceServiceInterface {
             System.out.println( "Responsable: " + personDto.getName() + ", Socio; " + personPartnerDto.getName()  + ", Fecha: " + invoiceDto.getCreationDate() + ", Monto: " + invoiceDto.getAmount() + ", Estado: " + invoiceDto.getStatus() );
         }
     }
-<<<<<<< HEAD
-
 }
-=======
- }
->>>>>>> c3147886e11105b78f9434b005fff42cb26aee05

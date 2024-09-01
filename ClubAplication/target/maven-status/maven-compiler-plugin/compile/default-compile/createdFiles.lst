@@ -48,6 +48,7 @@ App\Helper\Helper.class
 App\Controllers\AdminPartnerController.class
 App\Dao\InvoiceDetailDao.class
 App\Service\Intefaces\GuestServiceInterface.class
+App\Controllers\GuestController.class
 App\Controllers\AdminUserController.class
 App\Dto\Interfaces\PartnerDtoInterface.class
 App\Controllers\Validator\UserValidator.class

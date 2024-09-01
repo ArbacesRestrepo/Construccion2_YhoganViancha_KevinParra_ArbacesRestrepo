@@ -127,7 +127,7 @@ public class PartnerDao implements PartnerDaoInterface{
 
     @Override
     public PartnerDto findByPartnerId( InvoiceDto invoiceDto ) throws Exception {
-        String query = "SELECT ID, USERID, TYPE, AMOUNT, CREATIONDATE FROM PARTNER WHERE USERID = ?";
+        String query = "SELECT ID, USERID, TYPE, AMOUNT, CREATIONDATE FROM PARTNER WHERE ID = ?";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
         preparedStatement.setString(1, String.valueOf( invoiceDto.getPartnerId() ) );
         ResultSet resulSet = preparedStatement.executeQuery();

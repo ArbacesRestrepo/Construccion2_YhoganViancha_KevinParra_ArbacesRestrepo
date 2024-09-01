@@ -38,6 +38,13 @@ public class PersonDto implements PersonDtoInterface{
         this.document = personValidator.validDocument( personDocumentDto );
     }
     
+    @Override
+    public void getPersonDocumentDto( String message ) throws Exception {
+        System.out.println( message );
+        String personDocumentDto = Utils.getReader().nextLine();
+        this.document = personValidator.validDocument( personDocumentDto );
+    }
+    
     public long getId() {
         return id;
     }

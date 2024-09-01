@@ -28,6 +28,7 @@ D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Clu
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\ClubAplication\src\main\java\App\Dto\PartnerDto.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\ClubAplication\src\main\java\App\Helper\Helper.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\ClubAplication\src\main\java\App\Controllers\AdminPersonController.java
+D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\ClubAplication\src\main\java\App\Controllers\GuestController.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\ClubAplication\src\main\java\App\Service\Intefaces\PersonServiceInterface.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\ClubAplication\src\main\java\App\Dao\GuestDao.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\ClubAplication\src\main\java\App\Dto\Interfaces\PersonDtoInterface.java
