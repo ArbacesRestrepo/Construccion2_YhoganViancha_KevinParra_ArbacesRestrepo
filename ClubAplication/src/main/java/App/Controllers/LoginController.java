@@ -6,24 +6,27 @@ package App.Controllers;
 
 import App.Controllers.Validator.UserValidator;
 import App.Dto.UserDto;
-import App.Service.Intefaces.LoginService;
-import App.Service.Service;
+import App.Service.LoginService;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LoginController implements ControllerInterface {
-    private static final String MENU= "ingrese la opcion que desea: \n 1. para iniciar sesion. \n 2. para detener la ejecucion.";
+    private static final String MENU = "ingrese la opcion que desea: \n 1. para iniciar sesion. \n 2. para detener la ejecucion.";
     private UserValidator userValidator;
-    private LoginService service;
+    private LoginService serviceLogin;
     private Map<String,ControllerInterface> roles;
 
     public  LoginController () {
+        this.serviceLogin = new LoginService();
         this.userValidator = new UserValidator();
-        this.service = new Service();
         ControllerInterface adminController = new AdminController();
+        ControllerInterface partnerController = new PartnerController();
+        ControllerInterface guestController = new GuestController();
 
-        this.roles = new HashMap<String,ControllerInterface>();
+        this.roles = new HashMap<String, ControllerInterface>();
         roles.put("ADMINISTRADOR", adminController);
+        roles.put("SOCIO", partnerController);
+        roles.put("INVITADO", guestController);
     }
     
     @Override
@@ -65,17 +68,17 @@ public class LoginController implements ControllerInterface {
     private void login() throws Exception {
         System.out.println("ingrese el usuario");
         String userName = Utils.getReader().nextLine();
-        userValidator.validUserName(userName);
+        this.userValidator.validUserName(userName);
         System.out.println("ingrese la contraseña");
         String password = Utils.getReader().nextLine();
-        userValidator.validPassword(password);
+        this.userValidator.validPassword(password);
         UserDto userDto = new UserDto();
         userDto.setPassword(password);
         userDto.setUserName(userName);
-        this.service.login(userDto);
-        if(roles.get(userDto.getRole()) == null) {
+        this.serviceLogin.login(userDto);
+        if(this.roles.get(userDto.getRole()) == null) {
             throw new Exception ("Rol invalido");
         }
-        roles.get(userDto.getRole()).session();
+        this.roles.get(userDto.getRole()).session();
     }
 }
