@@ -1,4 +1,4 @@
-package com.mycompany.clubaplication;
+package App.AppMain;
 
 /**
  * @author Arbaces Restrepo, Jhogan Viancha

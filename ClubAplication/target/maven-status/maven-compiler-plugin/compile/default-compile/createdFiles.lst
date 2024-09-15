@@ -6,6 +6,7 @@ App\Model\Invoice.class
 App\Dto\PersonDto.class
 App\Controllers\AdminProcessesController.class
 App\Dto\UserDto.class
+App\AppMain\ClubAplication.class
 App\Service\Intefaces\LoginServiceInterface.class
 App\Dao\Interfaces\UserDaoInteface.class
 App\Controllers\AdminController.class
@@ -52,7 +53,6 @@ App\Controllers\GuestController.class
 App\Controllers\AdminUserController.class
 App\Dto\Interfaces\PartnerDtoInterface.class
 App\Controllers\Validator\UserValidator.class
-com\mycompany\clubaplication\ClubAplication.class
 App\Controllers\Validator\CommonsValidator.class
 App\Controllers\Validator\InvoiceDetailValidator.class
 App\Service\Intefaces\InvoiceServiceInterface.class
