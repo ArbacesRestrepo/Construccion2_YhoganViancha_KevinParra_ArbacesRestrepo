@@ -7,10 +7,11 @@ package App.Dto;
 import App.Controllers.Utils;
 import App.Controllers.Validator.UserValidator;
 import App.Dto.Interfaces.UserDtoInterface;
+import App.Model.Person;
 
 public class UserDto implements UserDtoInterface {
     private long id;
-    private long personId;
+    private Person personnId;
     private String userName;
     private String password;
     private String role;
@@ -78,12 +79,12 @@ public class UserDto implements UserDtoInterface {
         this.id = id;
     }
 
-    public long getPersonId() {
-        return personId;
+    public Person getPersonnId() {
+        return personnId;
     }
 
-    public void setPersonId( long personId) {
-        this.personId = personId;
+    public void setPersonnId( Person personnId ) {
+        this.personnId = personnId;
     }
 
     public String getPassword() {

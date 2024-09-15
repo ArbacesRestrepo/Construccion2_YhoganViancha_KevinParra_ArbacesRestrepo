@@ -41,7 +41,7 @@ public abstract class Helper {
         UserDto userDto = new UserDto();
         userDto.setId(user.getId() );
         userDto.setPassword( user.getPassword() );
-        userDto.setPersonId( user.getPersonId() );
+        userDto.setPersonnId( user.getPersonnId() );
         userDto.setRole( user.getRole());
         userDto.setUserName( user.getUserName() );
         return userDto;
@@ -51,7 +51,7 @@ public abstract class Helper {
         User user = new User();
         user.setId( userDto.getId() );
         user.setPassword(userDto.getPassword() );
-        user.setPersonId( userDto.getPersonId() );
+        user.setPersonnId( userDto.getPersonnId() );
         user.setRole(userDto.getRole() );
         user.setUserName(userDto.getUserName() );
         return user;

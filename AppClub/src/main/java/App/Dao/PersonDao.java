@@ -17,7 +17,7 @@ public class PersonDao implements PersonDaoInterface {
 
     @Override
     public boolean existsByDocument(PersonDto personDto) throws Exception {
-        return personRepository.existsByPersonDocument( personDto.getDocument() );
+        return personRepository.existsByDocument( personDto.getDocument() );
     }
 
     @Override
@@ -34,17 +34,17 @@ public class PersonDao implements PersonDaoInterface {
 
     @Override
     public PersonDto findByDocument( PersonDto personDto ) throws Exception {
-        return Helper.parse( personRepository.findByPersonDocument( personDto.getDocument() ) );
+        return Helper.parse( personRepository.findByDocument( personDto.getDocument() ) );
     }
 
     @Override
     public PersonDto findByUserId( UserDto userDto ) throws Exception {
-        return Helper.parse( personRepository.findByPersonId( userDto.getPersonId() ) );
+        return Helper.parse( personRepository.findById( userDto.getPersonnId().getId() ) );
     }
 
     @Override
     public PersonDto findByPersonId( InvoiceDto invoiceDto ) throws Exception {
-        return Helper.parse( personRepository.findByPersonId( invoiceDto.getPersonId() ) );
+        return Helper.parse( personRepository.findById( invoiceDto.getPersonId() ) );
     }
 
     @Override

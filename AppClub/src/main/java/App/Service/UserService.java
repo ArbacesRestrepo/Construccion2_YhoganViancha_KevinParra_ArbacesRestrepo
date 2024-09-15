@@ -14,6 +14,7 @@ import App.Dao.PartnerDao;
 import App.Dto.PersonDto;
 import App.Dto.UserDto;
 import App.Dto.PartnerDto;
+import App.Helper.Helper;
 
 public class UserService implements UserServiceInterface {
     private final PersonService personService = new PersonService();
@@ -34,7 +35,7 @@ public class UserService implements UserServiceInterface {
         }
         
         userDto = new UserDto();
-        userDto.setPersonId( personDto.getId() );
+        userDto.setPersonnId( Helper.parse( personDto ) );
         
         userDto.getUserNameDto();
         userDto.getUserTypeDto();
@@ -68,7 +69,7 @@ public class UserService implements UserServiceInterface {
         }
         
         userDto = new UserDto();
-        userDto.setPersonId( personDto.getId() );
+        userDto.setPersonnId( Helper.parse( personDto ) );
         
         userDto.getUserNameDto();
         userDto.setRole( "INVITADO" );

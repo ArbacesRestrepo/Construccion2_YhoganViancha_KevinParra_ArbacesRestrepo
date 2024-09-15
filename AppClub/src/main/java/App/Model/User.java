@@ -15,15 +15,14 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="user")
-
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id")
     private long id;
-    @JoinColumn(name="personid")
+    @JoinColumn(name="personnid")
     @OneToOne
-    private long personId;
+    private Person personnId;
     @Column(name="username")
     private String userName;
     @Column(name="password")
@@ -42,12 +41,12 @@ public class User {
         this.id = id;
     }
 
-    public long getPersonId() {
-        return personId;
+    public Person getPersonnId() {
+        return personnId;
     }
 
-    public void setPersonId( long personId) {
-        this.personId = personId;
+    public void setPersonnId( Person personnId ) {
+        this.personnId = personnId;
     }
 
     public String getPassword() {

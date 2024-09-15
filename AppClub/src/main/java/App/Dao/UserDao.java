@@ -4,10 +4,6 @@ package App.Dao;
  * @author Arbaces Restrepo, Jhogan Viancha, Kevin Parra
  */
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-import App.Config.MYSQLConnection;
 import App.Dao.Interfaces.UserDaoInteface;
 import App.Dao.Repository.UserRepository;
 import App.Dto.GuestDto;
@@ -17,6 +13,7 @@ import App.Dto.PersonDto;
 import App.Model.User;
 import App.Dto.UserDto;
 import App.Helper.Helper;
+import App.Model.Person;
 
 public class UserDao implements UserDaoInteface {
     UserRepository userRepository;
@@ -29,25 +26,26 @@ public class UserDao implements UserDaoInteface {
 
     @Override
     public UserDto findByPersonId( PersonDto personDto ) throws Exception {
-        User user = userRepository.findByPersonId( personDto.getId() );
+        Person person = Helper.parse(personDto);
+        User user = userRepository.findByPersonnId( person );
         return Helper.parse(user);
     }
 
     @Override
     public UserDto findByUserId( PartnerDto partnerDto ) throws Exception {
-        User user = userRepository.findByUserId( partnerDto.getUserId() );
+        User user = userRepository.findById( partnerDto.getUserId() );
         return Helper.parse(user);
     }
 
     @Override
     public UserDto findByGuestUserId( GuestDto guestDto ) throws Exception {
-        User user = userRepository.findByUserId( guestDto.getUserId() );
+        User user = userRepository.findById( guestDto.getUserId() );
         return Helper.parse(user);
     }
 
     @Override
     public boolean existsByUserName(UserDto userDto) throws Exception {
-        return userRepository.existsByUserName(userDto.getUserName());
+        return userRepository.existsByUserName( userDto.getUserName() );
     }
 
     @Override
