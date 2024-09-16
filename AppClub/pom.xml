@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>AppClub</groupId>
 	<artifactId>AppClub</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.2.0</version>
 	<name>AppClub</name>
 	<description>Gestion Club</description>
 	<url/>

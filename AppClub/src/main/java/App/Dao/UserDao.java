@@ -21,26 +21,26 @@ public class UserDao implements UserDaoInteface {
     @Override
     public UserDto findByUserName( UserDto userDto ) throws Exception {
         User user = userRepository.findByUserName(userDto.getUserName());
-        return Helper.parse(user);
+        return Helper.parse( user );
     }
 
     @Override
     public UserDto findByPersonId( PersonDto personDto ) throws Exception {
         Person person = Helper.parse(personDto);
         User user = userRepository.findByPersonnId( person );
-        return Helper.parse(user);
+        return Helper.parse( user );
     }
 
     @Override
     public UserDto findByUserId( PartnerDto partnerDto ) throws Exception {
         User user = userRepository.findById( partnerDto.getUserId() );
-        return Helper.parse(user);
+        return Helper.parse( user );
     }
 
     @Override
     public UserDto findByGuestUserId( GuestDto guestDto ) throws Exception {
         User user = userRepository.findById( guestDto.getUserId() );
-        return Helper.parse(user);
+        return Helper.parse( user );
     }
 
     @Override
