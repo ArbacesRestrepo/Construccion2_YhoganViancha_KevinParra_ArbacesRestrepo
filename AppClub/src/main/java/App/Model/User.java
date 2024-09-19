@@ -1,7 +1,7 @@
 package App.Model;
 
 /**
- * @author Arbaces Restrepo, Jhogan Vianch, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
 import jakarta.persistence.Column;

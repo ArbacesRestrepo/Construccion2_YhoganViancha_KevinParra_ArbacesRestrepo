@@ -1,7 +1,7 @@
 package App.Dto;
 
 /**
- * @author Arbaces Restrepo, Jhogan Viancha, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
 import java.sql.Date;
@@ -10,12 +10,13 @@ import App.Controllers.Utils;
 import App.Dto.Interfaces.PartnerDtoInterface;
 
 import App.Controllers.Validator.PartnerValidator;
+import App.Model.User;
 
 public class PartnerDto implements PartnerDtoInterface{
     private final PartnerValidator partnerValidator = new PartnerValidator();
 
     private long id;
-    private long userId;
+    private User userId;
     private double amount;
     private String type;
     private Date creationDate;
@@ -77,11 +78,11 @@ public class PartnerDto implements PartnerDtoInterface{
         this.id = id;
     }
 
-    public long getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 

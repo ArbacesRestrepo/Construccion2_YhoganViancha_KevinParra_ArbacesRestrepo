@@ -1,7 +1,7 @@
 package App.Dto.Interfaces;
 
 /**
- * @author Arbaces Restrepo, Jhogan Viancha, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
 public interface PersonDtoInterface {

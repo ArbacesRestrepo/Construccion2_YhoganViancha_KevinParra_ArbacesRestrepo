@@ -1,7 +1,7 @@
 package App.Dao;
 
 /**
- * @author Arbaces Restrepo, Jhogan Viancha, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import App.Config.MYSQLConnection;
 
 import App.Dao.Interfaces.InvoiceDaoInterface;
-import App.Dto.GuestDto;
+import App.Dao.Repository.InvoiceRepository;
 import App.Dto.InvoiceDto;
 import App.Dto.PartnerDto;
 import App.Dto.PersonDto;
@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class InvoiceDao implements InvoiceDaoInterface {
+    InvoiceRepository invoiceRepository;
 
     @Override
     public double amountActiveInvoices( PersonDto personDto ) throws Exception {
@@ -173,47 +174,28 @@ public class InvoiceDao implements InvoiceDaoInterface {
 
     @Override
     public void createInvoice( InvoiceDto invoiceDto ) throws Exception {
-        String query = "INSERT INTO INVOICE ( PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS ) VALUES ( ?, ?, ?, 0, ? )";
-        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-        preparedStatement.setLong( 1, invoiceDto.getPersonId() );
-        preparedStatement.setLong( 2, invoiceDto.getPartnerId() );
-        preparedStatement.setString( 3, LocalDateTime.now().toString() );
-        preparedStatement.setString( 4, "PENDIENTE" );
-        
-        preparedStatement.execute();
-        preparedStatement.close();                
+        Invoice invoice = Helper.parse( invoiceDto );
+        invoice.setCreationDate( LocalDateTime.now().toString() );
+        invoiceRepository.save( invoice );
     }
     
     @Override
     public void updateInvoiceAmount( InvoiceDto invoiceDto ) throws Exception {
-        String query = "UPDATE INVOICE SET AMOUNT = ? WHERE ID = ?";
-        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-        preparedStatement.setDouble( 1, invoiceDto.getAmount() );
-        preparedStatement.setLong( 2, invoiceDto.getId() );
-
-        preparedStatement.execute();
-        preparedStatement.close();                
+        Invoice invoice = Helper.parse( invoiceDto );
+        invoiceRepository.save( invoice );
     }
 
     @Override
     public void deleteInvoice( InvoiceDto invoiceDto ) throws Exception {
-        String query = "DELETE FROM INVOICE WHERE ID = ?";
-        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-        preparedStatement.setLong( 1, invoiceDto.getId() );
-
-        preparedStatement.execute();
-        preparedStatement.close();                
+        Invoice invoice = Helper.parse( invoiceDto );
+        invoiceRepository.deleteById( invoice.getId() );
     }
 
     @Override
     public void cancelInvoice( InvoiceDto invoiceDto ) throws Exception {
-        String query = "UPDATE INVOICE SET STATUS = ? WHERE ID = ?";
-        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-        preparedStatement.setString( 1, "CANCELADA" );
-        preparedStatement.setLong( 2, invoiceDto.getId() );
-
-        preparedStatement.execute();
-        preparedStatement.close();                
+        Invoice invoice = Helper.parse( invoiceDto );
+        invoice.setStatus("CANCELADA");
+        invoiceRepository.save( invoice );
     }
     
     @Override

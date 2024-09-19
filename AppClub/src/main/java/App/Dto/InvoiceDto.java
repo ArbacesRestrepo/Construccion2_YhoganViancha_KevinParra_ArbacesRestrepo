@@ -1,16 +1,18 @@
 package App.Dto;
 
 /**
- * @author Arbaces Restrepo, Jhogan Viancha, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
+import App.Model.Partner;
+import App.Model.Person;
 import java.sql.Date;
 
 public class InvoiceDto {
     private long id;
-    private long personId;
-    private long partnerId;
-    private Date creationDate;
+    private Person personId;
+    private Partner partnerId;
+    private String creationDate;
     private double amount;
     private String status;
 
@@ -22,27 +24,27 @@ public class InvoiceDto {
         this.id = id;
     }
 
-    public long getPersonId() {
+    public Person getPersonId() {
         return personId;
     }
 
-    public void setPersonId(long personId) {
+    public void setPersonId(Person personId) {
         this.personId = personId;
     }
 
-    public long getPartnerId() {
+    public Partner getPartnerId() {
         return partnerId;
     }
 
-    public void setPartnerId(long partnerId) {
+    public void setPartnerId(Partner partnerId) {
         this.partnerId = partnerId;
     }
 
-    public Date getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
 

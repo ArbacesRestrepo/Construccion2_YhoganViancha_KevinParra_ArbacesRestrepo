@@ -1,7 +1,7 @@
 package App.Dao;
 
 /**
- * @author Arbaces Restrepo, Jhogan Viancha, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
 import App.Dao.Interfaces.UserDaoInteface;
@@ -33,13 +33,13 @@ public class UserDao implements UserDaoInteface {
 
     @Override
     public UserDto findByUserId( PartnerDto partnerDto ) throws Exception {
-        User user = userRepository.findById( partnerDto.getUserId() );
+        User user = userRepository.findById( partnerDto.getUserId().getId() );
         return Helper.parse( user );
     }
 
     @Override
     public UserDto findByGuestUserId( GuestDto guestDto ) throws Exception {
-        User user = userRepository.findById( guestDto.getUserId() );
+        User user = userRepository.findById( guestDto.getUserId().getId() );
         return Helper.parse( user );
     }
 

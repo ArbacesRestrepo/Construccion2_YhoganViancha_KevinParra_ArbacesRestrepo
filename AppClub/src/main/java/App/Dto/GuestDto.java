@@ -1,15 +1,17 @@
 package App.Dto;
 
 /**
- * @author Arbaces Restrepo, Jhogan Viancha, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
 import App.Dto.Interfaces.GuestDtoInterface;
+import App.Model.Partner;
+import App.Model.User;
 
 public class GuestDto implements GuestDtoInterface{
     private long id;
-    private long userId;
-    private long partnerId;
+    private User userId;
+    private Partner partnerId;
     private String status;
 
     public long getId() {
@@ -20,19 +22,19 @@ public class GuestDto implements GuestDtoInterface{
         this.id = id;
     }
 
-    public long getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 
-    public long getPartnerId() {
+    public Partner getPartnerId() {
         return partnerId;
     }
 
-    public void setPartnerId(long partnerId) {
+    public void setPartnerId(Partner partnerId) {
         this.partnerId = partnerId;
     }
 

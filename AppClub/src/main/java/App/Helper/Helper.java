@@ -1,11 +1,11 @@
 package App.Helper;
 
 /**
- * @author Arbaces Restrepo, Jhogan Viancha, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
-import App.Dto.UserDto;
 import App.Dto.PersonDto;
+import App.Dto.UserDto;
 import App.Dto.PartnerDto;
 import App.Dto.GuestDto;
 import App.Dto.InvoiceDto;
@@ -77,6 +77,24 @@ public abstract class Helper {
         return partnerDto;
     }
 
+    public static Guest parse( GuestDto GuestDto ) {
+        Guest guest = new Guest();
+        guest.setId( GuestDto.getId() );
+        guest.setUserId( GuestDto.getUserId() );
+        guest.setPartnerId( GuestDto.getPartnerId() );
+        guest.setStatus( GuestDto.getStatus() );
+        return guest;
+    }
+    
+    public static GuestDto parse( Guest guest ){
+        GuestDto guestDto = new GuestDto();
+        guestDto.setId( guest.getId() );
+        guestDto.setUserId( guest.getUserId() );
+        guestDto.setPartnerId( guest.getPartnerId() );
+        guestDto.setStatus( guest.getStatus() );
+        return guestDto;
+    }
+
     public static Invoice parse( InvoiceDto invoiceDto ) {
         Invoice invoice = new Invoice();
         invoice.setId( invoiceDto.getId() );
@@ -118,23 +136,4 @@ public abstract class Helper {
         invoiceDetailDto.setItemValue( invoiceDetail.getItemValue() );
         return invoiceDetailDto;
     }
-
-    public static Guest parse( GuestDto GuestDto ) {
-        Guest guest = new Guest();
-        guest.setId( GuestDto.getId() );
-        guest.setUserId( GuestDto.getUserId() );
-        guest.setPartnerId( GuestDto.getPartnerId() );
-        guest.setStatus( GuestDto.getStatus() );
-        return guest;
-    }
-    
-    public static GuestDto parse( Guest guest ){
-        GuestDto guestDto = new GuestDto();
-        guestDto.setId( guest.getId() );
-        guestDto.setUserId( guest.getUserId() );
-        guestDto.setPartnerId( guest.getPartnerId() );
-        guestDto.setStatus( guest.getStatus() );
-        return guestDto;
-    }
-
 }
