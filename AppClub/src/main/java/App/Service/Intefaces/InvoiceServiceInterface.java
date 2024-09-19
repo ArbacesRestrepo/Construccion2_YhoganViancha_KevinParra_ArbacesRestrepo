@@ -6,7 +6,6 @@ package App.Service.Intefaces;
 
 import App.Dto.PartnerDto;
 import App.Dto.GuestDto;
-import App.Dto.PersonDto;
 
 public interface InvoiceServiceInterface {
     public void createInvoice( ) throws Exception;
@@ -15,5 +14,4 @@ public interface InvoiceServiceInterface {
     
     public void historyInvoice( ) throws Exception;
     public void historyPartnerInvoice( PartnerDto partnerDto ) throws Exception;
-    public void historyGuestInvoice( PersonDto personDto ) throws Exception;
 }

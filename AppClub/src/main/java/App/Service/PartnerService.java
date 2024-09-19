@@ -105,6 +105,11 @@ public class PartnerService implements PartnerServiceInterface {
         this.partnerDao.updateAmountPartner( partnerDtoLocale );
         
         InvoiceDto invoiceDto = this.invoiceDao.firstActiveInvoice( partnerDtoDao );
+          
+       // List<InvoiceDto> filteredAndSorted = listInvoice.stream()
+         //       .filter(invoice -> "pendiente".equals(invoice.getStatus())) 
+            //    .sorted(Comparator.comparing(InvoiceDto::getCreatedDate)) 
+              //  .collect(Collectors.toList());
         while ( invoiceDto != null){
             partnerDtoDao = this.partnerDao.findByUserId( userDtoLocate );
             if ( partnerDtoDao.getAmount() >= invoiceDto.getAmount() ){
