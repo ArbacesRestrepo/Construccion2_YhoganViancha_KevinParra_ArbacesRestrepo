@@ -25,5 +25,5 @@ public interface InvoiceDaoInterface {
     public long lastInvoiceByPersonId( PersonDto personDto ) throws Exception ;
     public ArrayList<InvoiceDto> listClubInvoices( ) throws Exception ;
     public ArrayList<InvoiceDto> listPartnerInvoices( PartnerDto partnerDto ) throws Exception ;
-    public ArrayList<InvoiceDto> listGuestInvoices( PersonDto personDto ) throws Exception ;
+    public ArrayList<InvoiceDto> listPersonInvoices( PersonDto personDto ) throws Exception ;
 }

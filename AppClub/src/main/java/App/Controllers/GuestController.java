@@ -7,7 +7,6 @@ package App.Controllers;
 import App.Dao.GuestDao;
 import App.Dao.PersonDao;
 import App.Dto.GuestDto;
-import App.Dto.PersonDto;
 
 import App.Service.LoginService;
 import App.Service.UserService;
@@ -16,7 +15,7 @@ import App.Service.InvoiceService;
 
 
 public class GuestController implements ControllerInterface{
-    private static final String MENU = "Ingrese la opcion que desea \n 1. Solicitar consumo \n 2. Ver historial de consumos \n 3. Cambio a SOCIO \n 4. Cambiar el PASSWORD \n 9. Para cerrar sesion \n";
+    private static final String MENU = "Ingrese la opcion que desea \n 1. Solicitar consumo  \n 2. Cambio a SOCIO \n 3. Cambiar el PASSWORD \n 9. Para cerrar sesion \n";
 
     private final PersonDao personDao = new PersonDao();
     private final GuestDao guestDao = new GuestDao();
@@ -54,16 +53,12 @@ public class GuestController implements ControllerInterface{
                 this.invoiceService.createGuestInvoice( guestDto );
                 return true;
             }
+
             case "2": {
-                PersonDto personDto = this.personDao.findByUserId( LoginService.user );
-                this.invoiceService.historyGuestInvoice( personDto );
-                return true;
-            }
-            case "3": {
                 this.guestService.changeGuestToPartner( LoginService.user );
                 return true;
             }
-            case "4": {
+            case "3": {
                 this.userService.changePasswordUser( LoginService.user );
                 return true;
             }
