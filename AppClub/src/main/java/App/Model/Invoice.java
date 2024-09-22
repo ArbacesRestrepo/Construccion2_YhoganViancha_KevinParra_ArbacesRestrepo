@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="user")
@@ -27,7 +28,7 @@ public class Invoice {
     @ManyToOne
     private Partner partnerId;
     @Column(name="creationdate")
-    private String creationDate;
+    private Timestamp creationDate;
     @Column(name="amount")
     private double amount;
     @Column(name="status")
@@ -60,11 +61,11 @@ public class Invoice {
         this.partnerId = partnerId;
     }
 
-    public String getCreationDate() {
+    public Timestamp getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(Timestamp creationDate) {
         this.creationDate = creationDate;
     }
 

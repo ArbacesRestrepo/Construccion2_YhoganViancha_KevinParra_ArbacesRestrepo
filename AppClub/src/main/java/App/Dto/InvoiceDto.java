@@ -7,12 +7,13 @@ package App.Dto;
 import App.Model.Partner;
 import App.Model.Person;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class InvoiceDto {
     private long id;
     private Person personId;
     private Partner partnerId;
-    private String creationDate;
+    private Timestamp creationDate;
     private double amount;
     private String status;
 
@@ -40,11 +41,11 @@ public class InvoiceDto {
         this.partnerId = partnerId;
     }
 
-    public String getCreationDate() {
+    public Timestamp getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(Timestamp creationDate) {
         this.creationDate = creationDate;
     }
 
