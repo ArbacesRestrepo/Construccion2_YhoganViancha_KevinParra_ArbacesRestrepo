@@ -1,7 +1,7 @@
 package App.Service;
 
 /**
- * @author Arbaces Restrepo, Jhogan Vianch, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
 import App.Controllers.Utils;
@@ -17,6 +17,7 @@ import App.Dto.InvoiceDto;
 import App.Dto.PartnerDto;
 import App.Dto.PersonDto;
 import App.Dto.UserDto;
+import App.Helper.Helper;
 import App.Service.Intefaces.InvoiceServiceInterface;
 import java.util.ArrayList;
 
@@ -53,8 +54,8 @@ public class InvoiceService implements InvoiceServiceInterface {
             if ( partnerDto == null ){
                 throw new Exception( personDto.getName() + " no es SOCIO " );                
             }
-            invoiceDto.setPersonId( personDto.getId() );
-            invoiceDto.setPartnerId( partnerDto.getId() );
+            invoiceDto.setPersonId( Helper.parse( personDto ) );
+            invoiceDto.setPartnerId( Helper.parse( partnerDto ) );
         }
         else{
             GuestDto guestDto = this.guestDao.findByUserId( userDto );
@@ -62,8 +63,8 @@ public class InvoiceService implements InvoiceServiceInterface {
                 throw new Exception( personDto.getName() + " no es INVITADO " );                
             }
             partnerDto = this.partnerDao.findByGuestPartnerId( guestDto );
-            invoiceDto.setPersonId( personDto.getId() );
-            invoiceDto.setPartnerId( partnerDto.getId() );
+            invoiceDto.setPersonId( Helper.parse( personDto ) );
+            invoiceDto.setPartnerId( Helper.parse( partnerDto ) );
         }
         
         this.invoiceDao.createInvoice( invoiceDto );
@@ -103,8 +104,8 @@ public class InvoiceService implements InvoiceServiceInterface {
         PersonDto personDto = this.personDao.findByUserId( userDto );
         InvoiceDto invoiceDto = new InvoiceDto();
 
-        invoiceDto.setPersonId( personDto.getId() );
-        invoiceDto.setPartnerId( partnerDto.getId() );
+        invoiceDto.setPersonId( Helper.parse( personDto ) );
+        invoiceDto.setPartnerId( Helper.parse( partnerDto ) );
         
         this.invoiceDao.createInvoice( invoiceDto );
         invoiceDto.setId( this.invoiceDao.lastInvoiceByPersonId( personDto ));
@@ -143,8 +144,8 @@ public class InvoiceService implements InvoiceServiceInterface {
         PersonDto personDto = this.personDao.findByUserId( userDto );
         InvoiceDto invoiceDto = new InvoiceDto();
         PartnerDto partnerDto = this.partnerDao.findByGuestPartnerId( guestDto );
-        invoiceDto.setPersonId( personDto.getId( ) );
-        invoiceDto.setPartnerId( partnerDto.getId() );
+        invoiceDto.setPersonId( Helper.parse( personDto ) );
+        invoiceDto.setPartnerId( Helper.parse( partnerDto ) );
 
         this.invoiceDao.createInvoice( invoiceDto );
         invoiceDto.setId( this.invoiceDao.lastInvoiceByPersonId( personDto ));

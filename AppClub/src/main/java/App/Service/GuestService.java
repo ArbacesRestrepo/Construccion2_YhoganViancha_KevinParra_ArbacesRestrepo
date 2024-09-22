@@ -1,7 +1,7 @@
 package App.Service;
 
 /**
- * @author Arbaces Restrepo, Jhogan Vianch, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
 import App.Service.Intefaces.GuestServiceInterface;
@@ -18,6 +18,7 @@ import App.Dto.UserDto;
 import App.Dto.GuestDto;
 import App.Dto.InvoiceDto;
 import App.Dto.PartnerDto;
+import App.Helper.Helper;
 
 public class GuestService implements GuestServiceInterface {
     private final UserService userService = new UserService();
@@ -50,8 +51,8 @@ public class GuestService implements GuestServiceInterface {
         }
                 
         GuestDto guestDto = new GuestDto();
-        guestDto.setUserId( userDtoLocate.getId() );
-        guestDto.setPartnerId( partnerDto.getId() );
+        guestDto.setUserId( Helper.parse( userDtoLocate ) );
+        guestDto.setPartnerId( Helper.parse( partnerDto ) );
         guestDto.setStatus( "ACTIVO" );
         
         this.guestDao.createGuest( guestDto );
@@ -62,8 +63,8 @@ public class GuestService implements GuestServiceInterface {
         PartnerDto partnerDto = this.partnerDao.findByUserId( userDto );
 
         GuestDto guestDto = new GuestDto();
-        guestDto.setUserId( userDto.getId() );
-        guestDto.setPartnerId( partnerDto.getId() );
+        guestDto.setUserId( Helper.parse( userDto ) );
+        guestDto.setPartnerId( Helper.parse( partnerDto ) );
         guestDto.setStatus( "ACTIVO" );
         
         this.guestDao.createGuest( guestDto );
@@ -127,7 +128,7 @@ public class GuestService implements GuestServiceInterface {
         }
         
         partnerDto = new PartnerDto();
-        partnerDto.setUserId( userDto.getId() );
+        partnerDto.setUserId( Helper.parse( userDto ) );
         partnerDto.getPartnerTypeDto();
         if ( partnerDto.getType().equals( "VIP" ) ){
             long numberVIP = this.partnerDao.numberPartnersVIP();

@@ -1,7 +1,7 @@
 package App.Dao;
 
 /**
- * @author Arbaces Restrepo, Jhogan Viancha, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
 import App.Dto.PersonDto;
@@ -44,7 +44,7 @@ public class PersonDao implements PersonDaoInterface {
 
     @Override
     public PersonDto findByPersonId( InvoiceDto invoiceDto ) throws Exception {
-        return Helper.parse( personRepository.findById( invoiceDto.getPersonId() ) );
+        return Helper.parse( personRepository.findById( invoiceDto.getPersonId().getId() ) );
     }
 
     @Override

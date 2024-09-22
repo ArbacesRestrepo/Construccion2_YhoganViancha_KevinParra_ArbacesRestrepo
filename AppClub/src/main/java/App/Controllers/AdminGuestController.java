@@ -1,7 +1,7 @@
 package App.Controllers;
 
 /**
- * @author Arbaces Restrepo, Jhogan Viancha, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
 import App.Service.GuestService;

@@ -1,7 +1,7 @@
 package App.Service.Intefaces;
 
 /**
- * @author Arbaces Restrepo, Jhogan Vianch, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
 import App.Dto.UserDto;

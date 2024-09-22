@@ -1,7 +1,7 @@
 package App.Controllers.Validator;
 
 /**
- * @author Arbaces Restrepo, Jhogan Viancha, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
 public class UserValidator extends CommonsValidator{	

@@ -1,7 +1,7 @@
 package App.Service;
 
 /**
- * @author Arbaces Restrepo, Jhogan Vianch, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
 import App.Controllers.Utils;
@@ -17,6 +17,7 @@ import App.Dto.InvoiceDto;
 import App.Dto.PersonDto;
 import App.Dto.PartnerDto;
 import App.Dto.UserDto;
+import App.Helper.Helper;
 import java.util.ArrayList;
 
 public class PartnerService implements PartnerServiceInterface {
@@ -47,7 +48,7 @@ public class PartnerService implements PartnerServiceInterface {
         
         partnerDto = new PartnerDto();
         
-        partnerDto.setUserId( userDtoLocate.getId() );
+        partnerDto.setUserId( Helper.parse( userDtoLocate ) );
         
         partnerDto.getPartnerTypeDto();
         if ( partnerDto.getType().equals( "VIP" ) ){
@@ -83,7 +84,7 @@ public class PartnerService implements PartnerServiceInterface {
         
         double amountDao = partnerDtoLocale.getAmount();
         
-        partnerDtoLocale.setUserId( userDtoLocate.getId() );
+        partnerDtoLocale.setUserId(Helper.parse( userDtoLocate ) );
         
         partnerDtoLocale.getPartnerAmountIncraseDto();
         

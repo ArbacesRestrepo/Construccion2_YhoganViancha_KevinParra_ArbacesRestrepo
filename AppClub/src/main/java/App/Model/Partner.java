@@ -1,16 +1,34 @@
 package App.Model;
 
 /**
- * @author Arbaces Restrepo, Jhogan Viancha, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import java.sql.Date;
 
+@Entity
+@Table(name="user")
 public class Partner {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name="id")
     private long id;
-    private long userId;
+    @JoinColumn(name="userid")
+    @OneToOne
+    private User userId;
+    @Column(name="amount")
     private double amount;
+    @Column(name="type")
     private String type;
+    @Column(name="creationdate")
     private Date creationDate;
 
     public Partner() {
@@ -24,11 +42,11 @@ public class Partner {
         this.id = id;
     }
 
-    public long getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 

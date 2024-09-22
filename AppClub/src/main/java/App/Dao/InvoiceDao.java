@@ -1,7 +1,7 @@
 package App.Dao;
 
 /**
- * @author Arbaces Restrepo, Jhogan Viancha, Kevin Parra
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +9,10 @@ import java.sql.ResultSet;
 import App.Config.MYSQLConnection;
 
 import App.Dao.Interfaces.InvoiceDaoInterface;
+<<<<<<< HEAD
+=======
+import App.Dao.Repository.InvoiceRepository;
+>>>>>>> 87f852b3a3abf6447aaeddfbdf5233fff6793629
 import App.Dto.InvoiceDto;
 import App.Dto.PartnerDto;
 import App.Dto.PersonDto;
@@ -22,6 +26,7 @@ import App.Model.Person;
 import java.util.List;
 
 public class InvoiceDao implements InvoiceDaoInterface {
+    InvoiceRepository invoiceRepository;
 
     InvoiceRepository invoiceRepository;
 
@@ -165,6 +170,7 @@ public class InvoiceDao implements InvoiceDaoInterface {
     }
 
     @Override
+<<<<<<< HEAD
     public void createInvoice(InvoiceDto invoiceDto) throws Exception {
         String query = "INSERT INTO INVOICE ( PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS ) VALUES ( ?, ?, ?, 0, ? )";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
@@ -175,9 +181,16 @@ public class InvoiceDao implements InvoiceDaoInterface {
 
         preparedStatement.execute();
         preparedStatement.close();
+=======
+    public void createInvoice( InvoiceDto invoiceDto ) throws Exception {
+        Invoice invoice = Helper.parse( invoiceDto );
+        invoice.setCreationDate( LocalDateTime.now().toString() );
+        invoiceRepository.save( invoice );
+>>>>>>> 87f852b3a3abf6447aaeddfbdf5233fff6793629
     }
 
     @Override
+<<<<<<< HEAD
     public void updateInvoiceAmount(InvoiceDto invoiceDto) throws Exception {
         String query = "UPDATE INVOICE SET AMOUNT = ? WHERE ID = ?";
         PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
@@ -206,6 +219,46 @@ public class InvoiceDao implements InvoiceDaoInterface {
         preparedStatement.setLong(2, invoiceDto.getId());
 
         preparedStatement.execute();
+=======
+    public void updateInvoiceAmount( InvoiceDto invoiceDto ) throws Exception {
+        Invoice invoice = Helper.parse( invoiceDto );
+        invoiceRepository.save( invoice );
+    }
+
+    @Override
+    public void deleteInvoice( InvoiceDto invoiceDto ) throws Exception {
+        Invoice invoice = Helper.parse( invoiceDto );
+        invoiceRepository.deleteById( invoice.getId() );
+    }
+
+    @Override
+    public void cancelInvoice( InvoiceDto invoiceDto ) throws Exception {
+        Invoice invoice = Helper.parse( invoiceDto );
+        invoice.setStatus("CANCELADA");
+        invoiceRepository.save( invoice );
+    }
+    
+    @Override
+    public ArrayList<InvoiceDto> listClubInvoices( ) throws Exception{
+        ArrayList<InvoiceDto> listInvoices = new ArrayList<InvoiceDto>();
+
+        String query = "SELECT ID, PERSONID, PARTNERID, CREATIONDATE, AMOUNT, STATUS FROM INVOICE ORDER BY CREATIONDATE DESC";
+        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
+        ResultSet resulSet = preparedStatement.executeQuery();
+
+        while (resulSet.next()) {
+            Invoice invoice = new Invoice();
+            invoice.setId( resulSet.getLong( "ID" ) );
+            invoice.setPersonId( resulSet.getLong( "PERSONID" ) );
+            invoice.setPartnerId( resulSet.getLong( "PARTNERID" ) );
+            invoice.setCreationDate( resulSet.getDate( "CREATIONDATE" ) );
+            invoice.setAmount( resulSet.getDouble( "AMOUNT" ) );
+            invoice.setStatus( resulSet.getString( "STATUS" ) );
+
+            listInvoices.add( Helper.parse(invoice) );
+        }
+        resulSet.close();
+>>>>>>> 87f852b3a3abf6447aaeddfbdf5233fff6793629
         preparedStatement.close();
     }
 
