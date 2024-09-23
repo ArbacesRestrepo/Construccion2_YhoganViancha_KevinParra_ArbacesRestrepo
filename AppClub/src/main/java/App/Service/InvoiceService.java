@@ -68,7 +68,6 @@ public class InvoiceService implements InvoiceServiceInterface {
         }
         
         this.invoiceDao.createInvoice( invoiceDto );
-        invoiceDto.setId( this.invoiceDao.lastInvoiceByPersonId( personDto ));
 
         InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
         invoiceDetailDto.setInvoiceId( invoiceDto.getId() );
@@ -108,7 +107,6 @@ public class InvoiceService implements InvoiceServiceInterface {
         invoiceDto.setPartnerId( Helper.parse( partnerDto ) );
         
         this.invoiceDao.createInvoice( invoiceDto );
-        invoiceDto.setId( this.invoiceDao.lastInvoiceByPersonId( personDto ));
 
         InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
         invoiceDetailDto.setInvoiceId( invoiceDto.getId() );
@@ -148,7 +146,6 @@ public class InvoiceService implements InvoiceServiceInterface {
         invoiceDto.setPartnerId( Helper.parse( partnerDto ) );
 
         this.invoiceDao.createInvoice( invoiceDto );
-        invoiceDto.setId( this.invoiceDao.lastInvoiceByPersonId( personDto ));
 
         InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
         invoiceDetailDto.setInvoiceId( invoiceDto.getId() );

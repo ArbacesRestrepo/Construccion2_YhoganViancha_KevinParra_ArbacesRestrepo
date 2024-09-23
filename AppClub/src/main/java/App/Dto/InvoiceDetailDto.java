@@ -16,7 +16,7 @@ public class InvoiceDetailDto implements InvoiceDetailDtoInterface{
     private long invoiceId;
     private int itemNumber;
     private String description;
-    private double itemValue;
+    private double amount;
 
     @Override
     public void getInvoiceDetailDescriptionDto() throws Exception {
@@ -30,7 +30,7 @@ public class InvoiceDetailDto implements InvoiceDetailDtoInterface{
     public void getInvoiceDetailAmountDto() throws Exception {
         System.out.println("Ingrese el monto del detalle");
         String invoiceDetailAmountDto = Utils.getReader().nextLine();
-        this.itemValue = this.invoiceDetailValidator.validAmount( invoiceDetailAmountDto ) ;
+        this.amount = this.invoiceDetailValidator.validAmount( invoiceDetailAmountDto ) ;
     }
     
     
@@ -66,12 +66,12 @@ public class InvoiceDetailDto implements InvoiceDetailDtoInterface{
         this.description = description;
     }
 
-    public double getItemValue() {
-        return itemValue;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setItemValue(double itemValue) {
-        this.itemValue = itemValue;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
     

@@ -123,7 +123,7 @@ public abstract class Helper {
         invoiceDetail.setInvoiceId( invoiceDetailDto.getInvoiceId() );
         invoiceDetail.setItemNumber( invoiceDetailDto.getItemNumber() );
         invoiceDetail.setDescription( invoiceDetailDto.getDescription() );
-        invoiceDetail.setItemValue( invoiceDetailDto.getItemValue() );
+        invoiceDetail.setAmount( invoiceDetailDto.getAmount() );
         return invoiceDetail;
     }
     
@@ -133,7 +133,7 @@ public abstract class Helper {
         invoiceDetailDto.setInvoiceId( invoiceDetail.getInvoiceId() );
         invoiceDetailDto.setItemNumber( invoiceDetail.getItemNumber() );
         invoiceDetailDto.setDescription( invoiceDetail.getDescription() );
-        invoiceDetailDto.setItemValue( invoiceDetail.getItemValue() );
+        invoiceDetailDto.setAmount( invoiceDetail.getAmount() );
         return invoiceDetailDto;
     }
 }

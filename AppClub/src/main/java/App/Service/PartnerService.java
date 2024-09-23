@@ -4,8 +4,14 @@ package App.Service;
  * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import App.Controllers.Utils;
 import App.Service.Intefaces.PartnerServiceInterface;
+import App.Helper.Helper;
 
 import App.Dao.PersonDao;
 import App.Dao.PartnerDao;
@@ -13,12 +19,9 @@ import App.Dao.InvoiceDao;
 import App.Dao.InvoiceDetailDao;
 import App.Dao.UserDao;
 import App.Dto.InvoiceDto;
-
 import App.Dto.PersonDto;
 import App.Dto.PartnerDto;
 import App.Dto.UserDto;
-import App.Helper.Helper;
-import java.util.ArrayList;
 
 public class PartnerService implements PartnerServiceInterface {
     private final PersonDao personDao = new PersonDao();
@@ -105,24 +108,23 @@ public class PartnerService implements PartnerServiceInterface {
         
         this.partnerDao.updateAmountPartner( partnerDtoLocale );
         
-        InvoiceDto invoiceDto = this.invoiceDao.firstActiveInvoice( partnerDtoDao );
+        ArrayList<InvoiceDto> listInvoice =  this.invoiceDao.listPartnerInvoices( partnerDtoLocale );
           
-       // List<InvoiceDto> filteredAndSorted = listInvoice.stream()
-         //       .filter(invoice -> "pendiente".equals(invoice.getStatus())) 
-            //    .sorted(Comparator.comparing(InvoiceDto::getCreatedDate)) 
-              //  .collect(Collectors.toList());
-        while ( invoiceDto != null){
+        List<InvoiceDto> filteredAndSorted = listInvoice.stream()
+                .filter(invoice -> "PENDIENTE".equals(invoice.getStatus())) 
+                .sorted(Comparator.comparing(InvoiceDto::getCreationDate)) 
+                .collect(Collectors.toList());
+        
+        for ( InvoiceDto invoiceDtoList : filteredAndSorted ) {
             partnerDtoDao = this.partnerDao.findByUserId( userDtoLocate );
-            if ( partnerDtoDao.getAmount() >= invoiceDto.getAmount() ){
-                this.invoiceDao.cancelInvoice( invoiceDto );
+            if ( partnerDtoDao.getAmount() >= invoiceDtoList.getAmount() ){
+                this.invoiceDao.cancelInvoice( invoiceDtoList );
 
-                partnerDtoDao.setAmount( partnerDtoDao.getAmount() - invoiceDto.getAmount() );
+                partnerDtoDao.setAmount( partnerDtoDao.getAmount() - invoiceDtoList.getAmount() );
                 this.partnerDao.updateAmountPartner( partnerDtoDao );
-
-                invoiceDto = this.invoiceDao.firstActiveInvoice( partnerDtoDao );
             }
             else {
-                invoiceDto = null;
+                break;
             }
         }
     }
@@ -152,11 +154,10 @@ public class PartnerService implements PartnerServiceInterface {
             throw new Exception( "No existe el socio");                            
         }
         
-        InvoiceDto invoiceDto = this.invoiceDao.firstInvoiceByPartnerId( partnerDto );
-        while ( invoiceDto != null ){
+        ArrayList<InvoiceDto> listInvoice =  this.invoiceDao.listPartnerInvoices( partnerDto );
+        for ( InvoiceDto invoiceDto : listInvoice ){
             this.invoiceDetailDao.deleteInvoiceDetail( invoiceDto );
-            this.invoiceDao.deleteInvoice( invoiceDto );
-            invoiceDto = this.invoiceDao.firstInvoiceByPartnerId( partnerDto );
+            this.invoiceDao.deleteInvoice( invoiceDto );            
         }
 
         this.partnerDao.deletePartner( partnerDto );
@@ -180,11 +181,10 @@ public class PartnerService implements PartnerServiceInterface {
             throw new Exception("No existe el socio");                            
         }
         
-        InvoiceDto invoiceDto = this.invoiceDao.firstInvoiceByPartnerId( partnerDto );
-        while ( invoiceDto != null ){
+        ArrayList<InvoiceDto> listInvoice =  this.invoiceDao.listPartnerInvoices( partnerDto );
+        for ( InvoiceDto invoiceDto : listInvoice ){
             this.invoiceDetailDao.deleteInvoiceDetail( invoiceDto );
-            this.invoiceDao.deleteInvoice( invoiceDto );
-            invoiceDto = this.invoiceDao.firstInvoiceByPartnerId( partnerDto );
+            this.invoiceDao.deleteInvoice( invoiceDto );            
         }
         
         this.partnerDao.deletePartner( partnerDto );

@@ -19,6 +19,7 @@ import App.Dto.GuestDto;
 import App.Dto.InvoiceDto;
 import App.Dto.PartnerDto;
 import App.Helper.Helper;
+import java.util.ArrayList;
 
 public class GuestService implements GuestServiceInterface {
     private final UserService userService = new UserService();
@@ -140,12 +141,12 @@ public class GuestService implements GuestServiceInterface {
         
         userDto.setRole( "SOCIO" );
         
-        InvoiceDto invoiceDto = this.invoiceDao.firstInvoiceByPersonId( personDtoLocale );
-        while ( invoiceDto != null ){
+        ArrayList<InvoiceDto> listInvoice =  this.invoiceDao.listPersonInvoices( personDtoLocale );
+        for ( InvoiceDto invoiceDto : listInvoice ){
             this.invoiceDetailDao.deleteInvoiceDetail( invoiceDto );
-            this.invoiceDao.deleteInvoice( invoiceDto );
-            invoiceDto = this.invoiceDao.firstInvoiceByPersonId( personDtoLocale );
+            this.invoiceDao.deleteInvoice( invoiceDto );            
         }
+
         this.guestDao.deleteGuest( guestDto );
         this.partnerDao.createPartner( partnerDto );
         this.userDao.updateRoleUser( userDto );
