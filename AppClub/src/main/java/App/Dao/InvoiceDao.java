@@ -3,13 +3,7 @@ package App.Dao;
 /**
  * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-import App.Config.MYSQLConnection;
-
 import App.Dao.Interfaces.InvoiceDaoInterface;
-import App.Dao.Repository.InvoiceRepository;
 import App.Dto.InvoiceDto;
 import App.Dto.PartnerDto;
 import App.Dto.PersonDto;

@@ -229,7 +229,8 @@ public class PartnerService implements PartnerServiceInterface {
             personDto = this.personDao.findByUserId( userDto );
             amountInvoice = this.invoiceDao.amountInvoicesByPartner( partnerDto );
             
-            System.out.println( "Autorizar promoción a: " + personDto.getName() + " fondos: " + partnerDto.getAmount() + " ingreso: " + partnerDto.getCreationDate() + " facturado: " + amountInvoice);
+            System.out.println( "Autorizar promoción a: " + personDto.getName() + " fondos: " 
+                    + partnerDto.getAmount() + " ingreso: " + partnerDto.getCreationDate() + " facturado: " + amountInvoice);
             System.out.println("1. Autoriza cambio a VIP. 2. Rechaza cambio");
             authorizeVIP = Utils.getReader().nextLine();
             if ( authorizeVIP.equals( "1" ) ){
