@@ -3,6 +3,7 @@ package App.Dao;
 /**
  * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
+<<<<<<< HEAD
 
 import java.util.ArrayList;
 import java.sql.Timestamp;
@@ -11,6 +12,12 @@ import java.util.List;
 
 import App.Dao.Interfaces.InvoiceDaoInterface;
 import App.Dao.Repository.InvoiceRepository;
+=======
+import App.Dao.Interfaces.InvoiceDaoInterface;
+import App.Dto.InvoiceDto;
+import App.Dto.PartnerDto;
+import App.Dto.PersonDto;
+>>>>>>> 71ea2ae44fe87477059beb360c14b33d973e3433
 import App.Helper.Helper;
 
 import App.Model.Partner;

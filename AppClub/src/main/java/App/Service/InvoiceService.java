@@ -120,6 +120,7 @@ public class InvoiceService implements InvoiceServiceInterface {
 
         invoiceDto.setPersonId( Helper.parse( personDto ) );
         invoiceDto.setPartnerId( Helper.parse( partnerDto ) );
+        invoiceDto.setStatus( "PENDIENTE" );
         
         this.invoiceDao.createInvoice( invoiceDto );
 
@@ -149,6 +150,8 @@ public class InvoiceService implements InvoiceServiceInterface {
             partnerDto.setAmount( partnerDto.getAmount() - invoiceDto.getAmount() );
             this.partnerDao.updateAmountPartner(partnerDto);
         }
+        
+        
     }
 
     @Override
@@ -202,7 +205,9 @@ public class InvoiceService implements InvoiceServiceInterface {
             PartnerDto partnerDto = this.partnerDao.findByPartnerId( invoiceDto );
             UserDto userDto = this.userDao.findByUserId( partnerDto );
             PersonDto personPartnerDto = this.personDao.findByUserId( userDto );
-            System.out.println( "Responsable: " + personDto.getName() + ", Socio; " + personPartnerDto.getName()  + ", Fecha: " + invoiceDto.getCreationDate() + ", Monto: " + invoiceDto.getAmount() + ", Estado: " + invoiceDto.getStatus() );
+            System.out.println( "Responsable: " + personDto.getName() + ", Socio; "
+                    + personPartnerDto.getName()  + ", Fecha: " + invoiceDto.getCreationDate() 
+                    + ", Monto: " + invoiceDto.getAmount() + ", Estado: " + invoiceDto.getStatus() );
         }        
     }
 
@@ -215,7 +220,9 @@ public class InvoiceService implements InvoiceServiceInterface {
         for ( int i=0; i < listInvoices.size(); i++){
                 InvoiceDto invoiceDto = listInvoices.get( i );
                 PersonDto personDto = this.personDao.findByPersonId( invoiceDto );
-                    System.out.println( "Responsable: " + personDto.getName()  + ", Fecha: " + invoiceDto.getCreationDate() + ", Monto: " + invoiceDto.getAmount() + ", Estado: " + invoiceDto.getStatus() );
+                    System.out.println( "Responsable: " + personDto.getName()  + ", Fecha: " 
+                            + invoiceDto.getCreationDate() + ", Monto: " + invoiceDto.getAmount() 
+                            + ", Estado: " + invoiceDto.getStatus() );
             
         }
     }
