@@ -12,7 +12,7 @@ public class PersonDto implements PersonDtoInterface{
     private long id;
     private long document;
     private String name;
-    private long cellPhone;
+    private long cellphone;
 
     private final PersonValidator personValidator = new PersonValidator();
     
@@ -28,7 +28,7 @@ public class PersonDto implements PersonDtoInterface{
     public void getPersonCellNumberDto() throws Exception {
         System.out.println("Ingrese el número de celular");
         String personCellNumberDto = Utils.getReader().nextLine();
-        this.cellPhone = personValidator.validCellPhone( personCellNumberDto );
+        this.cellphone = personValidator.validCellPhone( personCellNumberDto );
     }
 
     @Override
@@ -70,11 +70,11 @@ public class PersonDto implements PersonDtoInterface{
     }
 
     public long getCellPhone() {
-        return cellPhone;
+        return cellphone;
     }
 
-    public void setCellPhone(long cellPhone) {
-        this.cellPhone = cellPhone;
+    public void setCellPhone(long cellphone) {
+        this.cellphone = cellphone;
     }
 
 }

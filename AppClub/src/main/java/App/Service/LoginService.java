@@ -8,8 +8,18 @@ import App.Service.Intefaces.LoginServiceInterface;
 
 import App.Dao.UserDao;
 import App.Dto.UserDto;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Service
 public class LoginService implements LoginServiceInterface{
+    @Autowired
     private final UserDao userDao = new UserDao();
     
     public static UserDto user;

@@ -5,15 +5,29 @@ package App.Controllers;
  */
 
 import App.Service.LoginService;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Controller
 
 public class AdminController implements ControllerInterface{
     private static final String MENU = "Ingrese la opcion que desea \n 1. PERSONAS \n 2. USUARIOS \n 3. SOCIOS \n 4. INVITADOS \n 5. PROCESOS \n 9. Para cerrar sesion \n";
     
+    @Autowired
     public ControllerInterface adminPersonController = new AdminPersonController();
+    @Autowired
     public ControllerInterface adminUserController = new AdminUserController();
+    @Autowired
     public ControllerInterface adminPartnerController = new AdminPartnerController();
+    @Autowired
     public ControllerInterface adminGuestController = new AdminGuestController();
+    @Autowired
     public ControllerInterface adminProcessesController = new AdminProcessesController();
 
     @Override

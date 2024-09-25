@@ -4,130 +4,77 @@ package App.Dao;
  * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
-import App.Config.MYSQLConnection;
 import App.Dao.Interfaces.InvoiceDetailDaoInterface;
+import App.Dao.Repository.InvoiceDetailRepository;
 
 import App.Dto.InvoiceDto;
 import App.Dto.InvoiceDetailDto;
 import App.Model.InvoiceDetail;
 
 import App.Helper.Helper;
-import java.util.ArrayList;
+import App.Model.Invoice;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Service
 
 public class InvoiceDetailDao implements InvoiceDetailDaoInterface {
+    @Autowired
+    InvoiceDetailRepository invoiceDetailRepository;
 
     @Override
     public void createInvoiceDetail( InvoiceDetailDto invoiceDetailDto ) throws Exception {
-        String query = "INSERT INTO INVOICEDETAIL ( INVOICEID, ITEM, DESCRIPTION, AMOUNT ) VALUES ( ?, ?, ?, ? )";
-        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-        preparedStatement.setLong( 1, invoiceDetailDto.getInvoiceId() );
-        preparedStatement.setLong( 2, invoiceDetailDto.getItemNumber() );
-        preparedStatement.setString( 3, invoiceDetailDto.getDescription() );
-        preparedStatement.setDouble( 4, invoiceDetailDto.getItemValue() );
-        
-        preparedStatement.execute();
-        preparedStatement.close();                
+        InvoiceDetail invoiceDetail = Helper.parse( invoiceDetailDto );
+        this.invoiceDetailRepository.save( invoiceDetail );
     }
     
     @Override
     public void deleteInvoiceDetail( InvoiceDto invoiceDto ) throws Exception {
-        String query = "DELETE FROM INVOICEDETAIL WHERE INVOICEID = ?";
-        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-        preparedStatement.setLong( 1, invoiceDto.getId() );
-
-        preparedStatement.execute();
-        preparedStatement.close();                
-    }
-
-    @Override
-    public InvoiceDetailDto lastInvoiceDetails( InvoiceDetailDto invoiceDetailDto ) throws Exception {
-        String query = "SELECT ID, INVOICEID, ITEM, DESCRIPTION, AMOUNT FROM INVOICEDETAIL WHERE INVOICEID = ? AND ITEM > ? ";
-        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-        preparedStatement.setLong( 1, invoiceDetailDto.getInvoiceId() );
-        preparedStatement.setInt( 2, invoiceDetailDto.getItemNumber() );
-        ResultSet resulSet = preparedStatement.executeQuery();
-
-        if (resulSet.next()) {
-            InvoiceDetail invoiceDetail = new InvoiceDetail();
-            invoiceDetail.setId( resulSet.getLong( "ID" ) );
-            invoiceDetail.setInvoiceId( resulSet.getLong( "INVOICEID" ) );
-            invoiceDetail.setItemNumber( resulSet.getInt( "ITEM" ) );
-            invoiceDetail.setDescription( resulSet.getString( "DESCRIPTION" ) );
-            invoiceDetail.setItemValue( resulSet.getDouble( "AMOUNT" ) );
-
-            resulSet.close();
-            preparedStatement.close();
-            return Helper.parse(invoiceDetail);
-        }
-                
-        resulSet.close();
-        preparedStatement.close();        
-        return null;
+        Invoice invoice = Helper.parse( invoiceDto );
+        this.invoiceDetailRepository.deleteByInvoiceId( invoice );
     }
 
     @Override
     public double totalInvoiceDetails( InvoiceDto invoiceDto ) throws Exception {
-        String query = "SELECT SUM( AMOUNT ) AS AMOUNT FROM INVOICEDETAIL WHERE INVOICEID = ? ";
-        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-        preparedStatement.setLong( 1, invoiceDto.getId() );
-        ResultSet resulSet = preparedStatement.executeQuery();
+        Invoice invoice = Helper.parse( invoiceDto );
+        List<InvoiceDetail> invoiceDetailList = this.invoiceDetailRepository.findByInvoiceId( invoice );
+        double amount = 0;
 
-        if (resulSet.next()) {
-            double amount = resulSet.getDouble( "AMOUNT" );
-
-            resulSet.close();
-            preparedStatement.close();
-            return amount;
+        for ( InvoiceDetail invoiceDetail : invoiceDetailList ) {
+            amount += invoiceDetail.getAmount();
         }
-                
-        resulSet.close();
-        preparedStatement.close();        
-        return 0;
+        return amount;
     }
 
     @Override
     public int countInvoiceDetails( InvoiceDto invoiceDto ) throws Exception {
-        String query = "SELECT COUNT( ID ) AS COUNT FROM INVOICEDETAIL WHERE INVOICEID = ? ";
-        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-        preparedStatement.setLong( 1, invoiceDto.getId() );
-        ResultSet resulSet = preparedStatement.executeQuery();
-
-        if (resulSet.next()) {
-            int count = resulSet.getInt( "COUNT" );
-
-            resulSet.close();
-            preparedStatement.close();
-            return count + 1;
+        Invoice invoice = Helper.parse( invoiceDto );
+        List<InvoiceDetail> invoiceDetailList = this.invoiceDetailRepository.findByInvoiceId( invoice );
+        int count = 1;
+        
+        for ( InvoiceDetail invoiceDetail : invoiceDetailList ) {
+            count += 1;
         }
-                
-        resulSet.close();
-        preparedStatement.close();        
-        return 1;
+        return count;
     }
 
     @Override
     public ArrayList<InvoiceDetailDto> listInvoiceDetails( InvoiceDto invoiceDto ) throws Exception {
+        Invoice invoice = Helper.parse( invoiceDto );
         ArrayList<InvoiceDetailDto> listInvoiceDetails = new ArrayList<InvoiceDetailDto>();
-        String query = "SELECT ID, INVOICEID, ITEM, DESCRIPTION, AMOUNT FROM INVOICEDETAIL WHERE INVOICEID = ? ";
-        PreparedStatement preparedStatement = MYSQLConnection.getConnection().prepareStatement(query);
-        preparedStatement.setLong( 1, invoiceDto.getId() );
-        ResultSet resulSet = preparedStatement.executeQuery();
-        while ( resulSet.next() ) {
-            InvoiceDetail invoiceDetail = new InvoiceDetail();
-            invoiceDetail.setId( resulSet.getLong( "ID" ) );
-            invoiceDetail.setInvoiceId( resulSet.getLong( "INVOICEID" ) );
-            invoiceDetail.setItemNumber( resulSet.getInt( "ITEM" ) );
-            invoiceDetail.setDescription( resulSet.getString( "DESCRIPTION" ) );
-            invoiceDetail.setItemValue( resulSet.getDouble( "AMOUNT" ) );
-            
+        List<InvoiceDetail> invoiceDetailList = this.invoiceDetailRepository.findByInvoiceId( invoice );
+        for ( InvoiceDetail invoiceDetail : invoiceDetailList ) {
             listInvoiceDetails.add( Helper.parse( invoiceDetail ) );
         }
-        resulSet.close();
-        preparedStatement.close();
-        
         return listInvoiceDetails;
     }
     

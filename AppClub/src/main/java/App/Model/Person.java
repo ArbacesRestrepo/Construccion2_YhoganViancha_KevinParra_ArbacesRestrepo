@@ -10,8 +10,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name="person")
 public class Person {
     @Id
@@ -22,42 +28,7 @@ public class Person {
     private long document;
     @Column(name="name")
     private String name;
-    @Column(name="cellPhone")
-    private long cellPhone;
-
-    public Person() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public long getDocument() {
-        return document;
-    }
-
-    public void setDocument(long document) {
-        this.document = document;
-    }
-
-    public long getCellPhone() {
-        return cellPhone;
-    }
-
-    public void setCellPhone(long cellPhone) {
-        this.cellPhone = cellPhone;
-    }
+    @Column(name="cellphone")
+    private long cellphone;
 
 }

@@ -8,12 +8,13 @@ import App.Dto.Interfaces.InvoiceDetailDtoInterface;
 
 import App.Controllers.Utils;
 import App.Controllers.Validator.InvoiceDetailValidator;
+import App.Model.Invoice;
 
 public class InvoiceDetailDto implements InvoiceDetailDtoInterface{
     private final InvoiceDetailValidator invoiceDetailValidator = new InvoiceDetailValidator();
 
     private long id;
-    private long invoiceId;
+    private Invoice invoiceId;
     private int itemNumber;
     private String description;
     private double amount;
@@ -42,11 +43,11 @@ public class InvoiceDetailDto implements InvoiceDetailDtoInterface{
         this.id = id;
     }
 
-    public long getInvoiceId() {
+    public Invoice getInvoiceId() {
         return invoiceId;
     }
 
-    public void setInvoiceId(long invoiceId) {
+    public void setInvoiceId(Invoice invoiceId) {
         this.invoiceId = invoiceId;
     }
 

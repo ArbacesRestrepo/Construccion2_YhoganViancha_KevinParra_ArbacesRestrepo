@@ -1,14 +1,19 @@
 package App.Controllers.Validator;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
+
 /**
  * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Component
 public class PersonValidator extends CommonsValidator {	
-    public PersonValidator() {
-        super();
-    }
-
     public void validName(String personName) throws Exception{
         super.isValidString("el nombre de la persona ", personName);
     }

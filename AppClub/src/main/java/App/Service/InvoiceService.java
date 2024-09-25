@@ -20,13 +20,28 @@ import App.Dto.UserDto;
 import App.Helper.Helper;
 import App.Service.Intefaces.InvoiceServiceInterface;
 import java.util.ArrayList;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Service
 public class InvoiceService implements InvoiceServiceInterface {
+    @Autowired
     private final PersonDao personDao = new PersonDao();
+    @Autowired
     private final UserDao userDao = new UserDao();
+    @Autowired
     private final PartnerDao partnerDao = new PartnerDao();
+    @Autowired
     private final GuestDao guestDao = new GuestDao();
+    @Autowired
     private final InvoiceDao invoiceDao = new InvoiceDao();
+    @Autowired
     private final InvoiceDetailDao invoiceDetailDao = new InvoiceDetailDao();
 
     @Override
@@ -70,7 +85,7 @@ public class InvoiceService implements InvoiceServiceInterface {
         this.invoiceDao.createInvoice( invoiceDto );
 
         InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
-        invoiceDetailDto.setInvoiceId( invoiceDto.getId() );
+        invoiceDetailDto.setInvoiceId( Helper.parse( invoiceDto ) );
         
         boolean continueRead = true;
         while ( continueRead ){
@@ -109,7 +124,7 @@ public class InvoiceService implements InvoiceServiceInterface {
         this.invoiceDao.createInvoice( invoiceDto );
 
         InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
-        invoiceDetailDto.setInvoiceId( invoiceDto.getId() );
+        invoiceDetailDto.setInvoiceId( Helper.parse( invoiceDto ) );
         
         boolean continueRead = true;
         while ( continueRead ){
@@ -148,7 +163,7 @@ public class InvoiceService implements InvoiceServiceInterface {
         this.invoiceDao.createInvoice( invoiceDto );
 
         InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
-        invoiceDetailDto.setInvoiceId( invoiceDto.getId() );
+        invoiceDetailDto.setInvoiceId( Helper.parse( invoiceDto ) );
 
         boolean continueRead = true;
         while ( continueRead ){

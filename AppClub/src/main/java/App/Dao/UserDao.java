@@ -14,8 +14,19 @@ import App.Model.User;
 import App.Dto.UserDto;
 import App.Helper.Helper;
 import App.Model.Person;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Service
 
 public class UserDao implements UserDaoInteface {
+    @Autowired
     UserRepository userRepository;
 
     @Override

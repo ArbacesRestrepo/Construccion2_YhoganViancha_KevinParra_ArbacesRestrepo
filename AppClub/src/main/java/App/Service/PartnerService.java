@@ -22,12 +22,26 @@ import App.Dto.InvoiceDto;
 import App.Dto.PersonDto;
 import App.Dto.PartnerDto;
 import App.Dto.UserDto;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Service
 public class PartnerService implements PartnerServiceInterface {
+    @Autowired
     private final PersonDao personDao = new PersonDao();
+    @Autowired
     private final UserDao userDao = new UserDao();
+    @Autowired
     private final PartnerDao partnerDao = new PartnerDao();
+    @Autowired
     private final InvoiceDao invoiceDao = new InvoiceDao();
+    @Autowired
     private final InvoiceDetailDao invoiceDetailDao = new InvoiceDetailDao();
 
     @Override

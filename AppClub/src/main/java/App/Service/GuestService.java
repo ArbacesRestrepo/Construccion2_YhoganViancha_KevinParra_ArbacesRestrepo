@@ -20,14 +20,29 @@ import App.Dto.InvoiceDto;
 import App.Dto.PartnerDto;
 import App.Helper.Helper;
 import java.util.ArrayList;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Service
 public class GuestService implements GuestServiceInterface {
     private final UserService userService = new UserService();
+    @Autowired
     private final PersonDao personDao = new PersonDao();
+    @Autowired
     private final UserDao userDao = new UserDao();
+    @Autowired
     private final PartnerDao partnerDao = new PartnerDao();
+    @Autowired
     private final GuestDao guestDao = new GuestDao();
+    @Autowired
     private final InvoiceDao invoiceDao = new InvoiceDao();
+    @Autowired
     private final InvoiceDetailDao invoiceDetailDao = new InvoiceDetailDao();
 
     @Override

@@ -12,16 +12,29 @@ import App.Service.LoginService;
 import App.Service.UserService;
 import App.Service.GuestService;
 import App.Service.InvoiceService;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
-
+@Getter
+@Setter
+@NoArgsConstructor
+@Controller
 public class GuestController implements ControllerInterface{
     private static final String MENU = "Ingrese la opcion que desea \n 1. Solicitar consumo  \n 2. Cambio a SOCIO \n 3. Cambiar el PASSWORD \n 9. Para cerrar sesion \n";
-
+    
+    @Autowired
     private final PersonDao personDao = new PersonDao();
+    @Autowired
     private final GuestDao guestDao = new GuestDao();
     
+    @Autowired
     private final UserService userService = new UserService();
+    @Autowired
     private final InvoiceService invoiceService = new InvoiceService();
+    @Autowired
     private final GuestService guestService = new GuestService();
     
     

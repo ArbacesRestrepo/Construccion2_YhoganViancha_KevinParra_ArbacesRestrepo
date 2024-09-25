@@ -11,8 +11,18 @@ import App.Dao.Interfaces.PersonDaoInterface;
 import App.Dao.Repository.PersonRepository;
 import App.Dto.InvoiceDto;
 import App.Dto.UserDto;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Service
 public class PersonDao implements PersonDaoInterface {
+    @Autowired
     PersonRepository personRepository;
 
     @Override

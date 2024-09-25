@@ -9,8 +9,18 @@ import App.Dao.UserDao;
 import App.Dto.PersonDto;
 import App.Dto.UserDto;
 import App.Service.Intefaces.PersonServiceInterface;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Service
 public class PersonService implements PersonServiceInterface {
+    @Autowired
     private final PersonDao personDao = new PersonDao();
     
     @Override
