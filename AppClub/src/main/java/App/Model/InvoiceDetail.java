@@ -29,8 +29,8 @@ public class InvoiceDetail {
     @JoinColumn(name="invoiceid")
     @ManyToOne
     private Invoice invoiceId;
-    @Column(name="itemnumber")
-    private int itemNumber;
+    @Column(name="item")
+    private int item;
     @Column(name="description")
     private String description;
     @Column(name="amount")

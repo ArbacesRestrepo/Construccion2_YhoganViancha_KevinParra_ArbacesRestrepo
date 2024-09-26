@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 @NoArgsConstructor
 @Service
 public class UserService implements UserServiceInterface {
+    @Autowired
     private final PersonService personService = new PersonService();
 
     @Autowired

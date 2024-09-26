@@ -4,11 +4,17 @@ package App.Dto;
  * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 import App.Controllers.Utils;
 import App.Controllers.Validator.UserValidator;
 import App.Dto.Interfaces.UserDtoInterface;
 import App.Model.Person;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class UserDto implements UserDtoInterface {
     private long id;
     private Person personnId;
@@ -69,45 +75,5 @@ public class UserDto implements UserDtoInterface {
         String userPasswordDto = Utils.getReader().nextLine();
         this.userValidator.validPassword( userPasswordDto );
         this.password = userPasswordDto;        
-    }
-    
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Person getPersonnId() {
-        return personnId;
-    }
-
-    public void setPersonnId( Person personnId ) {
-        this.personnId = personnId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
+    }    
 }

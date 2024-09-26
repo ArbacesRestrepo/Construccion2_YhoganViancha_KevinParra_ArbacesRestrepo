@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 @NoArgsConstructor
 @Service
 public class GuestService implements GuestServiceInterface {
+    @Autowired
     private final UserService userService = new UserService();
     @Autowired
     private final PersonDao personDao = new PersonDao();
@@ -76,21 +77,21 @@ public class GuestService implements GuestServiceInterface {
     
     @Override
     public void createGuest( UserDto userDto ) throws Exception {
+        UserDto userDtoLocate = this.userService.createUserGuest();
+
+        if ( userDtoLocate == null ) {
+            throw new Exception("No se encontró ningún usuario");            
+        }
         PartnerDto partnerDto = this.partnerDao.findByUserId( userDto );
 
         GuestDto guestDto = new GuestDto();
-        guestDto.setUserId( Helper.parse( userDto ) );
+        guestDto.setUserId( Helper.parse( userDtoLocate ) );
         guestDto.setPartnerId( Helper.parse( partnerDto ) );
         guestDto.setStatus( "ACTIVO" );
         
         this.guestDao.createGuest( guestDto );
     }
     
-    @Override
-    public void updateGuest( ) throws Exception {
-        
-    }
-
     @Override
     public void deleteGuest( ) throws Exception {
         PersonDto personDtoLocale = new PersonDto();

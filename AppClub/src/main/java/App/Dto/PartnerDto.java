@@ -4,14 +4,19 @@ package App.Dto;
  * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
-import java.sql.Date;
-
+import java.sql.Timestamp;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 import App.Controllers.Utils;
 import App.Dto.Interfaces.PartnerDtoInterface;
 
 import App.Controllers.Validator.PartnerValidator;
 import App.Model.User;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class PartnerDto implements PartnerDtoInterface{
     private final PartnerValidator partnerValidator = new PartnerValidator();
 
@@ -19,7 +24,7 @@ public class PartnerDto implements PartnerDtoInterface{
     private User userId;
     private double amount;
     private String type;
-    private Date creationDate;
+    private Timestamp creationDate;
 
     @Override
     public void getPartnerTypeDto() throws Exception {
@@ -68,46 +73,5 @@ public class PartnerDto implements PartnerDtoInterface{
         System.out.println("Ingrese el monto a AUMENTAR la inversión");
         String partnerAmountDto = Utils.getReader().nextLine();
         this.amount = partnerValidator.validAmount( partnerAmountDto );
-    }
-    
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public User getUserId() {
-        return userId;
-    }
-
-    public void setUserId(User userId) {
-        this.userId = userId;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-    
+    }    
 }

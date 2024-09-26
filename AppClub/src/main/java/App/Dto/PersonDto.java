@@ -4,10 +4,16 @@ package App.Dto;
  * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 import App.Controllers.Utils;
 import App.Controllers.Validator.PersonValidator;
 import App.Dto.Interfaces.PersonDtoInterface;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class PersonDto implements PersonDtoInterface{
     private long id;
     private long document;
@@ -44,37 +50,4 @@ public class PersonDto implements PersonDtoInterface{
         String personDocumentDto = Utils.getReader().nextLine();
         this.document = personValidator.validDocument( personDocumentDto );
     }
-    
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public long getDocument() {
-        return document;
-    }
-
-    public void setDocument(long document) {
-        this.document = document;
-    }
-
-    public long getCellPhone() {
-        return cellphone;
-    }
-
-    public void setCellPhone(long cellphone) {
-        this.cellphone = cellphone;
-    }
-
 }

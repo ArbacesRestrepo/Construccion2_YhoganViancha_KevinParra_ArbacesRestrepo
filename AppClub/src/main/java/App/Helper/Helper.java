@@ -4,13 +4,6 @@ package App.Helper;
  * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
-import App.Dto.PersonDto;
-import App.Dto.UserDto;
-import App.Dto.PartnerDto;
-import App.Dto.GuestDto;
-import App.Dto.InvoiceDto;
-import App.Dto.InvoiceDetailDto;
-
 import App.Model.Person;
 import App.Model.User;
 import App.Model.Partner;
@@ -18,26 +11,42 @@ import App.Model.Guest;
 import App.Model.Invoice;
 import App.Model.InvoiceDetail;
 
+import App.Dto.PersonDto;
+import App.Dto.UserDto;
+import App.Dto.PartnerDto;
+import App.Dto.GuestDto;
+import App.Dto.InvoiceDto;
+import App.Dto.InvoiceDetailDto;
+
 public abstract class Helper {
     public static PersonDto parse(Person person) {
+        if ( person == null ){
+            return null;
+        }
         PersonDto personDto = new PersonDto();
         personDto.setId( person.getId() );
         personDto.setDocument( person.getDocument() );
         personDto.setName( person.getName() );
-        personDto.setCellPhone( person.getCellphone());
+        personDto.setCellphone( person.getCellphone());
         return personDto;
     }
 
     public static Person parse(PersonDto personDto) {
+        if ( personDto == null ){
+            return null;
+        }
         Person person = new Person();
         person.setId( personDto.getId());
         person.setDocument(personDto.getDocument());
         person.setName( personDto.getName());
-        person.setCellphone( personDto.getCellPhone());
+        person.setCellphone( personDto.getCellphone() );
         return person;
     }
     
     public static UserDto parse(User user) {
+        if ( user == null ){
+            return null;
+        }
         UserDto userDto = new UserDto();
         userDto.setId(user.getId() );
         userDto.setPassword( user.getPassword() );
@@ -48,6 +57,9 @@ public abstract class Helper {
     }
 
     public static User parse(UserDto userDto) {
+        if ( userDto == null ){
+            return null;
+        }
         User user = new User();
         user.setId( userDto.getId() );
         user.setPassword(userDto.getPassword() );
@@ -58,6 +70,9 @@ public abstract class Helper {
     }
     
     public static Partner parse( PartnerDto partnerDto) {
+        if ( partnerDto == null ){
+            return null;
+        }
         Partner partner = new Partner();
         partner.setId( partnerDto.getId() );
         partner.setUserId( partnerDto.getUserId() );
@@ -68,6 +83,9 @@ public abstract class Helper {
     }
     
     public static PartnerDto parse( Partner partner ){
+        if ( partner == null ){
+            return null;
+        }
         PartnerDto partnerDto = new PartnerDto();
         partnerDto.setId( partner.getId() );
         partnerDto.setUserId( partner.getUserId() );
@@ -78,6 +96,9 @@ public abstract class Helper {
     }
 
     public static Guest parse( GuestDto GuestDto ) {
+        if ( GuestDto == null ){
+            return null;
+        }
         Guest guest = new Guest();
         guest.setId( GuestDto.getId() );
         guest.setUserId( GuestDto.getUserId() );
@@ -87,6 +108,9 @@ public abstract class Helper {
     }
     
     public static GuestDto parse( Guest guest ){
+        if ( guest == null ){
+            return null;
+        }
         GuestDto guestDto = new GuestDto();
         guestDto.setId( guest.getId() );
         guestDto.setUserId( guest.getUserId() );
@@ -96,6 +120,9 @@ public abstract class Helper {
     }
 
     public static Invoice parse( InvoiceDto invoiceDto ) {
+        if ( invoiceDto == null ){
+            return null;
+        }
         Invoice invoice = new Invoice();
         invoice.setId( invoiceDto.getId() );
         invoice.setPersonId( invoiceDto.getPersonId() );
@@ -107,6 +134,9 @@ public abstract class Helper {
     }
     
     public static InvoiceDto parse( Invoice invoice ){
+        if ( invoice == null ){
+            return null;
+        }
         InvoiceDto invoiceDto = new InvoiceDto();
         invoiceDto.setId( invoice.getId() );
         invoiceDto.setPersonId( invoice.getPersonId() );
@@ -118,20 +148,26 @@ public abstract class Helper {
     }
 
     public static InvoiceDetail parse( InvoiceDetailDto invoiceDetailDto ) {
+        if ( invoiceDetailDto == null ){
+            return null;
+        }
         InvoiceDetail invoiceDetail = new InvoiceDetail();
         invoiceDetail.setId( invoiceDetailDto.getId() );
         invoiceDetail.setInvoiceId( invoiceDetailDto.getInvoiceId() );
-        invoiceDetail.setItemNumber( invoiceDetailDto.getItemNumber() );
+        invoiceDetail.setItem( invoiceDetailDto.getItem() );
         invoiceDetail.setDescription( invoiceDetailDto.getDescription() );
         invoiceDetail.setAmount( invoiceDetailDto.getAmount() );
         return invoiceDetail;
     }
     
     public static InvoiceDetailDto parse( InvoiceDetail invoiceDetail ){
+        if ( invoiceDetail == null ){
+            return null;
+        }
         InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
         invoiceDetailDto.setId( invoiceDetail.getId() );
         invoiceDetailDto.setInvoiceId( invoiceDetail.getInvoiceId() );
-        invoiceDetailDto.setItemNumber( invoiceDetail.getItemNumber() );
+        invoiceDetailDto.setItem( invoiceDetail.getItem() );
         invoiceDetailDto.setDescription( invoiceDetail.getDescription() );
         invoiceDetailDto.setAmount( invoiceDetail.getAmount() );
         return invoiceDetailDto;

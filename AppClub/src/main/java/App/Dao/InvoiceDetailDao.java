@@ -40,7 +40,7 @@ public class InvoiceDetailDao implements InvoiceDetailDaoInterface {
     @Override
     public void deleteInvoiceDetail( InvoiceDto invoiceDto ) throws Exception {
         Invoice invoice = Helper.parse( invoiceDto );
-        this.invoiceDetailRepository.deleteByInvoiceId( invoice );
+        this.invoiceDetailRepository.deleteInvoiceDetailByInvoiceId( invoice );
     }
 
     @Override

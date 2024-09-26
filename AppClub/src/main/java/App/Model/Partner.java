@@ -12,7 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.sql.Date;
+import java.sql.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name="user")
+@Table(name="partner")
 public class Partner {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -35,6 +35,6 @@ public class Partner {
     @Column(name="type")
     private String type;
     @Column(name="creationdate")
-    private Date creationDate;
+    private Timestamp creationDate;
     
 }

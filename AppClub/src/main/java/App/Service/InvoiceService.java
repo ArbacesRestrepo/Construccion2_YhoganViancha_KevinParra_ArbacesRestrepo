@@ -91,7 +91,7 @@ public class InvoiceService implements InvoiceServiceInterface {
         while ( continueRead ){
             invoiceDetailDto.getDescription();
             invoiceDetailDto.getInvoiceDetailAmountDto();
-            invoiceDetailDto.setItemNumber( this.invoiceDetailDao.countInvoiceDetails( invoiceDto ) );
+            invoiceDetailDto.setItem( this.invoiceDetailDao.countInvoiceDetails( invoiceDto ) );
             this.invoiceDetailDao.createInvoiceDetail( invoiceDetailDto );
             
             System.out.println("1. Para más detalles");
@@ -131,7 +131,7 @@ public class InvoiceService implements InvoiceServiceInterface {
         while ( continueRead ){
             invoiceDetailDto.getInvoiceDetailDescriptionDto();
             invoiceDetailDto.getInvoiceDetailAmountDto();
-            invoiceDetailDto.setItemNumber( this.invoiceDetailDao.countInvoiceDetails( invoiceDto ) );
+            invoiceDetailDto.setItem( this.invoiceDetailDao.countInvoiceDetails( invoiceDto ) );
             this.invoiceDetailDao.createInvoiceDetail( invoiceDetailDto );
             
             System.out.println("1. Para más detalles");
@@ -162,6 +162,7 @@ public class InvoiceService implements InvoiceServiceInterface {
         PartnerDto partnerDto = this.partnerDao.findByGuestPartnerId( guestDto );
         invoiceDto.setPersonId( Helper.parse( personDto ) );
         invoiceDto.setPartnerId( Helper.parse( partnerDto ) );
+        invoiceDto.setStatus( "PENDIENTE" );
 
         this.invoiceDao.createInvoice( invoiceDto );
 
@@ -172,7 +173,7 @@ public class InvoiceService implements InvoiceServiceInterface {
         while ( continueRead ){
             invoiceDetailDto.getInvoiceDetailDescriptionDto();
             invoiceDetailDto.getInvoiceDetailAmountDto();
-            invoiceDetailDto.setItemNumber( this.invoiceDetailDao.countInvoiceDetails( invoiceDto ) );
+            invoiceDetailDto.setItem( this.invoiceDetailDao.countInvoiceDetails( invoiceDto ) );
             this.invoiceDetailDao.createInvoiceDetail( invoiceDetailDto );
             
             System.out.println("1. Para más detalles");

@@ -3,21 +3,13 @@ package App.Dao;
 /**
  * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
-<<<<<<< HEAD
-
 import java.util.ArrayList;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import App.Dao.Interfaces.InvoiceDaoInterface;
 import App.Dao.Repository.InvoiceRepository;
-=======
 import App.Dao.Interfaces.InvoiceDaoInterface;
-import App.Dto.InvoiceDto;
-import App.Dto.PartnerDto;
-import App.Dto.PersonDto;
->>>>>>> 71ea2ae44fe87477059beb360c14b33d973e3433
 import App.Helper.Helper;
 
 import App.Model.Partner;
@@ -45,7 +37,7 @@ public class InvoiceDao implements InvoiceDaoInterface {
     @Override
     public double amountActiveInvoices(PersonDto personDto) throws Exception {
         Person person = Helper.parse( personDto );
-        List<Invoice> invoiceList = (List<Invoice>) invoiceRepository.findByPersonId(person);
+        List<Invoice> invoiceList = (List<Invoice>) this.invoiceRepository.findByPersonId(person);
         double amount = 0;
         for (Invoice invoice : invoiceList) {
             if(invoice.getStatus().equals("PENDIENTE")){
@@ -58,7 +50,7 @@ public class InvoiceDao implements InvoiceDaoInterface {
     @Override
     public double amountInvoicesByPartner(PartnerDto partnerDto) throws Exception {
         Partner partner = Helper.parse(partnerDto);
-        List<Invoice> invoiceList = invoiceRepository.findByPartnerId( partner );
+        List<Invoice> invoiceList = this.invoiceRepository.findByPartnerId( partner );
         double amount = 0;
         for (Invoice invoice : invoiceList) {
             if(invoice.getStatus().equals("PENDIENTE")){
@@ -72,33 +64,34 @@ public class InvoiceDao implements InvoiceDaoInterface {
     public void createInvoice( InvoiceDto invoiceDto ) throws Exception {
         Invoice invoice = Helper.parse( invoiceDto );
         invoice.setCreationDate( Timestamp.valueOf( LocalDateTime.now() ) );
-        invoiceRepository.save( invoice );
+        this.invoiceRepository.save( invoice );
         invoiceDto.setId( invoice.getId() );
+        invoiceDto.setCreationDate( invoice.getCreationDate() );
     }
 
     @Override
     public void updateInvoiceAmount( InvoiceDto invoiceDto ) throws Exception {
         Invoice invoice = Helper.parse( invoiceDto );
-        invoiceRepository.save( invoice );
+        this.invoiceRepository.save( invoice );
     }
 
     @Override
     public void deleteInvoice( InvoiceDto invoiceDto ) throws Exception {
         Invoice invoice = Helper.parse( invoiceDto );
-        invoiceRepository.deleteById( invoice.getId() );
+        this.invoiceRepository.deleteById( invoice.getId() );
     }
 
     @Override
     public void cancelInvoice( InvoiceDto invoiceDto ) throws Exception {
         Invoice invoice = Helper.parse( invoiceDto );
         invoice.setStatus("CANCELADA");
-        invoiceRepository.save( invoice );
+        this.invoiceRepository.save( invoice );
     }
     
     @Override
     public ArrayList<InvoiceDto> listClubInvoices() throws Exception {
         ArrayList<InvoiceDto> listInvoices = new ArrayList<InvoiceDto>();
-        List<Invoice> invoiceList = invoiceRepository.findAll();
+        List<Invoice> invoiceList = this.invoiceRepository.findAll();
         for (Invoice invoice : invoiceList) {
             listInvoices.add(Helper.parse(invoice));
         }
@@ -109,7 +102,7 @@ public class InvoiceDao implements InvoiceDaoInterface {
     public ArrayList<InvoiceDto> listPartnerInvoices(PartnerDto partnerDto) throws Exception {
         ArrayList<InvoiceDto> listInvoices = new ArrayList<InvoiceDto>();
         Partner partner = Helper.parse(partnerDto);
-        List<Invoice> invoiceList = invoiceRepository.findByPartnerId( partner );
+        List<Invoice> invoiceList = this.invoiceRepository.findByPartnerId( partner );
         for (Invoice invoice : invoiceList) {
             listInvoices.add(Helper.parse(invoice));
         }
@@ -120,7 +113,7 @@ public class InvoiceDao implements InvoiceDaoInterface {
     public ArrayList<InvoiceDto> listPersonInvoices(PersonDto personDto) throws Exception {
         ArrayList<InvoiceDto> listInvoices = new ArrayList<InvoiceDto>();
         Person person = Helper.parse(personDto);
-        List<Invoice> invoiceList = invoiceRepository.findByPersonId( person );
+        List<Invoice> invoiceList = this.invoiceRepository.findByPersonId( person );
         for (Invoice invoice : invoiceList) {
             listInvoices.add(Helper.parse(invoice));
         }

@@ -32,7 +32,7 @@ public class AdminPersonController implements ControllerInterface{
 
     private boolean menu() {
         try {
-            System.out.println("bienvenido " + LoginService.user.getUserName());
+            System.out.println("Bienvenido " + LoginService.user.getUserName());
             System.out.print(MENU);
             String option = Utils.getReader().nextLine();
             return options(option);

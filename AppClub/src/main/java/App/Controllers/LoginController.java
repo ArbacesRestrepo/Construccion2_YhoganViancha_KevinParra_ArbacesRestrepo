@@ -10,7 +10,6 @@ import App.Service.LoginService;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Controller;
 @Getter
 @Controller
 public class LoginController implements ControllerInterface {
-    private static final String MENU = "ingrese la opcion que desea: \n 1. para iniciar sesion. \n 2. para detener la ejecucion.";
+    private static final String MENU = "ingrese la opcion que desea: \n 1. para iniciar sesion. \n 9. para detener la ejecucion.";
     @Autowired
     private UserValidator userValidator;
     @Autowired
@@ -58,7 +57,7 @@ public class LoginController implements ControllerInterface {
                 this.login();
                 return true;
             }
-            case "2": {
+            case "9": {
                 System.out.println("se detiene el programa");;
                 return false;
             }

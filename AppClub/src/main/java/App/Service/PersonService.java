@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 public class PersonService implements PersonServiceInterface {
     @Autowired
     private final PersonDao personDao = new PersonDao();
+    @Autowired
+    private final UserDao userDao = new UserDao();
     
     @Override
     public PersonDto createPerson( ) throws Exception {
@@ -49,10 +51,11 @@ public class PersonService implements PersonServiceInterface {
         PersonDto personDto = new PersonDto();
         personDto.getPersonDocumentDto();
         
-        if ( this.personDao.existsByDocument( personDto ) ) {
+        if ( !this.personDao.existsByDocument( personDto ) ) {
             throw new Exception( "No se encentra el número identificación");
         }
         
+        personDto = this.personDao.findByDocument( personDto );
         personDto.getPersonCellNumberDto();
         
         this.personDao.updatePerson( personDto );
@@ -66,13 +69,12 @@ public class PersonService implements PersonServiceInterface {
         PersonDto personDto = new PersonDto();
         personDto.getPersonDocumentDto();
         
-        if ( this.personDao.existsByDocument( personDto ) ) {
+        if ( !this.personDao.existsByDocument( personDto ) ) {
             throw new Exception( "No se encentra el número identificación");
         }
         personDto = this.personDao.findByDocument( personDto );
                 
-        UserDao userDao = new UserDao();
-        UserDto userDto = userDao.findByPersonId( personDto );
+        UserDto userDto = this.userDao.findByPersonId( personDto );
         if ( userDto != null ){
             throw new Exception("La persona tiene usuario" );
         }

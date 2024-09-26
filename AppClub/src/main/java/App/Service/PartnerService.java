@@ -165,7 +165,11 @@ public class PartnerService implements PartnerServiceInterface {
         PartnerDto partnerDto = this.partnerDao.findByUserId( userDtoLocate );
         
         if ( partnerDto == null ){
-            throw new Exception( "No existe el socio");                            
+            throw new Exception( "No existe el socio");
+        }
+        
+        if ( partnerDto.getAmount() > 0 ){
+            throw new Exception( "El socio tiene INVERSION disponible");
         }
         
         ArrayList<InvoiceDto> listInvoice =  this.invoiceDao.listPartnerInvoices( partnerDto );
@@ -175,8 +179,8 @@ public class PartnerService implements PartnerServiceInterface {
         }
 
         this.partnerDao.deletePartner( partnerDto );
-    }    
-
+    }
+    
     @Override
     public void deletePartner( UserDto userDto ) throws Exception {
         PersonDto personDtoLocale = this.personDao.findByUserId( userDto );
@@ -193,6 +197,10 @@ public class PartnerService implements PartnerServiceInterface {
         
         if ( partnerDto == null ){
             throw new Exception("No existe el socio");                            
+        }
+
+        if ( partnerDto.getAmount() > 0 ){
+            throw new Exception( "El socio tiene INVERSION disponible");
         }
         
         ArrayList<InvoiceDto> listInvoice =  this.invoiceDao.listPartnerInvoices( partnerDto );
@@ -225,38 +233,35 @@ public class PartnerService implements PartnerServiceInterface {
 
         ArrayList<PartnerDto> listPartners = this.partnerDao.listPartnerRequestVIP();
         PersonDto personDto;
-        PartnerDto partnerDto;
         UserDto userDto;
         double amountInvoice;
-        for ( int i=0; i < listPartners.size(); i++ ){
-            partnerDto = listPartners.get(i);
-            userDto = this.userDao.findByUserId( partnerDto );
+        for ( PartnerDto partners : listPartners ){
+            userDto = this.userDao.findByUserId( partners );
             personDto = this.personDao.findByUserId( userDto );
-            amountInvoice = this.invoiceDao.amountInvoicesByPartner( partnerDto );
-            System.out.println( personDto.getName() + " fondos: " + partnerDto.getAmount() + " ingreso: " + partnerDto.getCreationDate() + " facturado: " + amountInvoice);
+            amountInvoice = this.invoiceDao.amountInvoicesByPartner( partners );
+            System.out.println( personDto.getName() + " fondos: " + partners.getAmount() + " ingreso: " + partners.getCreationDate() + " facturado: " + amountInvoice);
         }
         
         String authorizeVIP ;
-        for ( int i=0; i < listPartners.size(); i++ ){
-            partnerDto = listPartners.get(i);
-            userDto = this.userDao.findByUserId( partnerDto );
+        for ( PartnerDto partners : listPartners ){
+            userDto = this.userDao.findByUserId( partners );
             personDto = this.personDao.findByUserId( userDto );
-            amountInvoice = this.invoiceDao.amountInvoicesByPartner( partnerDto );
+            amountInvoice = this.invoiceDao.amountInvoicesByPartner( partners );
             
             System.out.println( "Autorizar promoción a: " + personDto.getName() + " fondos: " 
-                    + partnerDto.getAmount() + " ingreso: " + partnerDto.getCreationDate() + " facturado: " + amountInvoice);
+                    + partners.getAmount() + " ingreso: " + partners.getCreationDate() + " facturado: " + amountInvoice);
             System.out.println("1. Autoriza cambio a VIP. 2. Rechaza cambio");
             authorizeVIP = Utils.getReader().nextLine();
             if ( authorizeVIP.equals( "1" ) ){
-                partnerDto.setType( "VIP" );
+                partners.setType( "VIP" );
             }
             else{
-                partnerDto.setType( "REGULAR" );
+                partners.setType( "REGULAR" );
             }
-            this.partnerDao.updateTypePartner( partnerDto );
+            this.partnerDao.updateTypePartner( partners );
             numberVIP = this.partnerDao.numberPartnersVIP();
             if ( numberVIP >= 5 ){
-                i = listPartners.size() + 1;
+                break;
             }            
         }        
     }

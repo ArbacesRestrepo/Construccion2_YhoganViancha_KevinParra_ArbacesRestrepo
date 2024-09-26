@@ -26,40 +26,41 @@ public class PersonDao implements PersonDaoInterface {
     PersonRepository personRepository;
 
     @Override
-    public boolean existsByDocument(PersonDto personDto) throws Exception {
-        return personRepository.existsByDocument( personDto.getDocument() );
+    public boolean existsByDocument( PersonDto personDto ) throws Exception {
+        Person person = Helper.parse( personDto );
+        return this.personRepository.existsByDocument( person.getDocument() );
     }
 
     @Override
     public void createPerson(PersonDto personDto) throws Exception {
         Person person = Helper.parse(personDto);
-        personRepository.save( person );
+        this.personRepository.save( person );
     }
 
     @Override
     public void deletePerson(PersonDto personDto) throws Exception {
         Person person = Helper.parse(personDto);
-        personRepository.deleteById( person.getId() );
+        this.personRepository.deleteById( person.getId() );
     }
 
     @Override
     public PersonDto findByDocument( PersonDto personDto ) throws Exception {
-        return Helper.parse( personRepository.findByDocument( personDto.getDocument() ) );
+        return Helper.parse( this.personRepository.findByDocument( personDto.getDocument() ) );
     }
 
     @Override
     public PersonDto findByUserId( UserDto userDto ) throws Exception {
-        return Helper.parse( personRepository.findById( userDto.getPersonnId().getId() ) );
+        return Helper.parse( this.personRepository.findById( userDto.getPersonnId().getId() ) );
     }
 
     @Override
     public PersonDto findByPersonId( InvoiceDto invoiceDto ) throws Exception {
-        return Helper.parse( personRepository.findById( invoiceDto.getPersonId().getId() ) );
+        return Helper.parse( this.personRepository.findById( invoiceDto.getPersonId().getId() ) );
     }
 
     @Override
     public void updatePerson(PersonDto personDto) throws Exception {
-        Person person = Helper.parse(personDto);
-        personRepository.save( person );
+        Person person = Helper.parse( personDto );
+        this.personRepository.save( person );
     }
 }
