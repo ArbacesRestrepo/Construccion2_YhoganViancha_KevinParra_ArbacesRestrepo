@@ -81,7 +81,7 @@ public class PartnerController implements ControllerInterface{
             }
             case "5": {
                 PartnerDto partnerDto = this.partnerDao.findByUserId( LoginService.user );
-                this.partnerService.updateTypePartner( partnerDto );
+                this.partnerService.updatePartnerType( partnerDto );
                 return true;
             }
             case "6": {
@@ -93,7 +93,7 @@ public class PartnerController implements ControllerInterface{
                 return false;
             }
             default: {
-                System.out.println("ingrese una opcion valida");
+                System.out.println("Ingrese una opcion valida");
                 return true;
             }
         }

@@ -172,11 +172,11 @@ public class PartnerService implements PartnerServiceInterface {
             throw new Exception( "El socio tiene INVERSION disponible");
         }
         
-        ArrayList<InvoiceDto> listInvoice =  this.invoiceDao.listPartnerInvoices( partnerDto );
-        for ( InvoiceDto invoiceDto : listInvoice ){
-            this.invoiceDetailDao.deleteInvoiceDetail( invoiceDto );
-            this.invoiceDao.deleteInvoice( invoiceDto );            
-        }
+//        ArrayList<InvoiceDto> listInvoice =  this.invoiceDao.listPartnerInvoices( partnerDto );
+//        for ( InvoiceDto invoiceDto : listInvoice ){
+//            this.invoiceDetailDao.deleteInvoiceDetail( invoiceDto );
+//            this.invoiceDao.deleteInvoice( invoiceDto );            
+//        }
 
         this.partnerDao.deletePartner( partnerDto );
     }
@@ -213,7 +213,7 @@ public class PartnerService implements PartnerServiceInterface {
     }    
 
     @Override
-    public void updateTypePartner( PartnerDto partnerDto ) throws Exception {
+    public void updatePartnerType( PartnerDto partnerDto ) throws Exception {
         partnerDto.setType( "PIDE CAMBIO A VIP" );
         this.partnerDao.updateTypePartner( partnerDto );
     }

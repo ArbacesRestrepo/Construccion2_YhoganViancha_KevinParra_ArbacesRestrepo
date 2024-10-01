@@ -20,6 +20,9 @@ import App.Dto.UserDto;
 import App.Helper.Helper;
 import App.Service.Intefaces.InvoiceServiceInterface;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -150,8 +153,6 @@ public class InvoiceService implements InvoiceServiceInterface {
             partnerDto.setAmount( partnerDto.getAmount() - invoiceDto.getAmount() );
             this.partnerDao.updateAmountPartner(partnerDto);
         }
-        
-        
     }
 
     @Override
@@ -200,15 +201,20 @@ public class InvoiceService implements InvoiceServiceInterface {
         if ( listInvoices.isEmpty() ){
             throw new Exception( "No hay historial de facturación" );
         }
-        for ( int i=0; i < listInvoices.size(); i++){
-            InvoiceDto invoiceDto = listInvoices.get( i );
-            PersonDto personDto = this.personDao.findByPersonId( invoiceDto );
-            PartnerDto partnerDto = this.partnerDao.findByPartnerId( invoiceDto );
+        List<InvoiceDto> filteredAndSorted = listInvoices.stream()
+                .sorted(Comparator.comparing(InvoiceDto::getCreationDate)) 
+                .collect(Collectors.toList());
+
+        for ( InvoiceDto invoices : filteredAndSorted ){
+            PersonDto personDto = this.personDao.findByPersonId( invoices );
+            PartnerDto partnerDto = this.partnerDao.findByPartnerId( invoices );
             UserDto userDto = this.userDao.findByUserId( partnerDto );
             PersonDto personPartnerDto = this.personDao.findByUserId( userDto );
-            System.out.println( "Responsable: " + personDto.getName() + ", Socio; "
-                    + personPartnerDto.getName()  + ", Fecha: " + invoiceDto.getCreationDate() 
-                    + ", Monto: " + invoiceDto.getAmount() + ", Estado: " + invoiceDto.getStatus() );
+            System.out.println( "Responsable: " + personDto.getName()
+                    + ", Socio: " + personPartnerDto.getName()
+                    + ", Fecha: " + invoices.getCreationDate()
+                    + ", Monto: " + invoices.getAmount()
+                    + ", Estado: " + invoices.getStatus() );
         }        
     }
 
@@ -218,13 +224,16 @@ public class InvoiceService implements InvoiceServiceInterface {
         if ( listInvoices.isEmpty() ){
             throw new Exception( "No hay historial de facturación" );
         }
-        for ( int i=0; i < listInvoices.size(); i++){
-                InvoiceDto invoiceDto = listInvoices.get( i );
-                PersonDto personDto = this.personDao.findByPersonId( invoiceDto );
-                    System.out.println( "Responsable: " + personDto.getName()  + ", Fecha: " 
-                            + invoiceDto.getCreationDate() + ", Monto: " + invoiceDto.getAmount() 
-                            + ", Estado: " + invoiceDto.getStatus() );
-            
+        List<InvoiceDto> filteredAndSorted = listInvoices.stream()
+                .sorted(Comparator.comparing(InvoiceDto::getCreationDate)) 
+                .collect(Collectors.toList());
+        
+        for ( InvoiceDto invoices : filteredAndSorted ){
+            PersonDto personDto = this.personDao.findByPersonId( invoices );
+            System.out.println( "Responsable: " + personDto.getName()
+                    + ", Fecha: " + invoices.getCreationDate()
+                    + ", Monto: " + invoices.getAmount()
+                    + ", Estado: " + invoices.getStatus() );
         }
     }
 }

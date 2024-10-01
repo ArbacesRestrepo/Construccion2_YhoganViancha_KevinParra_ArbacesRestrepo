@@ -66,7 +66,7 @@ public class AdminPartnerController implements ControllerInterface {
                 return false;
             }
             default: {
-                System.out.println("ingrese una opcion valida");
+                System.out.println("Ingrese una opcion valida");
                 return true;
             }
         }
