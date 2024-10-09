@@ -48,7 +48,7 @@ public class InvoiceDao implements InvoiceDaoInterface {
     }
 
     @Override
-    public double amountInvoicesByPartner(PartnerDto partnerDto) throws Exception {
+    public double amountActiveInvoicesByPartner(PartnerDto partnerDto) throws Exception {
         Partner partner = Helper.parse(partnerDto);
         List<Invoice> invoiceList = this.invoiceRepository.findByPartnerId( partner );
         double amount = 0;
@@ -60,6 +60,30 @@ public class InvoiceDao implements InvoiceDaoInterface {
         return amount;
     }
 
+    @Override
+    public double amountCancelInvoicesByPartner(PartnerDto partnerDto) throws Exception {
+        Partner partner = Helper.parse(partnerDto);
+        List<Invoice> invoiceList = this.invoiceRepository.findByPartnerId( partner );
+        double amount = 0;
+        for (Invoice invoice : invoiceList) {
+            if(invoice.getStatus().equals("CANCELADA")){
+                amount += invoice.getAmount();
+            }
+        }
+        return amount;
+    }
+
+    @Override
+    public double amountTotalInvoicesByPartner(PartnerDto partnerDto) throws Exception {
+        Partner partner = Helper.parse(partnerDto);
+        List<Invoice> invoiceList = this.invoiceRepository.findByPartnerId( partner );
+        double amount = 0;
+        for (Invoice invoice : invoiceList) {
+            amount += invoice.getAmount();
+        }
+        return amount;
+    }
+    
     @Override
     public void createInvoice( InvoiceDto invoiceDto ) throws Exception {
         Invoice invoice = Helper.parse( invoiceDto );

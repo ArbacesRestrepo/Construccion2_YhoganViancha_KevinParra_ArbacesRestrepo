@@ -72,7 +72,7 @@ public class GuestController implements ControllerInterface{
                 return true;
             }
             case "3": {
-                this.userService.changePasswordUser( LoginService.user );
+                this.userService.changeUserPassword( LoginService.user );
                 return true;
             }
             case "9": {

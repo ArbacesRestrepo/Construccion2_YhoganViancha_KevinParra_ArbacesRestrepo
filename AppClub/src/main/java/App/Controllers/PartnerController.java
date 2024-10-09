@@ -85,7 +85,7 @@ public class PartnerController implements ControllerInterface{
                 return true;
             }
             case "6": {
-                this.userService.changePasswordUser( LoginService.user );
+                this.userService.changeUserPassword( LoginService.user );
                 return true;
             }
             case "9": {

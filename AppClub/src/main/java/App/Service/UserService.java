@@ -58,15 +58,11 @@ public class UserService implements UserServiceInterface {
             throw new Exception("Ya existe un usuario con ese user name");
         }
         
-        try {
-            this.userDao.createUser( userDto );
-        } catch (SQLException e) {
-            throw new Exception( e.getMessage() );
-        }
+        this.userDao.createUser( userDto );
     }
 
     @Override
-    public UserDto createUserGuest( ) throws Exception {
+    public UserDto createGuestUser( ) throws Exception {
         UserDto userDto;
         PersonDto personDto = this.personService.createPerson( );
         
@@ -77,7 +73,7 @@ public class UserService implements UserServiceInterface {
                 return userDto;
             }
             else{
-                return null;
+                throw new Exception("El usuario NO es INVITADO");
             }
         }
         
@@ -89,21 +85,15 @@ public class UserService implements UserServiceInterface {
         userDto.getUserPasswordDto();
                 
         if ( this.userDao.existsByUserName( userDto ) ) {
-            throw new Exception("Ya existe un usuario con ese user name");
+            throw new Exception("Ya existe un usuario con ese nombre");
         }
         
-        try {
-            this.userDao.createUser( userDto );
-        } catch (SQLException e) {
-            throw new Exception( e.getMessage() );
-        }
-        
-        userDto = this.userDao.findByUserName( userDto ) ;
+        this.userDao.createUser( userDto );
         return userDto;
     }
 
     @Override
-    public void changePasswordUser( ) throws Exception {
+    public void changeUserPassword( ) throws Exception {
         UserDto userDto;
         PersonDto personDto = new PersonDto();
         personDto.getPersonDocumentDto();
@@ -120,21 +110,20 @@ public class UserService implements UserServiceInterface {
         System.out.println("Cambiar password al usuario: " + userDto.getUserName() );
         userDto.getUserPasswordDto();
         
-        this.userDao.updatePasswordUser( userDto );
+        this.userDao.updateUser( userDto );
     }
     
     @Override
-    public void changePasswordUser( UserDto userDto ) throws Exception {
+    public void changeUserPassword( UserDto userDto ) throws Exception {
         userDto.getUserPasswordDto();
         
-        this.userDao.updatePasswordUser( userDto );
+        this.userDao.updateUser( userDto );
     }
     
     @Override
-    public void changeRoleUser( UserDto userDto ) throws Exception {
+    public void changeUserRole( UserDto userDto ) throws Exception {
         
     }
-    
 
     @Override
     public void deleteUser( ) throws Exception {
@@ -162,5 +151,4 @@ public class UserService implements UserServiceInterface {
         
         this.userDao.deleteUser( userDto );        
     }
-    
 }

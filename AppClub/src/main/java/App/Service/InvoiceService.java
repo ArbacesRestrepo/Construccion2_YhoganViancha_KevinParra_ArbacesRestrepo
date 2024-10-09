@@ -63,8 +63,6 @@ public class InvoiceService implements InvoiceServiceInterface {
         if ( userDto == null ){
             throw new Exception( personDto.getName() + " no tiene USUARIO " );
         }
-        
-        InvoiceDto invoiceDto = new InvoiceDto();
         PartnerDto partnerDto = new PartnerDto();
         
         if ( userDto.getRole().equals( "SOCIO" ) ){
@@ -72,8 +70,6 @@ public class InvoiceService implements InvoiceServiceInterface {
             if ( partnerDto == null ){
                 throw new Exception( personDto.getName() + " no es SOCIO " );                
             }
-            invoiceDto.setPersonId( Helper.parse( personDto ) );
-            invoiceDto.setPartnerId( Helper.parse( partnerDto ) );
         }
         else{
             GuestDto guestDto = this.guestDao.findByUserId( userDto );
@@ -81,118 +77,25 @@ public class InvoiceService implements InvoiceServiceInterface {
                 throw new Exception( personDto.getName() + " no es INVITADO " );                
             }
             partnerDto = this.partnerDao.findByGuestPartnerId( guestDto );
-            invoiceDto.setPersonId( Helper.parse( personDto ) );
-            invoiceDto.setPartnerId( Helper.parse( partnerDto ) );
         }
-        
-        this.invoiceDao.createInvoice( invoiceDto );
-
-        InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
-        invoiceDetailDto.setInvoiceId( Helper.parse( invoiceDto ) );
-        
-        boolean continueRead = true;
-        while ( continueRead ){
-            invoiceDetailDto.getDescription();
-            invoiceDetailDto.getInvoiceDetailAmountDto();
-            invoiceDetailDto.setItem( this.invoiceDetailDao.countInvoiceDetails( invoiceDto ) );
-            this.invoiceDetailDao.createInvoiceDetail( invoiceDetailDto );
-            
-            System.out.println("1. Para más detalles");
-            String continueReadConsole = Utils.getReader().nextLine();
-            if ( continueReadConsole.equals( "1" ) ){
-                continueRead = true;
-            }
-            else{
-                continueRead = false;                
-            }
-        }
-        invoiceDto.setAmount( this.invoiceDetailDao.totalInvoiceDetails( invoiceDto ) );
-        this.invoiceDao.updateInvoiceAmount( invoiceDto );
-        if ( partnerDto.getAmount() >= invoiceDto.getAmount() ){
-            this.invoiceDao.cancelInvoice(invoiceDto);
-            invoiceDto.setAmount( partnerDto.getAmount() - invoiceDto.getAmount() );
-            this.partnerDao.updateAmountPartner(partnerDto);
-        }
+        this.CreateInvoice(personDto, partnerDto);
     }
 
     @Override
     public void createPartnerInvoice( PartnerDto partnerDto ) throws Exception {
         UserDto userDto = this.userDao.findByUserId( partnerDto );
         PersonDto personDto = this.personDao.findByUserId( userDto );
-        InvoiceDto invoiceDto = new InvoiceDto();
 
-        invoiceDto.setPersonId( Helper.parse( personDto ) );
-        invoiceDto.setPartnerId( Helper.parse( partnerDto ) );
-        invoiceDto.setStatus( "PENDIENTE" );
-        
-        this.invoiceDao.createInvoice( invoiceDto );
-
-        InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
-        invoiceDetailDto.setInvoiceId( Helper.parse( invoiceDto ) );
-        
-        boolean continueRead = true;
-        while ( continueRead ){
-            invoiceDetailDto.getInvoiceDetailDescriptionDto();
-            invoiceDetailDto.getInvoiceDetailAmountDto();
-            invoiceDetailDto.setItem( this.invoiceDetailDao.countInvoiceDetails( invoiceDto ) );
-            this.invoiceDetailDao.createInvoiceDetail( invoiceDetailDto );
-            
-            System.out.println("1. Para más detalles");
-            String continueReadConsole = Utils.getReader().nextLine();
-            if ( continueReadConsole.equals( "1" ) ){
-                continueRead = true;
-            }
-            else{
-                continueRead = false;                
-            }
-        }
-        invoiceDto.setAmount( this.invoiceDetailDao.totalInvoiceDetails( invoiceDto ) );
-        this.invoiceDao.updateInvoiceAmount( invoiceDto );
-        if ( partnerDto.getAmount() >= invoiceDto.getAmount() ){
-            this.invoiceDao.cancelInvoice(invoiceDto);
-            partnerDto.setAmount( partnerDto.getAmount() - invoiceDto.getAmount() );
-            this.partnerDao.updateAmountPartner(partnerDto);
-        }
+        this.CreateInvoice(personDto, partnerDto);
     }
 
     @Override
     public void createGuestInvoice( GuestDto guestDto ) throws Exception {
         UserDto userDto = this.userDao.findByGuestUserId( guestDto );
         PersonDto personDto = this.personDao.findByUserId( userDto );
-        InvoiceDto invoiceDto = new InvoiceDto();
         PartnerDto partnerDto = this.partnerDao.findByGuestPartnerId( guestDto );
-        invoiceDto.setPersonId( Helper.parse( personDto ) );
-        invoiceDto.setPartnerId( Helper.parse( partnerDto ) );
-        invoiceDto.setStatus( "PENDIENTE" );
 
-        this.invoiceDao.createInvoice( invoiceDto );
-
-        InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
-        invoiceDetailDto.setInvoiceId( Helper.parse( invoiceDto ) );
-
-        boolean continueRead = true;
-        while ( continueRead ){
-            invoiceDetailDto.getInvoiceDetailDescriptionDto();
-            invoiceDetailDto.getInvoiceDetailAmountDto();
-            invoiceDetailDto.setItem( this.invoiceDetailDao.countInvoiceDetails( invoiceDto ) );
-            this.invoiceDetailDao.createInvoiceDetail( invoiceDetailDto );
-            
-            System.out.println("1. Para más detalles");
-            String continueReadConsole = Utils.getReader().nextLine();
-            if ( continueReadConsole.equals( "1" ) ){
-                continueRead = true;
-            }
-            else{
-                continueRead = false;                
-            }
-        }
-        invoiceDto.setAmount( this.invoiceDetailDao.totalInvoiceDetails( invoiceDto ) );
-        this.invoiceDao.updateInvoiceAmount( invoiceDto );
-        if ( partnerDto.getAmount() >= invoiceDto.getAmount() ){
-            this.invoiceDao.cancelInvoice( invoiceDto );
-            partnerDto.setAmount( partnerDto.getAmount() - invoiceDto.getAmount() );
-            this.partnerDao.updateAmountPartner(partnerDto);
-        }
+        this.CreateInvoice(personDto, partnerDto);
     }
 
     @Override
@@ -234,6 +137,49 @@ public class InvoiceService implements InvoiceServiceInterface {
                     + ", Fecha: " + invoices.getCreationDate()
                     + ", Monto: " + invoices.getAmount()
                     + ", Estado: " + invoices.getStatus() );
+        }
+    }
+    
+    private void CreateInvoice( PersonDto personDto, PartnerDto partnerDto ) throws Exception{
+        InvoiceDto invoiceDto = new InvoiceDto();
+        invoiceDto.setPersonId( Helper.parse( personDto ) );
+        invoiceDto.setPartnerId( Helper.parse( partnerDto ) );
+        invoiceDto.setStatus( "PENDIENTE" );
+
+        ArrayList<InvoiceDetailDto> listInvoiceDetails = new ArrayList<InvoiceDetailDto>();
+        double amountInvoice = 0;        
+        boolean continueRead = true;
+        while ( continueRead ){
+            InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();        
+            invoiceDetailDto.getInvoiceDetailDescriptionDto();
+            invoiceDetailDto.getInvoiceDetailAmountDto();
+            invoiceDetailDto.setItem( listInvoiceDetails.size() + 1 );
+            listInvoiceDetails.add( invoiceDetailDto );
+
+            amountInvoice += invoiceDetailDto.getAmount();
+            
+            System.out.println("1. Para más detalles");
+            String continueReadConsole = Utils.getReader().nextLine();
+            if ( continueReadConsole.equals( "1" ) ){
+                continueRead = true;
+            }
+            else{
+                continueRead = false;                
+            }
+        }
+        
+        invoiceDto.setAmount( amountInvoice );
+        this.invoiceDao.createInvoice( invoiceDto );
+
+        for ( InvoiceDetailDto invoiceDetailsDto : listInvoiceDetails ) {
+            invoiceDetailsDto.setInvoiceId( Helper.parse( invoiceDto ) );
+            this.invoiceDetailDao.createInvoiceDetail( invoiceDetailsDto );
+        }
+        
+        if ( partnerDto.getAmount() >= invoiceDto.getAmount() ){
+            this.invoiceDao.cancelInvoice( invoiceDto );
+            partnerDto.setAmount( partnerDto.getAmount() - amountInvoice );
+            this.partnerDao.updatePartner( partnerDto );
         }
     }
 }

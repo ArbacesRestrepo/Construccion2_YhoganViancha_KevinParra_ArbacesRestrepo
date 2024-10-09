@@ -46,13 +46,7 @@ public class PartnerDao implements PartnerDaoInterface{
     }
 
     @Override
-    public void updateAmountPartner(PartnerDto partnerDto) throws Exception {
-        Partner partner = Helper.parse( partnerDto );
-        this.partnerRepository.save( partner );
-    }
-
-    @Override
-    public void updateTypePartner(PartnerDto partnerDto) throws Exception {
+    public void updatePartner(PartnerDto partnerDto) throws Exception {
         Partner partner = Helper.parse( partnerDto );
         this.partnerRepository.save( partner );
     }

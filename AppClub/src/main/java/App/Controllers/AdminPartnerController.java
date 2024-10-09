@@ -50,7 +50,7 @@ public class AdminPartnerController implements ControllerInterface {
                 return true;
             }
             case "2": {
-                this.partnerService.updateAmountPartner();
+                this.partnerService.updatePartnerAmount();
                 return true;
             }
             case "3": {

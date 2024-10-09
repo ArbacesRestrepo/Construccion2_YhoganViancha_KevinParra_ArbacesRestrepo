@@ -21,6 +21,7 @@ import App.Dao.UserDao;
 import App.Dto.InvoiceDto;
 import App.Dto.PersonDto;
 import App.Dto.PartnerDto;
+import App.Dto.PartnerInvoiceAmountDto;
 import App.Dto.UserDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -81,7 +82,7 @@ public class PartnerService implements PartnerServiceInterface {
     }
     
     @Override
-    public void updateAmountPartner( ) throws Exception {
+    public void updatePartnerAmount( ) throws Exception {
         PersonDto personDtoLocale = new PersonDto();
         personDtoLocale.getPersonDocumentDto();
         personDtoLocale = this.personDao.findByDocument( personDtoLocale );
@@ -105,7 +106,7 @@ public class PartnerService implements PartnerServiceInterface {
         
         partnerDtoLocale.getPartnerAmountIncraseDto();
         
-        if ( partnerDtoLocale.getType().equals( "REGULAR" ) ){
+        if ( partnerDtoLocale.getType().equals( "REGULAR" ) || partnerDtoLocale.getType().equals( "PIDE CAMBIO A VIP" ) ){
             if ( ( partnerDtoLocale.getAmount() + amountDao ) > 1000000 ){
                 throw new Exception( personDtoLocale.getName() +  " excede el monto permitido de inversión");
             }
@@ -120,10 +121,10 @@ public class PartnerService implements PartnerServiceInterface {
         
         partnerDtoLocale.setAmount( partnerDtoLocale.getAmount() + partnerDtoDao.getAmount() );
         
-        this.partnerDao.updateAmountPartner( partnerDtoLocale );
+        this.partnerDao.updatePartner( partnerDtoLocale );
         
         ArrayList<InvoiceDto> listInvoice =  this.invoiceDao.listPartnerInvoices( partnerDtoLocale );
-          
+
         List<InvoiceDto> filteredAndSorted = listInvoice.stream()
                 .filter(invoice -> "PENDIENTE".equals(invoice.getStatus())) 
                 .sorted(Comparator.comparing(InvoiceDto::getCreationDate)) 
@@ -135,7 +136,7 @@ public class PartnerService implements PartnerServiceInterface {
                 this.invoiceDao.cancelInvoice( invoiceDtoList );
 
                 partnerDtoDao.setAmount( partnerDtoDao.getAmount() - invoiceDtoList.getAmount() );
-                this.partnerDao.updateAmountPartner( partnerDtoDao );
+                this.partnerDao.updatePartner( partnerDtoDao );
             }
             else {
                 break;
@@ -172,12 +173,6 @@ public class PartnerService implements PartnerServiceInterface {
             throw new Exception( "El socio tiene INVERSION disponible");
         }
         
-//        ArrayList<InvoiceDto> listInvoice =  this.invoiceDao.listPartnerInvoices( partnerDto );
-//        for ( InvoiceDto invoiceDto : listInvoice ){
-//            this.invoiceDetailDao.deleteInvoiceDetail( invoiceDto );
-//            this.invoiceDao.deleteInvoice( invoiceDto );            
-//        }
-
         this.partnerDao.deletePartner( partnerDto );
     }
     
@@ -202,20 +197,14 @@ public class PartnerService implements PartnerServiceInterface {
         if ( partnerDto.getAmount() > 0 ){
             throw new Exception( "El socio tiene INVERSION disponible");
         }
-        
-        ArrayList<InvoiceDto> listInvoice =  this.invoiceDao.listPartnerInvoices( partnerDto );
-        for ( InvoiceDto invoiceDto : listInvoice ){
-            this.invoiceDetailDao.deleteInvoiceDetail( invoiceDto );
-            this.invoiceDao.deleteInvoice( invoiceDto );            
-        }
-        
+
         this.partnerDao.deletePartner( partnerDto );
     }    
 
     @Override
     public void updatePartnerType( PartnerDto partnerDto ) throws Exception {
         partnerDto.setType( "PIDE CAMBIO A VIP" );
-        this.partnerDao.updateTypePartner( partnerDto );
+        this.partnerDao.updatePartner( partnerDto );
     }
 
     @Override
@@ -232,37 +221,72 @@ public class PartnerService implements PartnerServiceInterface {
         }
 
         ArrayList<PartnerDto> listPartners = this.partnerDao.listPartnerRequestVIP();
+        
+        ArrayList<PartnerInvoiceAmountDto> listPartnersInvoiceAmount = new ArrayList<PartnerInvoiceAmountDto>() ;
+
+        double invoicesAmount;
+        
+        for ( PartnerDto partnersDto : listPartners ){
+            PartnerInvoiceAmountDto partnerInvoiceAmountDto = new PartnerInvoiceAmountDto();
+            partnerInvoiceAmountDto.setId( partnersDto.getId() );
+            partnerInvoiceAmountDto.setUserId( partnersDto.getUserId() );
+            partnerInvoiceAmountDto.setType( partnersDto.getType() );
+            partnerInvoiceAmountDto.setAmount( partnersDto.getAmount() );
+            partnerInvoiceAmountDto.setCreationDate( partnersDto.getCreationDate() );
+            invoicesAmount = this.invoiceDao.amountCancelInvoicesByPartner( partnersDto );            
+            partnerInvoiceAmountDto.setInvoiceAmount( invoicesAmount );
+            
+            listPartnersInvoiceAmount.add( partnerInvoiceAmountDto );
+        }
+
+        List<PartnerInvoiceAmountDto> partersInvoiceAmountSorted = listPartnersInvoiceAmount.stream()
+                .sorted( Comparator.comparing( PartnerInvoiceAmountDto::getInvoiceAmount ).reversed()
+                        .thenComparing( Comparator.comparing( PartnerInvoiceAmountDto::getAmount ).reversed() )
+                        .thenComparing( PartnerInvoiceAmountDto::getCreationDate ) 
+                )
+                .collect(Collectors.toList());
+
         PersonDto personDto;
         UserDto userDto;
-        double amountInvoice;
-        for ( PartnerDto partners : listPartners ){
-            userDto = this.userDao.findByUserId( partners );
+        for ( PartnerInvoiceAmountDto partnerInvoiceAmountDto : partersInvoiceAmountSorted ){
+            PartnerDto partnerDto = new PartnerDto();
+            partnerDto.setId( partnerInvoiceAmountDto.getId() );
+            partnerDto.setUserId( partnerInvoiceAmountDto.getUserId() );
+            partnerDto.setType( partnerInvoiceAmountDto.getType() );
+            partnerDto.setAmount( partnerInvoiceAmountDto.getAmount() );
+            partnerDto.setCreationDate( partnerInvoiceAmountDto.getCreationDate() );
+                    
+            userDto = this.userDao.findByUserId( partnerDto );
             personDto = this.personDao.findByUserId( userDto );
-            amountInvoice = this.invoiceDao.amountInvoicesByPartner( partners );
-            System.out.println( personDto.getName() + " fondos: " + partners.getAmount() + " ingreso: " + partners.getCreationDate() + " facturado: " + amountInvoice);
+            invoicesAmount = partnerInvoiceAmountDto.getInvoiceAmount();
+            System.out.println( personDto.getName() + " fondos: " + partnerDto.getAmount() + " ingreso: " + partnerDto.getCreationDate() + " facturado: " + invoicesAmount);
         }
         
         String authorizeVIP ;
-        for ( PartnerDto partners : listPartners ){
-            userDto = this.userDao.findByUserId( partners );
-            personDto = this.personDao.findByUserId( userDto );
-            amountInvoice = this.invoiceDao.amountInvoicesByPartner( partners );
+        for ( PartnerInvoiceAmountDto partnerInvoiceAmountDto : partersInvoiceAmountSorted ){
+            PartnerDto partnerDto = new PartnerDto();
+            partnerDto.setId( partnerInvoiceAmountDto.getId() );
+            partnerDto.setUserId( partnerInvoiceAmountDto.getUserId() );
+            partnerDto.setType( partnerInvoiceAmountDto.getType() );
+            partnerDto.setAmount( partnerInvoiceAmountDto.getAmount() );
+            partnerDto.setCreationDate( partnerInvoiceAmountDto.getCreationDate() );
             
-            System.out.println( "Autorizar promoción a: " + personDto.getName() + " fondos: " 
-                    + partners.getAmount() + " ingreso: " + partners.getCreationDate() + " facturado: " + amountInvoice);
-            System.out.println("1. Autoriza cambio a VIP. 2. Rechaza cambio");
-            authorizeVIP = Utils.getReader().nextLine();
-            if ( authorizeVIP.equals( "1" ) ){
-                partners.setType( "VIP" );
-            }
-            else{
-                partners.setType( "REGULAR" );
-            }
-            this.partnerDao.updateTypePartner( partners );
+            userDto = this.userDao.findByUserId( partnerDto );
+            personDto = this.personDao.findByUserId( userDto );
+            invoicesAmount = partnerInvoiceAmountDto.getInvoiceAmount();
+            
+            System.out.println( "Autorizar promoción a: " + personDto.getName() 
+                    + " fondos: " + partnerDto.getAmount() 
+                    + " ingreso: " + partnerDto.getCreationDate() 
+                    + " facturado: " + invoicesAmount);
+            
+            partnerDto.setType( "VIP" );
+
+            this.partnerDao.updatePartner( partnerDto );
             numberVIP = this.partnerDao.numberPartnersVIP();
             if ( numberVIP >= 5 ){
                 break;
-            }            
-        }        
+            }
+        }
     }
 }

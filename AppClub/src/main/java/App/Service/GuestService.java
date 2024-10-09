@@ -48,9 +48,9 @@ public class GuestService implements GuestServiceInterface {
 
     @Override
     public void createGuest( ) throws Exception {
-        UserDto userDtoLocate = this.userService.createUserGuest();
+        UserDto userLocateDto = this.userService.createGuestUser();
 
-        if ( userDtoLocate == null ) {
+        if ( userLocateDto == null ) {
             throw new Exception("No se encontró ningún usuario");            
         }
 
@@ -68,7 +68,7 @@ public class GuestService implements GuestServiceInterface {
         }
                 
         GuestDto guestDto = new GuestDto();
-        guestDto.setUserId( Helper.parse( userDtoLocate ) );
+        guestDto.setUserId( Helper.parse( userLocateDto ) );
         guestDto.setPartnerId( Helper.parse( partnerDto ) );
         guestDto.setStatus( "ACTIVO" );
         
@@ -77,15 +77,15 @@ public class GuestService implements GuestServiceInterface {
     
     @Override
     public void createGuest( UserDto userDto ) throws Exception {
-        UserDto userDtoLocate = this.userService.createUserGuest();
+        UserDto userLocateDto = this.userService.createGuestUser();
 
-        if ( userDtoLocate == null ) {
-            throw new Exception("No se encontró ningún usuario");            
+        if ( userLocateDto == null ) {
+            throw new Exception("No se encontró ningún usuario");
         }
         PartnerDto partnerDto = this.partnerDao.findByUserId( userDto );
-
+        
         GuestDto guestDto = new GuestDto();
-        guestDto.setUserId( Helper.parse( userDtoLocate ) );
+        guestDto.setUserId( Helper.parse( userLocateDto ) );
         guestDto.setPartnerId( Helper.parse( partnerDto ) );
         guestDto.setStatus( "ACTIVO" );
         
@@ -165,6 +165,6 @@ public class GuestService implements GuestServiceInterface {
 
         this.guestDao.deleteGuest( guestDto );
         this.partnerDao.createPartner( partnerDto );
-        this.userDao.updateRoleUser( userDto );
+        this.userDao.updateUser( userDto );
     }
 }

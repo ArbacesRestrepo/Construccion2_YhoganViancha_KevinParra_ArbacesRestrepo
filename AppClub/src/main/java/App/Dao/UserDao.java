@@ -63,16 +63,11 @@ public class UserDao implements UserDaoInteface {
     public void createUser(UserDto userDto) throws Exception {
         User user = Helper.parse(userDto);
         this.userRepository.save( user );
+        userDto.setId( user.getId() );
     }
     
     @Override
-    public void updatePasswordUser(UserDto userDto) throws Exception {
-        User user = Helper.parse(userDto);
-        this.userRepository.save( user );
-    }
-
-    @Override
-    public void updateRoleUser(UserDto userDto) throws Exception {
+    public void updateUser(UserDto userDto) throws Exception {
         User user = Helper.parse(userDto);
         this.userRepository.save( user );
     }

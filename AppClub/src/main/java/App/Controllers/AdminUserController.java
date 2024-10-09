@@ -50,7 +50,7 @@ public class AdminUserController implements ControllerInterface {
                 return true;
             }
             case "2": {
-                this.userService.changePasswordUser();
+                this.userService.changeUserPassword();
                 return true;
             }
             case "3": {
