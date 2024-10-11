@@ -18,7 +18,10 @@ import org.springframework.stereotype.Controller;
 @NoArgsConstructor
 @Controller
 public class AdminProcessesController implements ControllerInterface {
-    private static final String MENU = "Ingrese la opcion que desea \n 1. Historial de facturación \n 2. Autorizar cambios a VIP \n 9. Volver a menú principal \n";
+    private static final String MENU = "Ingrese la opcion que desea \n "
+            + "1. Historial de facturación \n "
+            + "2. Autorizar cambios a VIP \n "
+            + "9. Volver a menú principal \n";
     
     @Autowired
     private final PartnerService partnerService = new PartnerService();

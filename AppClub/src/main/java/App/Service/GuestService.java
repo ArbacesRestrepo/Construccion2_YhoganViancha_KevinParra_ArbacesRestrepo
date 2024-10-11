@@ -157,12 +157,6 @@ public class GuestService implements GuestServiceInterface {
         
         userDto.setRole( "SOCIO" );
         
-        ArrayList<InvoiceDto> listInvoice =  this.invoiceDao.listPersonInvoices( personDtoLocale );
-        for ( InvoiceDto invoiceDto : listInvoice ){
-            this.invoiceDetailDao.deleteInvoiceDetail( invoiceDto );
-            this.invoiceDao.deleteInvoice( invoiceDto );            
-        }
-
         this.guestDao.deleteGuest( guestDto );
         this.partnerDao.createPartner( partnerDto );
         this.userDao.updateUser( userDto );

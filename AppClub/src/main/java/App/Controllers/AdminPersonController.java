@@ -17,7 +17,11 @@ import org.springframework.stereotype.Controller;
 @NoArgsConstructor
 @Controller
 public class AdminPersonController implements ControllerInterface{
-    private static final String MENU = "Ingrese la opcion que desea \n 1. Crear persona \n 2. Actualizar persona \n 3. Borrar persona \n 9. Volver a menú principal  \n";
+    private static final String MENU = "Ingrese la opcion que desea \n "
+            + "1. Crear persona \n "
+            + "2. Actualizar persona \n "
+            + "3. Borrar persona \n "
+            + "9. Volver a menú principal  \n";
     
     @Autowired
     private PersonService personService = new PersonService();

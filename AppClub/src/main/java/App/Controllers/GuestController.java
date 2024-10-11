@@ -23,7 +23,11 @@ import org.springframework.stereotype.Controller;
 @NoArgsConstructor
 @Controller
 public class GuestController implements ControllerInterface{
-    private static final String MENU = "Ingrese la opcion que desea \n 1. Solicitar consumo  \n 2. Cambio a SOCIO \n 3. Cambiar el PASSWORD \n 9. Para cerrar sesion \n";
+    private static final String MENU = "Ingrese la opcion que desea \n "
+            + "1. Solicitar consumo  \n "
+            + "2. Cambio a SOCIO \n "
+            + "3. Cambiar el PASSWORD \n "
+            + "9. Para cerrar sesion \n";
     
     @Autowired
     private final PersonDao personDao = new PersonDao();

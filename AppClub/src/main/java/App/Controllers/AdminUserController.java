@@ -17,7 +17,11 @@ import org.springframework.stereotype.Controller;
 @NoArgsConstructor
 @Controller
 public class AdminUserController implements ControllerInterface {
-    private static final String MENU = "Ingrese la opcion que desea \n 1. CREAR usuario \n 2. Cambiar password a usuario \n 3. BORRAR un usuario \n 9. Volver a menú principal \n";
+    private static final String MENU = "Ingrese la opcion que desea \n "
+            + "1. CREAR usuario \n "
+            + "2. Cambiar password a usuario \n "
+            + "3. BORRAR un usuario \n "
+            + "9. Volver a menú principal \n";
     
     @Autowired
     private final UserService userService = new UserService();

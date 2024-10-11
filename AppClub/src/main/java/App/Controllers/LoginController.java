@@ -18,7 +18,9 @@ import org.springframework.stereotype.Controller;
 @Getter
 @Controller
 public class LoginController implements ControllerInterface {
-    private static final String MENU = "ingrese la opcion que desea: \n 1. para iniciar sesion. \n 9. para detener la ejecucion.";
+    private static final String MENU = "ingrese la opcion que desea: \n "
+            + "1. para iniciar sesion. \n "
+            + "9. para detener la ejecucion.";
     @Autowired
     private UserValidator userValidator;
     @Autowired

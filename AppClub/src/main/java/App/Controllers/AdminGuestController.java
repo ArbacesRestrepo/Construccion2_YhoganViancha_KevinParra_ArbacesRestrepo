@@ -17,7 +17,10 @@ import org.springframework.stereotype.Controller;
 @NoArgsConstructor
 @Controller
 public class AdminGuestController implements ControllerInterface {
-    private static final String MENU = "Ingrese la opcion que desea \n 1. Crear invitado \n 2. Borrar invitado \n 9. Volver a menú principal  \n";
+    private static final String MENU = "Ingrese la opcion que desea \n "
+            + "1. Crear invitado \n "
+            + "2. Borrar invitado \n "
+            + "9. Volver a menú principal  \n";
     
     @Autowired
     private final GuestService guestService = new GuestService();

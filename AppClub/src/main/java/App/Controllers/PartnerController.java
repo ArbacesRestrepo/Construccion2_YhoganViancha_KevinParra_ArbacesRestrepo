@@ -23,7 +23,14 @@ import org.springframework.stereotype.Controller;
 @NoArgsConstructor
 @Controller
 public class PartnerController implements ControllerInterface{
-    private static final String MENU = "Ingrese la opcion que desea \n 1. Solicitar consumo \n 2. Ver historial de consumos \n 3. Crear Invitado \n 4. Borrar Invitado \n 5. Cambio a VIP \n 6. Cambiar el PASSWORD \n 9. Para cerrar sesion \n";
+    private static final String MENU = "Ingrese la opcion que desea \n "
+            + "1. Solicitar consumo \n "
+            + "2. Ver historial de consumos \n "
+            + "3. Crear Invitado \n "
+            + "4. Borrar Invitado \n "
+            + "5. Cambio a VIP \n "
+            + "6. Cambiar el PASSWORD \n "
+            + "9. Para cerrar sesion \n";
 
     @Autowired
     private final PartnerDao partnerDao = new PartnerDao();

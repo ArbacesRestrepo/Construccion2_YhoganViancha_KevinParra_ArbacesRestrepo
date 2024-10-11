@@ -248,21 +248,7 @@ public class PartnerService implements PartnerServiceInterface {
 
         PersonDto personDto;
         UserDto userDto;
-        for ( PartnerInvoiceAmountDto partnerInvoiceAmountDto : partersInvoiceAmountSorted ){
-            PartnerDto partnerDto = new PartnerDto();
-            partnerDto.setId( partnerInvoiceAmountDto.getId() );
-            partnerDto.setUserId( partnerInvoiceAmountDto.getUserId() );
-            partnerDto.setType( partnerInvoiceAmountDto.getType() );
-            partnerDto.setAmount( partnerInvoiceAmountDto.getAmount() );
-            partnerDto.setCreationDate( partnerInvoiceAmountDto.getCreationDate() );
-                    
-            userDto = this.userDao.findByUserId( partnerDto );
-            personDto = this.personDao.findByUserId( userDto );
-            invoicesAmount = partnerInvoiceAmountDto.getInvoiceAmount();
-            System.out.println( personDto.getName() + " fondos: " + partnerDto.getAmount() + " ingreso: " + partnerDto.getCreationDate() + " facturado: " + invoicesAmount);
-        }
-        
-        String authorizeVIP ;
+
         for ( PartnerInvoiceAmountDto partnerInvoiceAmountDto : partersInvoiceAmountSorted ){
             PartnerDto partnerDto = new PartnerDto();
             partnerDto.setId( partnerInvoiceAmountDto.getId() );
