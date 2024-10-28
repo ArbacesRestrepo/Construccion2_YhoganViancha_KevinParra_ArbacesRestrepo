@@ -1,0 +1,18 @@
+package App.Service.Intefaces;
+
+/**
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
+ */
+
+import App.Dto.UserDto;
+import App.Dto.PartnerDto;
+import App.Dto.PersonDto;
+
+public interface PartnerServiceInterface {
+    public void createPartner( PersonDto personDto, PartnerDto partnerDto ) throws Exception;
+    public void updatePartnerAmount( PersonDto personDto, PartnerDto partnerDto ) throws Exception;
+    public void updatePartnerType( PartnerDto partnerDto ) throws Exception;
+    public void deletePartner( PersonDto personDto, PartnerDto partnerDto ) throws Exception;
+    public void deletePartner( UserDto userDto ) throws Exception;    
+    public void changePartnersToVIP(  ) throws Exception;    
+}

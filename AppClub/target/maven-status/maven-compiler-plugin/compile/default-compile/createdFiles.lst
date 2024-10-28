@@ -10,9 +10,11 @@ App\Service\Intefaces\LoginServiceInterface.class
 App\Dao\Interfaces\UserDaoInteface.class
 App\Controllers\AdminController.class
 App\Controllers\AdminGuestController.class
+App\Controllers\Requst\UserRequest.class
 App\Controllers\ControllerInterface.class
 App\Dao\InvoiceDao.class
 App\Dao\Interfaces\InvoiceDetailDaoInterface.class
+App\Controllers\Requst\DeletePersonRequest.class
 App\Dao\Interfaces\PartnerDaoInterface.class
 App\Controllers\AdminPersonController.class
 App\Dao\Repository\GuestRepository.class
@@ -28,6 +30,7 @@ App\Dao\GuestDao.class
 App\Service\PersonService.class
 App\Service\Intefaces\UserServiceInterface.class
 App\Service\PartnerService.class
+App\Controllers\Requst\PersonRequest.class
 App\Dto\Interfaces\InvoiceDetailDtoInterface.class
 App\Dao\Interfaces\PersonDaoInterface.class
 App\Controllers\PartnerController.class

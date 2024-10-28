@@ -9,6 +9,9 @@ D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Clu
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\GuestController.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\LoginController.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\PartnerController.java
+D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Requst\DeletePersonRequest.java
+D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Requst\PersonRequest.java
+D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Requst\UserRequest.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Utils.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Validator\CommonsValidator.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Validator\InvoiceDetailValidator.java
