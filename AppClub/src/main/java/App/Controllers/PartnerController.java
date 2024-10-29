@@ -47,62 +47,7 @@ public class PartnerController implements ControllerInterface{
     
     @Override
     public void session() throws Exception {
-        boolean session = true;
-        while (session) {
-            session = menu();
-        }
     }
     
-    private boolean menu() {
-        try {
-            System.out.println("bienvenido " + LoginService.user.getUserName());
-            System.out.print(MENU);
-            String option = Utils.getReader().nextLine();
-            return options(option);
-
-        } catch ( Exception e ) {
-            System.out.println(e.getMessage());
-            return true;
-        }
-    }
-
-    private boolean options(String option) throws Exception{
-        switch (option) {
-            case "1": {
-                PartnerDto partnerDto = this.partnerDao.findByUserId( LoginService.user );
-                this.invoiceService.createPartnerInvoice( partnerDto );
-                return true;
-            }
-            case "2": {
-                PartnerDto partnerDto = this.partnerDao.findByUserId( LoginService.user );
-                this.invoiceService.historyPartnerInvoice( partnerDto );
-                return true;
-            }
-            case "3": {
-                return true;
-            }
-            case "4": {
-                this.guestService.deleteGuest();
-                return true;
-            }
-            case "5": {
-                PartnerDto partnerDto = this.partnerDao.findByUserId( LoginService.user );
-                this.partnerService.updatePartnerType( partnerDto );
-                return true;
-            }
-            case "6": {
-                this.userService.changeUserPassword( LoginService.user );
-                return true;
-            }
-            case "9": {
-                System.out.println("Se ha cerrado sesion");
-                return false;
-            }
-            default: {
-                System.out.println("Ingrese una opcion valida");
-                return true;
-            }
-        }
-    }
 
 }
