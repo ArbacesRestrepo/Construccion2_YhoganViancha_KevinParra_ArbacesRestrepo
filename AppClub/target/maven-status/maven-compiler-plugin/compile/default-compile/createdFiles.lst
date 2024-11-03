@@ -17,6 +17,7 @@ App\Dao\InvoiceDao.class
 App\Dao\Interfaces\InvoiceDetailDaoInterface.class
 App\Dao\Interfaces\PartnerDaoInterface.class
 App\Controllers\AdminPersonController.class
+App\Controllers\Request\PartnerRequest.class
 App\Dao\Repository\GuestRepository.class
 App\Service\GuestService.class
 App\Dao\Repository\PersonRepository.class

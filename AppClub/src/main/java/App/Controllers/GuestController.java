@@ -30,16 +30,16 @@ public class GuestController implements ControllerInterface{
             + "9. Para cerrar sesion \n";
     
     @Autowired
-    private final PersonDao personDao = new PersonDao();
+    private PersonDao personDao;
     @Autowired
-    private final GuestDao guestDao = new GuestDao();
+    private GuestDao guestDao;
     
     @Autowired
-    private final UserService userService = new UserService();
+    private UserService userService;
     @Autowired
-    private final InvoiceService invoiceService = new InvoiceService();
+    private InvoiceService invoiceService;
     @Autowired
-    private final GuestService guestService = new GuestService();
+    private GuestService guestService;
     
     
     @Override

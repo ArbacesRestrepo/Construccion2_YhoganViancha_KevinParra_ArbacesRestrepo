@@ -1,12 +1,12 @@
 package App.Controllers.Request;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 /**
  * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter

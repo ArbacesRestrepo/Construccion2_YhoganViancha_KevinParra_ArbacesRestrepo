@@ -11,7 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class InvoiceDetailRequest {
-    private String description;
-    private String amount;    
+public class PartnerRequest {
+    private String document;
+    private String amount;
+    private String type;
 }

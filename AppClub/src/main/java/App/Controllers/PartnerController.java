@@ -5,9 +5,6 @@ package App.Controllers;
  */
 
 import App.Dao.PartnerDao;
-import App.Dto.PartnerDto;
-
-import App.Service.LoginService;
 import App.Service.UserService;
 import App.Service.PartnerService;
 import App.Service.GuestService;
@@ -33,21 +30,19 @@ public class PartnerController implements ControllerInterface{
             + "9. Para cerrar sesion \n";
 
     @Autowired
-    private final PartnerDao partnerDao = new PartnerDao();
+    private PartnerDao partnerDao;
     
     @Autowired
-    private final UserService userService = new UserService();
+    private UserService userService;
     @Autowired
-    private final PartnerService partnerService = new PartnerService();
+    private PartnerService partnerService;
     @Autowired
-    private final InvoiceService invoiceService = new InvoiceService();
+    private InvoiceService invoiceService;
     @Autowired
-    private final GuestService guestService = new GuestService();
+    private GuestService guestService;
     
     
     @Override
     public void session() throws Exception {
     }
-    
-
 }

@@ -40,6 +40,8 @@ public class UserService implements UserServiceInterface {
         if ( !this.personDao.existsByDocument( personDto ) ){
             throw new Exception("No existe ninguna persona con el documento: " + String.valueOf( personDto.getDocument() ) );
         }
+        
+        personDto = this.personDao.findByDocument( personDto );
                 
         if ( this.userDao.existsByUserName( userDto ) ){
             throw new Exception("El usuario para: " + personDto.getName() + " es: " + userDto.getUserName() );

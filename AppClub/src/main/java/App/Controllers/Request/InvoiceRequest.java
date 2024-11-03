@@ -1,13 +1,13 @@
 package App.Controllers.Request;
 
+/**
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
+ */
+
 import java.util.ArrayList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-/**
- * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
- */
 
 @Getter
 @Setter

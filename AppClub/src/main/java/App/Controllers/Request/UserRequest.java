@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class UserRequest {
-    private String personnId;
+    private String document;
     private String userName;
     private String password;
     private String role;

@@ -18,7 +18,7 @@ import App.Model.User;
 @Setter
 @NoArgsConstructor
 public class PartnerDto implements PartnerDtoInterface{
-    private final PartnerValidator partnerValidator = new PartnerValidator();
+    private PartnerValidator partnerValidator;
 
     private long id;
     private User userId;

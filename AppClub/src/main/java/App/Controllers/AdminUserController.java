@@ -32,10 +32,13 @@ public class AdminUserController implements ControllerInterface {
             + "9. Volver a menú principal \n";
     
     @Autowired
-    private final UserService userService = new UserService();
+    private UserService userService;
 
-    private final PersonValidator personValidator = new PersonValidator();
-    private final UserValidator userValidator = new UserValidator();
+    @Autowired
+    private PersonValidator personValidator;
+
+    @Autowired
+    private UserValidator userValidator;
     
     @Override
     public void session() throws Exception {
@@ -44,7 +47,7 @@ public class AdminUserController implements ControllerInterface {
     @PostMapping("/CreateUser")
     private ResponseEntity createUser( @RequestBody UserRequest request ) throws Exception{
         try{
-            long personId = this.personValidator.validDocument( request.getPersonnId() );
+            long personId = this.personValidator.validDocument( request.getDocument() );
             String userName = request.getUserName();
             this.userValidator.validUserName( userName );
             String password = request.getPassword();
@@ -58,7 +61,7 @@ public class AdminUserController implements ControllerInterface {
             userDto.setPassword( password );
             userDto.setRole( role );
             this.userService.createUser( personDto, userDto );
-            return new ResponseEntity<>( "Se creo la persona exitosamente", HttpStatus.OK );
+            return new ResponseEntity<>( "Se creo el usuario exitosamente", HttpStatus.OK );
         }
         catch( Exception e ){
             return new ResponseEntity<>( e.getMessage(), HttpStatus.BAD_REQUEST );

@@ -69,8 +69,6 @@ public class PartnerService implements PartnerServiceInterface {
             }
         }
         
-        partnerDto.getPartnerAmountDto();
-
         this.partnerDao.createPartner( partnerDto );
     }
     
@@ -128,15 +126,10 @@ public class PartnerService implements PartnerServiceInterface {
     }
 
     @Override
-    public void deletePartner( PersonDto personDto, PartnerDto partnerDto ) throws Exception {
+    public void deletePartner( PersonDto personDto ) throws Exception {
         personDto = this.personDao.findByDocument( personDto );
         if ( personDto == null ){
             throw new Exception("No existe la persona");
-        }
-        
-        double amountActiveInvoices = this.invoiceDao.amountActiveInvoices( personDto );
-        if ( amountActiveInvoices > 0 ){
-            throw new Exception( personDto.getName() + " tiene facturas pendientes de pago");
         }
         
         UserDto userDto = this.userDao.findByPersonId( personDto );
@@ -144,12 +137,17 @@ public class PartnerService implements PartnerServiceInterface {
             throw new Exception("No se encontró ningún usuario con el número de identificación ingresado");            
         }
         
-        partnerDto = this.partnerDao.findByUserId( userDto );
+        PartnerDto partnerDto = this.partnerDao.findByUserId( userDto );
         
         if ( partnerDto == null ){
             throw new Exception( "No existe el socio");
         }
-        
+
+        double amountActiveInvoices = this.invoiceDao.amountActiveInvoicesByPartner( partnerDto );
+        if ( amountActiveInvoices > 0 ){
+            throw new Exception( personDto.getName() + " tiene facturas pendientes de pago");
+        }
+                
         if ( partnerDto.getAmount() > 0 ){
             throw new Exception( "El socio tiene INVERSION disponible");
         }
@@ -158,38 +156,42 @@ public class PartnerService implements PartnerServiceInterface {
     }
     
     @Override
-    public void deletePartner( UserDto userDto ) throws Exception {
-        PersonDto personDto = this.personDao.findByUserId( userDto );
-        if ( personDto == null ){
+    public void updatePartnerType( PersonDto personDto ) throws Exception {
+        PersonDto personDtoLocal = this.personDao.findByDocument( personDto );
+        if ( personDtoLocal == null ){
             throw new Exception("No existe la persona");
         }
-        
-        double amountActiveInvoices = this.invoiceDao.amountActiveInvoices( personDto );
-        if ( amountActiveInvoices > 0 ){
-            throw new Exception( personDto.getName() + " tiene facturas pendientes de pago");
+
+        UserDto userDto = this.userDao.findByPersonId( personDtoLocal );
+        if ( userDto == null ) {
+            throw new Exception("No se encontró ningún usuario para: " + personDto.getName() );            
         }
         
         PartnerDto partnerDto = this.partnerDao.findByUserId( userDto );
-        
         if ( partnerDto == null ){
-            throw new Exception("No existe el socio");                            
+            throw new Exception( personDto.getName() + " no es socio del club");                        
         }
-
-        if ( partnerDto.getAmount() > 0 ){
-            throw new Exception( "El socio tiene INVERSION disponible");
-        }
-
-        this.partnerDao.deletePartner( partnerDto );
-    }    
-
-    @Override
-    public void updatePartnerType( PartnerDto partnerDto ) throws Exception {
         partnerDto.setType( "PIDE CAMBIO A VIP" );
         this.partnerDao.updatePartner( partnerDto );
     }
 
     @Override
-    public void changePartnersToVIP() throws Exception {
+    public void changePartnersToVIP( PersonDto personDto ) throws Exception {
+        PersonDto personDtoLocal = this.personDao.findByDocument( personDto );
+        if ( personDtoLocal == null){
+            throw new Exception("No hay ninguna persona con el numero de identificación: " + String.valueOf( personDto.getDocument() ) );
+        }
+
+        UserDto userDto = this.userDao.findByPersonId( personDto );
+        if ( userDto == null ){
+            throw new Exception("No hay ningún usuario para: " + personDtoLocal.getName() );
+        }
+        
+        if ( !userDto.getRole().equals("ADMINISTRADOR") ){
+            throw new Exception( personDtoLocal.getName() + " no es ADMINISTRADOR" );
+            
+        }
+
         long numberVIP = this.partnerDao.numberPartnersVIP();
         if ( numberVIP >= 5 ){
             throw new Exception("Cupo de socios VIP copado");                
@@ -227,9 +229,6 @@ public class PartnerService implements PartnerServiceInterface {
                 )
                 .collect(Collectors.toList());
 
-        PersonDto personDto;
-        UserDto userDto;
-
         for ( PartnerInvoiceAmountDto partnerInvoiceAmountDto : partersInvoiceAmountSorted ){
             PartnerDto partnerDto = new PartnerDto();
             partnerDto.setId( partnerInvoiceAmountDto.getId() );
@@ -237,16 +236,7 @@ public class PartnerService implements PartnerServiceInterface {
             partnerDto.setType( partnerInvoiceAmountDto.getType() );
             partnerDto.setAmount( partnerInvoiceAmountDto.getAmount() );
             partnerDto.setCreationDate( partnerInvoiceAmountDto.getCreationDate() );
-            
-            userDto = this.userDao.findByUserId( partnerDto );
-            personDto = this.personDao.findByUserId( userDto );
-            invoicesAmount = partnerInvoiceAmountDto.getInvoiceAmount();
-            
-            System.out.println( "Autorizar promoción a: " + personDto.getName() 
-                    + " fondos: " + partnerDto.getAmount() 
-                    + " ingreso: " + partnerDto.getCreationDate() 
-                    + " facturado: " + invoicesAmount);
-            
+                        
             partnerDto.setType( "VIP" );
 
             this.partnerDao.updatePartner( partnerDto );

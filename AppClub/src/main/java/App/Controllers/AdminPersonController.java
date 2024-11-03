@@ -31,9 +31,10 @@ public class AdminPersonController implements ControllerInterface{
             + "9. Volver a menú principal  \n";
     
     @Autowired
-    private PersonService personService = new PersonService();
+    private PersonService personService;
 
-    private final PersonValidator personValidator = new PersonValidator();
+    @Autowired
+    private PersonValidator personValidator ;
     
     @Override
     public void session() throws Exception {
