@@ -35,17 +35,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class InvoiceService implements InvoiceServiceInterface {
     @Autowired
-    private final PersonDao personDao = new PersonDao();
+    private  PersonDao personDao;
     @Autowired
-    private final UserDao userDao = new UserDao();
+    private  UserDao userDao;
     @Autowired
-    private final PartnerDao partnerDao = new PartnerDao();
+    private  PartnerDao partnerDao;
     @Autowired
-    private final GuestDao guestDao = new GuestDao();
+    private  GuestDao guestDao;
     @Autowired
-    private final InvoiceDao invoiceDao = new InvoiceDao();
+    private InvoiceDao invoiceDao;
     @Autowired
-    private final InvoiceDetailDao invoiceDetailDao = new InvoiceDetailDao();
+    private InvoiceDetailDao invoiceDetailDao;
 
     @Override
     public void createInvoice() throws Exception {
@@ -79,6 +79,56 @@ public class InvoiceService implements InvoiceServiceInterface {
             partnerDto = this.partnerDao.findByGuestPartnerId( guestDto );
         }
         this.CreateInvoice(personDto, partnerDto);
+    }
+    
+    @Override
+    public void createInvoice( PersonDto personDto, ArrayList<InvoiceDetailDto> listInvoiceDetailDto ) throws Exception{
+        if ( !this.personDao.existsByDocument( personDto ) ) {
+            throw new Exception( "No existe ninguna persona con el documento: " + personDto.getDocument() );
+        }
+        
+        PersonDto personDtoLocal = this.personDao.findByDocument( personDto );
+        
+        UserDto userDto = this.userDao.findByPersonId( personDtoLocal );
+        if ( userDto == null ){
+            throw new Exception( "No existe ningún usuario para el documento: " + personDto.getDocument() );            
+        }
+        
+        PartnerDto partnerDto = this.partnerDao.findByUserId( userDto );
+        if ( partnerDto == null ){
+            GuestDto guestDto = this.guestDao.findByUserId( userDto );
+            if ( guestDto == null ){
+                throw new Exception( "No existe usuario ni invitado para: " + personDto.getDocument() );                
+            }
+            partnerDto = this.partnerDao.findByGuestPartnerId( guestDto );
+        }
+        
+        InvoiceDto invoiceDto = new InvoiceDto();
+        invoiceDto.setPersonId( Helper.parse( personDtoLocal ) );
+        invoiceDto.setPartnerId( Helper.parse( partnerDto ) );
+        invoiceDto.setStatus( "PENDIENTE" );
+
+        double amountInvoice = 0;
+
+        this.invoiceDao.createInvoice( invoiceDto );
+        for ( int i = 0; i < listInvoiceDetailDto.size(); i++ ) {
+            InvoiceDetailDto invoiceDetailDto = new InvoiceDetailDto();
+            invoiceDetailDto.setInvoiceId( Helper.parse( invoiceDto ) );
+            invoiceDetailDto.setItem( i + 1 );
+            invoiceDetailDto.setDescription( listInvoiceDetailDto.get(i).getDescription() );
+            invoiceDetailDto.setAmount( listInvoiceDetailDto.get(i).getAmount() );
+            this.invoiceDetailDao.createInvoiceDetail( invoiceDetailDto );
+            amountInvoice += invoiceDetailDto.getAmount();
+        }
+
+        invoiceDto.setAmount( amountInvoice );
+        this.invoiceDao.updateInvoiceAmount( invoiceDto );
+
+        if ( partnerDto.getAmount() >= invoiceDto.getAmount() ){
+            this.invoiceDao.cancelInvoice( invoiceDto );
+            partnerDto.setAmount( partnerDto.getAmount() - amountInvoice );
+            this.partnerDao.updatePartner( partnerDto );
+        }
     }
 
     @Override

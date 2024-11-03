@@ -4,7 +4,7 @@ package App.Controllers;
  * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
-import App.Controllers.Requst.UserRequest;
+import App.Controllers.Request.UserRequest;
 import App.Controllers.Validator.PersonValidator;
 import App.Controllers.Validator.UserValidator;
 import App.Dto.PersonDto;

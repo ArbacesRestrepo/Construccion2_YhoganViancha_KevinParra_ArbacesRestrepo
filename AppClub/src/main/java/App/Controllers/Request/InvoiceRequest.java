@@ -1,5 +1,6 @@
-package App.Controllers.Requst;
+package App.Controllers.Request;
 
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,9 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserRequest {
-    private String personnId;
-    private String userName;
-    private String password;
-    private String role;
+public class InvoiceRequest {
+    private String document;
+    private ArrayList<InvoiceDetailRequest> invoiceDetails;
 }

@@ -1,0 +1,11 @@
+{
+    "document": "3456"
+    ,"invoiceDetails":[
+        {"description": "Prueba JSON 1"
+    ,"amount": "50000"}
+    ,{"description": "Prueba JSON 2"
+    ,"amount": "100000"}
+    ,{"description": "Prueba JSON 3"
+    ,"amount": "100000"}
+    ]
+}

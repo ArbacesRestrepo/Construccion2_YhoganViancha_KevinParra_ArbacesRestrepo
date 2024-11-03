@@ -1,4 +1,4 @@
-package App.Controllers.Requst;
+package App.Controllers.Request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +11,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class DeletePersonRequest {
-    private String document;
+public class UserRequest {
+    private String personnId;
+    private String userName;
+    private String password;
+    private String role;
 }

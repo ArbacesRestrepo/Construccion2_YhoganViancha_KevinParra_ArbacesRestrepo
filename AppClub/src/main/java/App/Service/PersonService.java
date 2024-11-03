@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PersonService implements PersonServiceInterface {
     @Autowired
-    private final PersonDao personDao = new PersonDao();
+    private  PersonDao personDao;
     @Autowired
     private final UserDao userDao = new UserDao();
     

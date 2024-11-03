@@ -4,8 +4,8 @@ package App.Controllers;
  * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
-import App.Controllers.Requst.DeletePersonRequest;
-import App.Controllers.Requst.PersonRequest;
+import App.Controllers.Request.DeletePersonRequest;
+import App.Controllers.Request.PersonRequest;
 import App.Controllers.Validator.PersonValidator;
 import App.Dto.PersonDto;
 import App.Service.PersonService;

@@ -26,14 +26,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService implements UserServiceInterface {
     @Autowired
-    private final PersonService personService = new PersonService();
+    private PersonService personService;
 
     @Autowired
-    private final PersonDao personDao = new PersonDao();
+    private PersonDao personDao;
     @Autowired
-    private final UserDao userDao = new UserDao();
+    private UserDao userDao;
     @Autowired
-    private final PartnerDao partnerDao = new PartnerDao();
+    private PartnerDao partnerDao;
 
     @Override
     public void createUser( PersonDto personDto, UserDto userDto ) throws Exception {

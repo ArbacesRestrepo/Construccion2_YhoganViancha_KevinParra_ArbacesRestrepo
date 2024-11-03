@@ -16,10 +16,8 @@ import App.Dao.InvoiceDetailDao;
 import App.Dto.PersonDto;
 import App.Dto.UserDto;
 import App.Dto.GuestDto;
-import App.Dto.InvoiceDto;
 import App.Dto.PartnerDto;
 import App.Helper.Helper;
-import java.util.ArrayList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,19 +30,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class GuestService implements GuestServiceInterface {
     @Autowired
-    private final UserService userService = new UserService();
+    private UserService userService;
     @Autowired
-    private final PersonDao personDao = new PersonDao();
+    private PersonDao personDao;
     @Autowired
-    private final UserDao userDao = new UserDao();
+    private UserDao userDao;
     @Autowired
-    private final PartnerDao partnerDao = new PartnerDao();
+    private PartnerDao partnerDao;
     @Autowired
-    private final GuestDao guestDao = new GuestDao();
+    private GuestDao guestDao;
     @Autowired
-    private final InvoiceDao invoiceDao = new InvoiceDao();
+    private InvoiceDao invoiceDao;
     @Autowired
-    private final InvoiceDetailDao invoiceDetailDao = new InvoiceDetailDao();
+    private InvoiceDetailDao invoiceDetailDao;
 
     @Override
     public void createGuest( UserDto userDto, PersonDto personDto ) throws Exception {

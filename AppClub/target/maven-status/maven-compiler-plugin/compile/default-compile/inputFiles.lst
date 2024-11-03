@@ -7,11 +7,14 @@ D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Clu
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\AdminUserController.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\ControllerInterface.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\GuestController.java
+D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\InvoiceController.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\LoginController.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\PartnerController.java
-D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Requst\DeletePersonRequest.java
-D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Requst\PersonRequest.java
-D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Requst\UserRequest.java
+D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Request\DeletePersonRequest.java
+D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Request\InvoiceDetailRequest.java
+D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Request\InvoiceRequest.java
+D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Request\PersonRequest.java
+D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Request\UserRequest.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Utils.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Validator\CommonsValidator.java
 D:\Documentos\Tocnologico de Antioquia\Semestre 3\Construccion de software 2\Club\AppClub\src\main\java\App\Controllers\Validator\InvoiceDetailValidator.java

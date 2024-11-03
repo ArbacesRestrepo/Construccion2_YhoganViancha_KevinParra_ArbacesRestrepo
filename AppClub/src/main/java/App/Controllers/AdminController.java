@@ -28,17 +28,18 @@ public class AdminController implements ControllerInterface{
             + "9. Para cerrar sesion \n";
     
     @Autowired
-    public ControllerInterface adminPersonController = new AdminPersonController();
+    public ControllerInterface adminPersonController;
     @Autowired
-    public ControllerInterface adminUserController = new AdminUserController();
+    public ControllerInterface adminUserController;
     @Autowired
-    public ControllerInterface adminPartnerController = new AdminPartnerController();
+    public ControllerInterface adminPartnerController;
     @Autowired
-    public ControllerInterface adminGuestController = new AdminGuestController();
+    public ControllerInterface adminGuestController;
     @Autowired
-    public ControllerInterface adminProcessesController = new AdminProcessesController();
+    public ControllerInterface adminProcessesController;
 
-    private final PersonValidator personValidator = new PersonValidator();
+    @Autowired
+    private PersonValidator personValidator;
 
     @Override
     public void session() throws Exception {

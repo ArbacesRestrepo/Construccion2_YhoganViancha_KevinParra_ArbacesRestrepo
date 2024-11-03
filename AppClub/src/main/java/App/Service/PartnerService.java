@@ -34,15 +34,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class PartnerService implements PartnerServiceInterface {
     @Autowired
-    private final PersonDao personDao = new PersonDao();
+    private PersonDao personDao;
     @Autowired
-    private final UserDao userDao = new UserDao();
+    private UserDao userDao;
     @Autowired
-    private final PartnerDao partnerDao = new PartnerDao();
+    private PartnerDao partnerDao;
     @Autowired
-    private final InvoiceDao invoiceDao = new InvoiceDao();
+    private InvoiceDao invoiceDao;
     @Autowired
-    private final InvoiceDetailDao invoiceDetailDao = new InvoiceDetailDao();
+    private InvoiceDetailDao invoiceDetailDao;
 
     @Override
     public void createPartner( PersonDto personDto, PartnerDto partnerDto ) throws Exception {
