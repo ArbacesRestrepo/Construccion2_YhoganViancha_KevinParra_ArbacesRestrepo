@@ -15,6 +15,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class GuestValidator extends CommonsValidator{
     public void validStatus(String status) throws Exception {
-        super.isValidString("el estado del invitado ", status);
+        super.isValidString("El estado del invitado ", status);
     }
 }
