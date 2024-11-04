@@ -1,13 +1,13 @@
 package App.Controllers.Validator;
 
+/**
+ * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
+ */
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
-
-/**
- * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
- */
 
 @Getter
 @Setter

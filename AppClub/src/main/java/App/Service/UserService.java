@@ -57,25 +57,37 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public void changeUserPassword( UserDto userDto ) throws Exception {
-        UserDto userDtoLocal = this.userDao.findByUserName( userDto );
+    public void changeUserPassword( PersonDto personDto, UserDto userDto, UserDto oldUserDto ) throws Exception {
+        if ( !this.personDao.existsByDocument( personDto ) ){
+            throw new Exception("No existe ninguna persona con el documento: " + String.valueOf( personDto.getDocument() ) );
+        }
+        
+        personDto = this.personDao.findByDocument( personDto );
+
+        UserDto userDtoLocal = this.userDao.findByPersonId( personDto );
         
         if ( userDtoLocal == null ){
             throw new Exception( "No existe el usuario" );
         }
+
+        if ( !userDtoLocal.getPassword().equals( oldUserDto.getPassword() ) ){
+            throw new Exception( "Password incorrecto" );            
+        }
+
         userDtoLocal.setPassword( userDto.getPassword() );
         
         this.userDao.updateUser( userDtoLocal );
     }
     
     @Override
-    public void changeUserRole( UserDto userDto ) throws Exception {
+    public void deleteUser( PersonDto personDto ) throws Exception {
+        if ( !this.personDao.existsByDocument( personDto ) ){
+            throw new Exception("No existe la persona con el documento: " + String.valueOf( personDto.getDocument() ) );
+        }
         
-    }
-
-    @Override
-    public void deleteUser( UserDto userDto ) throws Exception {
-        UserDto userDtoLocal = this.userDao.findByUserName( userDto );        
+        personDto = this.personDao.findByDocument( personDto );
+        
+        UserDto userDtoLocal = this.userDao.findByPersonId( personDto );        
         if ( userDtoLocal == null ){
             throw new Exception("La persona no tiene usuario" );
         }

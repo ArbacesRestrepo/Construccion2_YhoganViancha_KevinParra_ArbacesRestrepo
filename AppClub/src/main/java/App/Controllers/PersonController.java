@@ -23,13 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Setter
 @NoArgsConstructor
 @RestController
-public class AdminPersonController implements ControllerInterface{
-    private static final String MENU = "Ingrese la opcion que desea \n "
-            + "1. Crear persona \n "
-            + "2. Actualizar persona \n "
-            + "3. Borrar persona \n "
-            + "9. Volver a menú principal  \n";
-    
+public class PersonController implements ControllerInterface{
     @Autowired
     private PersonService personService;
 

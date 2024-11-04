@@ -5,10 +5,9 @@ package App.Service.Intefaces;
  */
 
 import App.Dto.PersonDto;
-import App.Dto.UserDto;
 
 public interface GuestServiceInterface {
-    public void createGuest( UserDto userDto, PersonDto personDto ) throws Exception;
+    public void createGuest( PersonDto personDto, PersonDto personInviteDto ) throws Exception;
     public void deleteGuest( PersonDto personDto ) throws Exception;    
-    public void changeGuestToPartner( UserDto userDto ) throws Exception;    
+    public void changeGuestToPartner( PersonDto personDto ) throws Exception;    
 }

@@ -24,13 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Setter
 @NoArgsConstructor
 @Controller
-public class AdminUserController implements ControllerInterface {
-    private static final String MENU = "Ingrese la opcion que desea \n "
-            + "1. CREAR usuario \n "
-            + "2. Cambiar password a usuario \n "
-            + "3. BORRAR un usuario \n "
-            + "9. Volver a menú principal \n";
-    
+public class UserController implements ControllerInterface {
     @Autowired
     private UserService userService;
 
@@ -51,6 +45,7 @@ public class AdminUserController implements ControllerInterface {
             String userName = request.getUserName();
             this.userValidator.validUserName( userName );
             String password = request.getPassword();
+            this.userValidator.validPassword( password );
             String role = request.getRole();
             
             PersonDto personDto = new PersonDto();
@@ -68,4 +63,47 @@ public class AdminUserController implements ControllerInterface {
         }
     }
     
+    @PostMapping("/UpdateUserPassword")
+    private ResponseEntity updateUserPassword( @RequestBody UserRequest request ) throws Exception{
+        try{
+            long personId = this.personValidator.validDocument( request.getDocument() );
+
+            String oldPassword = request.getOldPassword();
+            this.userValidator.validPassword( oldPassword );
+            
+            String password = request.getPassword();
+            this.userValidator.validPassword( password );
+            
+            PersonDto personDto = new PersonDto();
+            personDto.setDocument( personId );
+
+            UserDto oldUserDto = new UserDto();
+            oldUserDto.setPassword( oldPassword );
+            
+            UserDto userDto = new UserDto();
+            userDto.setPassword( password );
+            
+            this.userService.changeUserPassword( personDto, userDto, oldUserDto );
+            return new ResponseEntity<>( "Se cambió el password exitosamente", HttpStatus.OK );
+        }
+        catch( Exception e ){
+            return new ResponseEntity<>( e.getMessage(), HttpStatus.BAD_REQUEST );
+        }
+    }
+
+    @PostMapping("/DeleteUser")
+    private ResponseEntity deleteUser( @RequestBody UserRequest request ) throws Exception{
+        try{
+            long personId = this.personValidator.validDocument( request.getDocument() );
+            
+            PersonDto personDto = new PersonDto();
+            personDto.setDocument( personId );
+
+            this.userService.deleteUser( personDto );
+            return new ResponseEntity<>( "Se eliminó el usuario exitosamente", HttpStatus.OK );
+        }
+        catch( Exception e ){
+            return new ResponseEntity<>( e.getMessage(), HttpStatus.BAD_REQUEST );
+        }
+    }
 }

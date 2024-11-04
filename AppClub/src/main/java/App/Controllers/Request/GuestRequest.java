@@ -11,10 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserRequest {
+public class GuestRequest {
     private String document;
-    private String userName;
-    private String password;
-    private String oldPassword;
-    private String role;
+    private String documentInvite;
+    private String status;
 }

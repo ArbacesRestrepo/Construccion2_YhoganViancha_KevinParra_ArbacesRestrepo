@@ -45,19 +45,27 @@ public class GuestService implements GuestServiceInterface {
     private InvoiceDetailDao invoiceDetailDao;
 
     @Override
-    public void createGuest( UserDto userDto, PersonDto personDto ) throws Exception {
+    public void createGuest( PersonDto personDto, PersonDto personInviteDto ) throws Exception {
+        if ( !this.personDao.existsByDocument( personInviteDto ) ) {
+            throw new Exception("No se encontró ningúna persona con el numero de identificación: " + String.valueOf( personInviteDto.getDocument() ));
+        }
+        personInviteDto = this.personDao.findByDocument( personInviteDto );
+
         if ( !this.personDao.existsByDocument( personDto ) ) {
             throw new Exception("No se encontró ningúna persona con el numero de identificación: " + String.valueOf( personDto.getDocument() ));
         }
+        personDto = this.personDao.findByDocument( personDto );
         
-        UserDto userDtoInvite = this.userDao.findByPersonId( personDto );
-        PartnerDto partnerDto = this.partnerDao.findByUserId( userDtoInvite );
+        UserDto userDtoInvite = this.userDao.findByPersonId( personInviteDto );
+        PartnerDto partnerDto = this.partnerDao.findByUserId( userDtoInvite );        
         if ( partnerDto == null ) {
             throw new Exception( personDto.getName() + " no es socio del club");            
         }
-                
+
+        UserDto userDto = this.userDao.findByPersonId( personDto );
+                        
         GuestDto guestDto = new GuestDto();
-        guestDto.setUserId( Helper.parse( userDtoInvite ) );
+        guestDto.setUserId( Helper.parse( userDto ) );
         guestDto.setPartnerId( Helper.parse( partnerDto ) );
         guestDto.setStatus( "ACTIVO" );
         
@@ -92,17 +100,18 @@ public class GuestService implements GuestServiceInterface {
     }    
 
     @Override
-    public void changeGuestToPartner( UserDto userDto ) throws Exception {
-        PersonDto personDto = this.personDao.findByUserId( userDto );
-        
-        if ( personDto == null ){
-            throw new Exception("No existe la persona");
+    public void changeGuestToPartner( PersonDto personDto ) throws Exception {
+        if ( !this.personDao.existsByDocument( personDto ) ) {
+            throw new Exception("No se encontró ningúna persona con el numero de identificación: " + String.valueOf( personDto.getDocument() ));
         }
+        personDto = this.personDao.findByDocument( personDto );
         
         double amountActiveInvoices = this.invoiceDao.amountActiveInvoices( personDto );
         if ( amountActiveInvoices > 0 ){
             throw new Exception( personDto.getName() + " tiene facturas pendientes de pago");
         }
+        
+        UserDto userDto = this.userDao.findByPersonId( personDto );
 
         GuestDto guestDto = this.guestDao.findByUserId( userDto );
         if ( guestDto == null ){
@@ -116,14 +125,8 @@ public class GuestService implements GuestServiceInterface {
         
         partnerDto = new PartnerDto();
         partnerDto.setUserId( Helper.parse( userDto ) );
-        partnerDto.getPartnerTypeDto();
-        if ( partnerDto.getType().equals( "VIP" ) ){
-            long numberVIP = this.partnerDao.numberPartnersVIP();
-            if ( numberVIP >= 5 ){
-                throw new Exception("Cupo de socios VIP copado");                
-            }
-        }
-        partnerDto.getPartnerAmountDto();
+        partnerDto.setType( "REGULAR" );
+        partnerDto.setAmount( 0 );
         
         userDto.setRole( "SOCIO" );
         

@@ -4,90 +4,88 @@ package App.Controllers;
  * @author Arbaces Restrepo, Yhogan Viancha, Kevin Parra
  */
 
-import App.Dao.GuestDao;
-import App.Dao.PersonDao;
-import App.Dto.GuestDto;
-
-import App.Service.LoginService;
-import App.Service.UserService;
+import App.Controllers.Request.GuestRequest;
+import App.Controllers.Validator.GuestValidator;
+import App.Controllers.Validator.PersonValidator;
+import App.Dto.PersonDto;
 import App.Service.GuestService;
-import App.Service.InvoiceService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Controller
-public class GuestController implements ControllerInterface{
-    private static final String MENU = "Ingrese la opcion que desea \n "
-            + "1. Solicitar consumo  \n "
-            + "2. Cambio a SOCIO \n "
-            + "3. Cambiar el PASSWORD \n "
-            + "9. Para cerrar sesion \n";
-    
+public class GuestController implements ControllerInterface {
     @Autowired
-    private PersonDao personDao;
+    private PersonValidator personValidator;
+
     @Autowired
-    private GuestDao guestDao;
-    
+    private GuestValidator guestValidator;
+
     @Autowired
-    private UserService userService;
-    @Autowired
-    private InvoiceService invoiceService;
-    @Autowired
-    private GuestService guestService;
-    
-    
+    private final GuestService guestService = new GuestService();
+
     @Override
     public void session() throws Exception {
-        boolean session = true;
-        while (session) {
-            session = menu();
-        }
-    }
-    
-    private boolean menu() {
-        try {
-            System.out.println("bienvenido " + LoginService.user.getUserName());
-            System.out.print(MENU);
-            String option = Utils.getReader().nextLine();
-            return options(option);
-
-        } catch ( Exception e ) {
-            System.out.println(e.getMessage());
-            return true;
-        }
     }
 
-    private boolean options(String option) throws Exception{
-        switch (option) {
-            case "1": {
-                GuestDto guestDto = this.guestDao.findByUserId( LoginService.user );
-                this.invoiceService.createGuestInvoice( guestDto );
-                return true;
-            }
+    @PostMapping("/CreateGuest")
+    private ResponseEntity createGuest( @RequestBody GuestRequest request ) throws Exception{
+        try{
+            long document = this.personValidator.validDocument( request.getDocument() );
+            long documentInvite = this.personValidator.validDocument( request.getDocumentInvite() );
+            
+            PersonDto personDto = new PersonDto();
+            personDto.setDocument( document );
 
-            case "2": {
-                this.guestService.changeGuestToPartner( LoginService.user );
-                return true;
-            }
-            case "3": {
-                this.userService.changeUserPassword( LoginService.user );
-                return true;
-            }
-            case "9": {
-                System.out.println("Se ha cerrado sesion");
-                return false;
-            }
-            default: {
-                System.out.println("Ingrese una opcion valida");
-                return true;
-            }
+            PersonDto personInviteDto = new PersonDto();
+            personInviteDto.setDocument( documentInvite );
+            
+            this.guestService.createGuest( personDto, personInviteDto );
+            return new ResponseEntity<>( "Se creo el invitado exitosamente", HttpStatus.OK );
+        }
+        catch( Exception e ){
+            return new ResponseEntity<>( e.getMessage(), HttpStatus.BAD_REQUEST );
         }
     }
 
+    @PostMapping("/DeleteGuest")
+    private ResponseEntity deleteGuest( @RequestBody GuestRequest request ) throws Exception{
+        try{
+            long document = this.personValidator.validDocument( request.getDocument() );
+            
+            PersonDto personDto = new PersonDto();
+            personDto.setDocument( document );
+            
+            this.guestService.deleteGuest( personDto );
+            return new ResponseEntity<>( "Se eliminó invitado exitosamente", HttpStatus.OK );
+        }
+        catch( Exception e ){
+            return new ResponseEntity<>( e.getMessage(), HttpStatus.BAD_REQUEST );
+        }
+    }
+
+    @PostMapping("/ChangeGuestToPartner")
+    private ResponseEntity changeGuestToPartner( @RequestBody GuestRequest request ) throws Exception{
+        try{
+            long document = this.personValidator.validDocument( request.getDocument() );
+            
+            PersonDto personDto = new PersonDto();
+            personDto.setDocument( document );
+            
+            this.guestService.changeGuestToPartner( personDto );
+            return new ResponseEntity<>( "Se cambió invitado a socio exitosamente", HttpStatus.OK );
+        }
+        catch( Exception e ){
+            return new ResponseEntity<>( e.getMessage(), HttpStatus.BAD_REQUEST );
+        }
+    }
 }

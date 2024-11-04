@@ -24,12 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Setter
 @NoArgsConstructor
 @Controller
-public class AdminProcessesController implements ControllerInterface {
-    private static final String MENU = "Ingrese la opcion que desea \n "
-            + "1. Historial de facturación \n "
-            + "2. Autorizar cambios a VIP \n "
-            + "9. Volver a menú principal \n";
-    
+public class ProcessesController implements ControllerInterface {    
     @Autowired
     private PartnerService partnerService;
     @Autowired
@@ -40,32 +35,6 @@ public class AdminProcessesController implements ControllerInterface {
 
     @Override
     public void session() throws Exception {
-    }
-
-    private boolean menu() {
-        try {
-            System.out.println("bienvenido " + LoginService.user.getUserName());
-            System.out.print(MENU);
-            String option = Utils.getReader().nextLine();
-            return options(option);
-
-        } catch ( Exception e ) {
-            System.out.println(e.getMessage());
-            return true;
-        }
-    }
-
-    private boolean options(String option) throws Exception{
-        switch (option) {
-            case "1": {
-                this.invoiceService.historyInvoice();
-                return true;
-            }
-            default: {
-                System.out.println("Ingrese una opcion valida");
-                return true;
-            }
-        }
     }
     
     @PostMapping("/UpgradePartner")

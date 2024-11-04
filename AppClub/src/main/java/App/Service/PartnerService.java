@@ -188,8 +188,7 @@ public class PartnerService implements PartnerServiceInterface {
         }
         
         if ( !userDto.getRole().equals("ADMINISTRADOR") ){
-            throw new Exception( personDtoLocal.getName() + " no es ADMINISTRADOR" );
-            
+            throw new Exception( userDto.getUserName() + " no es ADMINISTRADOR" );            
         }
 
         long numberVIP = this.partnerDao.numberPartnersVIP();
